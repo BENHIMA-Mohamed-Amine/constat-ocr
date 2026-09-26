@@ -61,6 +61,11 @@ For each wrong text field: is the answer-key value anywhere in the OCR text? (`r
 - **Then measure again on the same 20 forms** (and more of the 500 if the provider limits allow), so v2 is compared with this
   row and not with a new sample.
 
+- **The provider is a limit too.** The free plan's rate limits stretched a 20-form run to about 8 minutes and rule out high volume,
+  and sending form text to a hosted API gives up control of where the data is processed. Both are fine for synthetic data and not
+  for real claims. The model is open-weight, so a later version can compare a self-hosted deployment (cost, latency, concurrency,
+  residency) against the hosted one.
+
 ### Reproduce
 
 ```bash

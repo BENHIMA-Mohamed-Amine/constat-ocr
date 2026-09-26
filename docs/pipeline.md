@@ -106,4 +106,9 @@ cd ~/projects/constat-ocr/backend && uv run python -m tests.test_schema && uv ru
 - The LLM sees text only, so ticks, circled letters, the highlighted vehicle type, the impact zone and the sketch are invisible to it by design.
 - Tesseract is run with default settings on tilted phone photos; there is no image cleanup.
 - The evaluation set is small (2 dev forms and 20 test forms) because of the free plan's rate limits, so percentages are an early signal, not a precise score.
+- **Volume:** the provider's free plan (8,000 tokens a minute, 200,000 a day) makes a 20-form run take about 8 minutes, and a large
+  run impractical. Hosted providers in general cap or bill by volume.
+- **Data governance and residency:** the OCR text of each form is sent to a third-party API, so where it is processed and stored is
+  outside our control. Acceptable only because every form is synthetic. Real claims contain personal data and would need a
+  self-hosted or in-region model.
 - `langchain-community` (which holds `TesseractBlobParser`) does not follow semantic versioning; it is pinned to one minor version.
