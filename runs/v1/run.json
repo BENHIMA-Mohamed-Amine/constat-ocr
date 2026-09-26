@@ -1,0 +1,113 @@
+{
+  "run_id": "v1",
+  "date_utc": "2026-09-26T17:36:21+00:00",
+  "dataset_fingerprint": "3ba968bd8c4281e6ed76a1c94c0b60e6101a80011b6593a2751a8212ed73e291",
+  "forms": [
+    {
+      "id": "000100",
+      "split": "test"
+    },
+    {
+      "id": "000101",
+      "split": "test"
+    },
+    {
+      "id": "000102",
+      "split": "test"
+    },
+    {
+      "id": "000103",
+      "split": "test"
+    },
+    {
+      "id": "000104",
+      "split": "test"
+    },
+    {
+      "id": "000105",
+      "split": "test"
+    },
+    {
+      "id": "000106",
+      "split": "test"
+    },
+    {
+      "id": "000107",
+      "split": "test"
+    },
+    {
+      "id": "000108",
+      "split": "test"
+    },
+    {
+      "id": "000109",
+      "split": "test"
+    },
+    {
+      "id": "000110",
+      "split": "test"
+    },
+    {
+      "id": "000111",
+      "split": "test"
+    },
+    {
+      "id": "000112",
+      "split": "test"
+    },
+    {
+      "id": "000113",
+      "split": "test"
+    },
+    {
+      "id": "000114",
+      "split": "test"
+    },
+    {
+      "id": "000115",
+      "split": "test"
+    },
+    {
+      "id": "000116",
+      "split": "test"
+    },
+    {
+      "id": "000117",
+      "split": "test"
+    },
+    {
+      "id": "000118",
+      "split": "test"
+    },
+    {
+      "id": "000119",
+      "split": "test"
+    }
+  ],
+  "llm": {
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "reasoning_effort": "low"
+  },
+  "ocr": {
+    "engine": "LangChainTesseractEngine",
+    "languages": [
+      "fra"
+    ],
+    "tesseract": "5.3.4"
+  },
+  "versions": {
+    "langchain": "1.4.2",
+    "langchain-core": "1.6.5",
+    "langchain-groq": "1.1.3",
+    "langchain-community": "0.4.2",
+    "langgraph": "1.2.12",
+    "langsmith": "0.14.1",
+    "pydantic": "2.13.5",
+    "pytesseract": "0.3.13",
+    "jiwer": "4.0.0"
+  },
+  "python": "3.13.9",
+  "command": "/home/benhima/projects/constat-ocr/backend/pipeline/run.py --run-id v1 --dev 0 --test 20"
+}

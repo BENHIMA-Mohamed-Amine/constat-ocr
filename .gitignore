@@ -20,3 +20,10 @@ data/synthetic/clean/
 node_modules/
 
 .ruff_cache/
+# run outputs: keep run.json and summary.json, not the per-form files
+runs/*/ocr/
+runs/*/ocr_usage/
+runs/*/structured/
+runs/*/evaluation/
+runs/*/errors/
+runs/scratch/
