@@ -1,0 +1,13 @@
+[project]
+name = "constat-ocr"
+version = "0.1.0"
+description = "Extract structured data from scanned Moroccan car-accident reports (constat amiable), measured against synthetic ground truth"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pillow>=12.3.0",
+    "pymupdf>=1.28.2",
+]
+
+[tool.ruff.lint]
+select = ["I"]

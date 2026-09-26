@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+.env
+_local
+# synthetic dataset: regenerated from seed; keep the manifest and dataset.json, not the images
+data/synthetic/dev/
+data/synthetic/test/
+data/synthetic/clean/
+
+# Frontend
+node_modules/
+
+.ruff_cache/
