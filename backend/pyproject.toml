@@ -19,5 +19,16 @@ dependencies = [
     "python-dotenv>=1.2.3",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.8",
+]
+
 [tool.ruff.lint]
 select = ["I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra"

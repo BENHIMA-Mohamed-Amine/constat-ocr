@@ -1,0 +1,554 @@
+{
+  "form_id": "000104",
+  "produced_output": true,
+  "fields": [
+    {
+      "path": "date",
+      "kind": "critical_text",
+      "expected": "11/02/2026",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "time",
+      "kind": "minor_text",
+      "expected": "18h05",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "place",
+      "kind": "minor_text",
+      "expected": "bd al massira sale",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 18,
+      "reference_length": 18
+    },
+    {
+      "path": "phone_a",
+      "kind": "minor_text",
+      "expected": "0617751783",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "phone_b",
+      "kind": "minor_text",
+      "expected": "0701605093",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "other_damage",
+      "kind": "category",
+      "expected": "false",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.vehicle_type",
+      "kind": "category",
+      "expected": "car",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.make",
+      "kind": "minor_text",
+      "expected": "dacia",
+      "predicted": "dacia",
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_a.model",
+      "kind": "minor_text",
+      "expected": "duster",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.plate",
+      "kind": "critical_text",
+      "expected": "92175-h-88",
+      "predicted": "92/7z<-h-33",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.coming_from",
+      "kind": "minor_text",
+      "expected": "rue ibn sina",
+      "predicted": "rye",
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_a.going_to",
+      "kind": "minor_text",
+      "expected": "av. des far",
+      "predicted": "4y_ des far",
+      "correct": false,
+      "edit_distance": 3,
+      "reference_length": 11
+    },
+    {
+      "path": "vehicle_a.insured_last_name",
+      "kind": "minor_text",
+      "expected": "el amrani",
+      "predicted": "amran",
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_a.insured_first_name",
+      "kind": "minor_text",
+      "expected": "youssef",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_a.insured_address",
+      "kind": "minor_text",
+      "expected": "al massira rabat",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 16,
+      "reference_length": 16
+    },
+    {
+      "path": "vehicle_a.insurer",
+      "kind": "critical_text",
+      "expected": "mamda",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_a.attestation_no",
+      "kind": "critical_text",
+      "expected": "77b 167556786",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_a.policy_no",
+      "kind": "critical_text",
+      "expected": "233143742206953",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 15,
+      "reference_length": 15
+    },
+    {
+      "path": "vehicle_a.valid_from",
+      "kind": "critical_text",
+      "expected": "09/09/2025",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.valid_to",
+      "kind": "critical_text",
+      "expected": "08/09/2026",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.agency",
+      "kind": "minor_text",
+      "expected": "agence rabat centre",
+      "predicted": "age nce _rapa",
+      "correct": false,
+      "edit_distance": 11,
+      "reference_length": 19
+    },
+    {
+      "path": "vehicle_a.driver_last_name",
+      "kind": "minor_text",
+      "expected": "chraibi",
+      "predicted": "chraibi",
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_a.driver_first_name",
+      "kind": "minor_text",
+      "expected": "khadija",
+      "predicted": "khadja",
+      "correct": false,
+      "edit_distance": 1,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_a.driver_address",
+      "kind": "minor_text",
+      "expected": "bourgogne rabat",
+      "predicted": "b/209 re rabat",
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 15
+    },
+    {
+      "path": "vehicle_a.license_no",
+      "kind": "critical_text",
+      "expected": "74/469788",
+      "predicted": "z/469788",
+      "correct": false,
+      "edit_distance": 2,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_a.license_category",
+      "kind": "category",
+      "expected": "c",
+      "predicted": "a1",
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.license_issued",
+      "kind": "critical_text",
+      "expected": "14/02/2004",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.license_prefecture",
+      "kind": "minor_text",
+      "expected": "rabat",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_a.license_valid_until",
+      "kind": "critical_text",
+      "expected": "14/02/2029",
+      "predicted": "4/02/2029",
+      "correct": false,
+      "edit_distance": 1,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.damage",
+      "kind": "minor_text",
+      "expected": "portiere arriere droite, aile",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 29,
+      "reference_length": 29
+    },
+    {
+      "path": "vehicle_a.circumstances",
+      "kind": "ticks",
+      "expected": [],
+      "predicted": [],
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.circumstance_count",
+      "kind": "tick_count",
+      "expected": 0,
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.impact_zone",
+      "kind": "category",
+      "expected": "left",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.vehicle_type",
+      "kind": "category",
+      "expected": "car",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.make",
+      "kind": "minor_text",
+      "expected": "ford",
+      "predicted": "ford",
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 4
+    },
+    {
+      "path": "vehicle_b.model",
+      "kind": "minor_text",
+      "expected": "focus",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_b.plate",
+      "kind": "critical_text",
+      "expected": "83826-b-13",
+      "predicted": "83826-b-13",
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.coming_from",
+      "kind": "minor_text",
+      "expected": "bd zerktouni",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_b.going_to",
+      "kind": "minor_text",
+      "expected": "rue allal ben abdellah",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 22,
+      "reference_length": 22
+    },
+    {
+      "path": "vehicle_b.insured_last_name",
+      "kind": "minor_text",
+      "expected": "el amrani",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 9,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_b.insured_first_name",
+      "kind": "minor_text",
+      "expected": "rachid",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_b.insured_address",
+      "kind": "minor_text",
+      "expected": "agdal sale",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.insurer",
+      "kind": "critical_text",
+      "expected": "atlantasanad",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_b.attestation_no",
+      "kind": "critical_text",
+      "expected": "52a 671552715",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_b.policy_no",
+      "kind": "critical_text",
+      "expected": "657954944049294",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 15,
+      "reference_length": 15
+    },
+    {
+      "path": "vehicle_b.valid_from",
+      "kind": "critical_text",
+      "expected": "19/01/2026",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.valid_to",
+      "kind": "critical_text",
+      "expected": "18/01/2027",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.agency",
+      "kind": "minor_text",
+      "expected": "agence sale centre",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 18,
+      "reference_length": 18
+    },
+    {
+      "path": "vehicle_b.driver_last_name",
+      "kind": "minor_text",
+      "expected": "el amrani",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 9,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_b.driver_first_name",
+      "kind": "minor_text",
+      "expected": "rachid",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_b.driver_address",
+      "kind": "minor_text",
+      "expected": "hay salam sale",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 14,
+      "reference_length": 14
+    },
+    {
+      "path": "vehicle_b.license_no",
+      "kind": "critical_text",
+      "expected": "93/064126",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 9,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_b.license_category",
+      "kind": "category",
+      "expected": "b",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.license_issued",
+      "kind": "critical_text",
+      "expected": "22/03/2013",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.license_prefecture",
+      "kind": "minor_text",
+      "expected": "sale",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 4
+    },
+    {
+      "path": "vehicle_b.license_valid_until",
+      "kind": "critical_text",
+      "expected": "22/03/2028",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.damage",
+      "kind": "minor_text",
+      "expected": "phare avant gauche, pare choc",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 29,
+      "reference_length": 29
+    },
+    {
+      "path": "vehicle_b.circumstances",
+      "kind": "ticks",
+      "expected": [
+        14
+      ],
+      "predicted": [],
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.circumstance_count",
+      "kind": "tick_count",
+      "expected": 1,
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.impact_zone",
+      "kind": "category",
+      "expected": "front_left",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    }
+  ],
+  "usage": {
+    "ocr_seconds": 2.1283658299980743,
+    "structure_seconds": 26.984741610998753,
+    "input_tokens": 3014,
+    "output_tokens": 584
+  }
+}

@@ -182,13 +182,13 @@ data/synthetic/
 
 ## 9. How it is tested
 
-Run both from `backend/`:
+Both live under `tests/regression/` (project-wide testing conventions: [docs/testing.md](testing.md)):
 
 ```bash
-cd ~/projects/constat-ocr/backend && uv run python -m tests.test_data && uv run python -m tests.test_dataset
+cd backend && uv run pytest tests/regression/test_data.py tests/regression/test_dataset.py
 ```
 
-**`tests/test_data.py`: 300 records, no images (seconds)**
+**`tests/regression/test_data.py`: 300 records, no images, one test function per property below (a few seconds)**
 
 | Check | Why |
 |---|---|
@@ -202,7 +202,7 @@ cd ~/projects/constat-ocr/backend && uv run python -m tests.test_data && uv run 
 | Two-way: both cars roughly parallel to the road | Layout matches the geometry |
 | T-junction: B roughly vertical, side matches its heading, and B is in its side-road lane | Layout matches the geometry |
 
-**`tests/test_dataset.py`: the dataset command (about 30 seconds)**
+**`tests/regression/test_dataset.py`: the dataset command, real rendering (about 40 seconds)**
 - The same command with 1 worker and with 2 workers gives an identical manifest, so identical **images and answer keys**, hash for hash.
 - The same command gives the same fingerprint, and a different seed gives a different one.
 - The split is as asked, every form is at the `phone` level, and every image and answer key file exists.

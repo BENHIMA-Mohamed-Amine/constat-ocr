@@ -1,0 +1,554 @@
+{
+  "form_id": "000108",
+  "produced_output": true,
+  "fields": [
+    {
+      "path": "date",
+      "kind": "critical_text",
+      "expected": "13/02/2026",
+      "predicted": "17/03/2026",
+      "correct": false,
+      "edit_distance": 2,
+      "reference_length": 10
+    },
+    {
+      "path": "time",
+      "kind": "minor_text",
+      "expected": "19h45",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "place",
+      "kind": "minor_text",
+      "expected": "av. des far sale",
+      "predicted": "lake islam",
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 16
+    },
+    {
+      "path": "phone_a",
+      "kind": "minor_text",
+      "expected": "0612206547",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "phone_b",
+      "kind": "minor_text",
+      "expected": "0716746858",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "other_damage",
+      "kind": "category",
+      "expected": "false",
+      "predicted": "false",
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.vehicle_type",
+      "kind": "category",
+      "expected": "car",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.make",
+      "kind": "minor_text",
+      "expected": "volkswagen",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.model",
+      "kind": "minor_text",
+      "expected": "polo",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 4
+    },
+    {
+      "path": "vehicle_a.plate",
+      "kind": "critical_text",
+      "expected": "20795-b-64",
+      "predicted": "9 539 5-b-64",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.coming_from",
+      "kind": "minor_text",
+      "expected": "bd zerktouni",
+      "predicted": "b a zerktouni",
+      "correct": false,
+      "edit_distance": 2,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_a.going_to",
+      "kind": "minor_text",
+      "expected": "bd moulay youssef",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 17,
+      "reference_length": 17
+    },
+    {
+      "path": "vehicle_a.insured_last_name",
+      "kind": "minor_text",
+      "expected": "lahlou",
+      "predicted": "auiqu",
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.insured_first_name",
+      "kind": "minor_text",
+      "expected": "samira",
+      "predicted": "s anirà",
+      "correct": false,
+      "edit_distance": 3,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.insured_address",
+      "kind": "minor_text",
+      "expected": "hay salam agadir",
+      "predicted": "hay salam a àc",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 16
+    },
+    {
+      "path": "vehicle_a.insurer",
+      "kind": "critical_text",
+      "expected": "atlantasanad",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_a.attestation_no",
+      "kind": "critical_text",
+      "expected": "47a 412738221",
+      "predicted": "4",
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_a.policy_no",
+      "kind": "critical_text",
+      "expected": "288310864482",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_a.valid_from",
+      "kind": "critical_text",
+      "expected": "18/12/2025",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.valid_to",
+      "kind": "critical_text",
+      "expected": "17/12/2026",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.agency",
+      "kind": "minor_text",
+      "expected": "hamidi assurances",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 17,
+      "reference_length": 17
+    },
+    {
+      "path": "vehicle_a.driver_last_name",
+      "kind": "minor_text",
+      "expected": "lahlou",
+      "predicted": "auiqu",
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.driver_first_name",
+      "kind": "minor_text",
+      "expected": "samira",
+      "predicted": "s oa.",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.driver_address",
+      "kind": "minor_text",
+      "expected": "ain sebaa agadir",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 16,
+      "reference_length": 16
+    },
+    {
+      "path": "vehicle_a.license_no",
+      "kind": "critical_text",
+      "expected": "49/173283",
+      "predicted": "43 283",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_a.license_category",
+      "kind": "category",
+      "expected": "b",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.license_issued",
+      "kind": "critical_text",
+      "expected": "15/05/2018",
+      "predicted": "49/05/29",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.license_prefecture",
+      "kind": "minor_text",
+      "expected": "agadir",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.license_valid_until",
+      "kind": "critical_text",
+      "expected": "15/05/2028",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.damage",
+      "kind": "minor_text",
+      "expected": "phare avant gauche, pare choc",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 29,
+      "reference_length": 29
+    },
+    {
+      "path": "vehicle_a.circumstances",
+      "kind": "ticks",
+      "expected": [
+        22
+      ],
+      "predicted": [],
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.circumstance_count",
+      "kind": "tick_count",
+      "expected": 1,
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.impact_zone",
+      "kind": "category",
+      "expected": "right",
+      "predicted": "rear",
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.vehicle_type",
+      "kind": "category",
+      "expected": "car",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.make",
+      "kind": "minor_text",
+      "expected": "kia",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 3,
+      "reference_length": 3
+    },
+    {
+      "path": "vehicle_b.model",
+      "kind": "minor_text",
+      "expected": "picanto",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_b.plate",
+      "kind": "critical_text",
+      "expected": "92393-w-33",
+      "predicted": "9230 3-jd2 3 24m",
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.coming_from",
+      "kind": "minor_text",
+      "expected": "av. mohammed v",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 14,
+      "reference_length": 14
+    },
+    {
+      "path": "vehicle_b.going_to",
+      "kind": "minor_text",
+      "expected": "rue allal ben abdellah",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 22,
+      "reference_length": 22
+    },
+    {
+      "path": "vehicle_b.insured_last_name",
+      "kind": "minor_text",
+      "expected": "rifai",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_b.insured_first_name",
+      "kind": "minor_text",
+      "expected": "mehdi",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_b.insured_address",
+      "kind": "minor_text",
+      "expected": "ain sebaa casablanca",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 20,
+      "reference_length": 20
+    },
+    {
+      "path": "vehicle_b.insurer",
+      "kind": "critical_text",
+      "expected": "rma",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 3,
+      "reference_length": 3
+    },
+    {
+      "path": "vehicle_b.attestation_no",
+      "kind": "critical_text",
+      "expected": "20a 802266610",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_b.policy_no",
+      "kind": "critical_text",
+      "expected": "397985958045899",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 15,
+      "reference_length": 15
+    },
+    {
+      "path": "vehicle_b.valid_from",
+      "kind": "critical_text",
+      "expected": "18/03/2025",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.valid_to",
+      "kind": "critical_text",
+      "expected": "17/03/2026",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.agency",
+      "kind": "minor_text",
+      "expected": "el amrani assurances",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 20,
+      "reference_length": 20
+    },
+    {
+      "path": "vehicle_b.driver_last_name",
+      "kind": "minor_text",
+      "expected": "rifai",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_b.driver_first_name",
+      "kind": "minor_text",
+      "expected": "mehdi",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_b.driver_address",
+      "kind": "minor_text",
+      "expected": "sidi maarouf casablanca",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 23,
+      "reference_length": 23
+    },
+    {
+      "path": "vehicle_b.license_no",
+      "kind": "critical_text",
+      "expected": "11/769797",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 9,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_b.license_category",
+      "kind": "category",
+      "expected": "b",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.license_issued",
+      "kind": "critical_text",
+      "expected": "02/11/2018",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.license_prefecture",
+      "kind": "minor_text",
+      "expected": "casablanca",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.license_valid_until",
+      "kind": "critical_text",
+      "expected": "02/11/2028",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.damage",
+      "kind": "minor_text",
+      "expected": "aile arriere gauche",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 19,
+      "reference_length": 19
+    },
+    {
+      "path": "vehicle_b.circumstances",
+      "kind": "ticks",
+      "expected": [],
+      "predicted": [],
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.circumstance_count",
+      "kind": "tick_count",
+      "expected": 0,
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.impact_zone",
+      "kind": "category",
+      "expected": "front_left",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    }
+  ],
+  "usage": {
+    "ocr_seconds": 2.0581580719990598,
+    "structure_seconds": 12.68514482899991,
+    "input_tokens": 2931,
+    "output_tokens": 821
+  }
+}

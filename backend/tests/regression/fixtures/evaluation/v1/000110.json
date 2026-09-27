@@ -1,0 +1,554 @@
+{
+  "form_id": "000110",
+  "produced_output": true,
+  "fields": [
+    {
+      "path": "date",
+      "kind": "critical_text",
+      "expected": "14/04/2024",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "time",
+      "kind": "minor_text",
+      "expected": "17h55",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "place",
+      "kind": "minor_text",
+      "expected": "av. hassan ii agadir",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 20,
+      "reference_length": 20
+    },
+    {
+      "path": "phone_a",
+      "kind": "minor_text",
+      "expected": "0778727318",
+      "predicted": "28727378",
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 10
+    },
+    {
+      "path": "phone_b",
+      "kind": "minor_text",
+      "expected": "0724887063",
+      "predicted": "0729887063",
+      "correct": false,
+      "edit_distance": 1,
+      "reference_length": 10
+    },
+    {
+      "path": "other_damage",
+      "kind": "category",
+      "expected": "false",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.vehicle_type",
+      "kind": "category",
+      "expected": "car",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.make",
+      "kind": "minor_text",
+      "expected": "renault",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_a.model",
+      "kind": "minor_text",
+      "expected": "clio",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 4
+    },
+    {
+      "path": "vehicle_a.plate",
+      "kind": "critical_text",
+      "expected": "16717-t-22",
+      "predicted": "7224st22",
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.coming_from",
+      "kind": "minor_text",
+      "expected": "av. mohammed v",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 14,
+      "reference_length": 14
+    },
+    {
+      "path": "vehicle_a.going_to",
+      "kind": "minor_text",
+      "expected": "av. al qods",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 11,
+      "reference_length": 11
+    },
+    {
+      "path": "vehicle_a.insured_last_name",
+      "kind": "minor_text",
+      "expected": "hamidi",
+      "predicted": "amidi",
+      "correct": false,
+      "edit_distance": 1,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.insured_first_name",
+      "kind": "minor_text",
+      "expected": "nadia",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_a.insured_address",
+      "kind": "minor_text",
+      "expected": "maarif marrakech",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 16,
+      "reference_length": 16
+    },
+    {
+      "path": "vehicle_a.insurer",
+      "kind": "critical_text",
+      "expected": "wafa assurance",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 14,
+      "reference_length": 14
+    },
+    {
+      "path": "vehicle_a.attestation_no",
+      "kind": "critical_text",
+      "expected": "82a 951805466",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_a.policy_no",
+      "kind": "critical_text",
+      "expected": "577467058627",
+      "predicted": "527457058627",
+      "correct": false,
+      "edit_distance": 2,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_a.valid_from",
+      "kind": "critical_text",
+      "expected": "22/08/2023",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.valid_to",
+      "kind": "critical_text",
+      "expected": "20/08/2024",
+      "predicted": "01/08/2024",
+      "correct": false,
+      "edit_distance": 2,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.agency",
+      "kind": "minor_text",
+      "expected": "agence marrakech centre",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 23,
+      "reference_length": 23
+    },
+    {
+      "path": "vehicle_a.driver_last_name",
+      "kind": "minor_text",
+      "expected": "hamidi",
+      "predicted": "amidi",
+      "correct": false,
+      "edit_distance": 1,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_a.driver_first_name",
+      "kind": "minor_text",
+      "expected": "nadia",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 5
+    },
+    {
+      "path": "vehicle_a.driver_address",
+      "kind": "minor_text",
+      "expected": "hay mohammadi marrakech",
+      "predicted": "lay mohammadi wawake ch",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 23
+    },
+    {
+      "path": "vehicle_a.license_no",
+      "kind": "critical_text",
+      "expected": "31/954034",
+      "predicted": "37/25/0234",
+      "correct": false,
+      "edit_distance": 4,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_a.license_category",
+      "kind": "category",
+      "expected": "b",
+      "predicted": "a1",
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.license_issued",
+      "kind": "critical_text",
+      "expected": "07/06/2017",
+      "predicted": "02/06/2017",
+      "correct": false,
+      "edit_distance": 1,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.license_prefecture",
+      "kind": "minor_text",
+      "expected": "marrakech",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 9,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_a.license_valid_until",
+      "kind": "critical_text",
+      "expected": "07/06/2027",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_a.damage",
+      "kind": "minor_text",
+      "expected": "phare avant gauche, pare choc",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 29,
+      "reference_length": 29
+    },
+    {
+      "path": "vehicle_a.circumstances",
+      "kind": "ticks",
+      "expected": [],
+      "predicted": [],
+      "correct": true,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.circumstance_count",
+      "kind": "tick_count",
+      "expected": 0,
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_a.impact_zone",
+      "kind": "category",
+      "expected": "front_left",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.vehicle_type",
+      "kind": "category",
+      "expected": "car",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.make",
+      "kind": "minor_text",
+      "expected": "ford",
+      "predicted": "fiesta",
+      "correct": false,
+      "edit_distance": 5,
+      "reference_length": 4
+    },
+    {
+      "path": "vehicle_b.model",
+      "kind": "minor_text",
+      "expected": "fiesta",
+      "predicted": "85",
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_b.plate",
+      "kind": "critical_text",
+      "expected": "59207-b-47",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.coming_from",
+      "kind": "minor_text",
+      "expected": "rue ibn sina",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_b.going_to",
+      "kind": "minor_text",
+      "expected": "av. hassan ii",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_b.insured_last_name",
+      "kind": "minor_text",
+      "expected": "lamrani",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_b.insured_first_name",
+      "kind": "minor_text",
+      "expected": "rachid",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_b.insured_address",
+      "kind": "minor_text",
+      "expected": "agdal temara",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_b.insurer",
+      "kind": "critical_text",
+      "expected": "axa assurance maroc",
+      "predicted": "axa assurance",
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 19
+    },
+    {
+      "path": "vehicle_b.attestation_no",
+      "kind": "critical_text",
+      "expected": "64a 354485471",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 13,
+      "reference_length": 13
+    },
+    {
+      "path": "vehicle_b.policy_no",
+      "kind": "critical_text",
+      "expected": "430001265237",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 12,
+      "reference_length": 12
+    },
+    {
+      "path": "vehicle_b.valid_from",
+      "kind": "critical_text",
+      "expected": "01/10/2023",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.valid_to",
+      "kind": "critical_text",
+      "expected": "29/09/2024",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.agency",
+      "kind": "minor_text",
+      "expected": "naciri assurances",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 17,
+      "reference_length": 17
+    },
+    {
+      "path": "vehicle_b.driver_last_name",
+      "kind": "minor_text",
+      "expected": "lamrani",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 7,
+      "reference_length": 7
+    },
+    {
+      "path": "vehicle_b.driver_first_name",
+      "kind": "minor_text",
+      "expected": "rachid",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_b.driver_address",
+      "kind": "minor_text",
+      "expected": "hay mohammadi temara",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 20,
+      "reference_length": 20
+    },
+    {
+      "path": "vehicle_b.license_no",
+      "kind": "critical_text",
+      "expected": "67/625134",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 9,
+      "reference_length": 9
+    },
+    {
+      "path": "vehicle_b.license_category",
+      "kind": "category",
+      "expected": "b",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.license_issued",
+      "kind": "critical_text",
+      "expected": "11/02/1997",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.license_prefecture",
+      "kind": "minor_text",
+      "expected": "temara",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 6,
+      "reference_length": 6
+    },
+    {
+      "path": "vehicle_b.license_valid_until",
+      "kind": "critical_text",
+      "expected": "11/02/2027",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 10,
+      "reference_length": 10
+    },
+    {
+      "path": "vehicle_b.damage",
+      "kind": "minor_text",
+      "expected": "retroviseur gauche, aile avant",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 30,
+      "reference_length": 30
+    },
+    {
+      "path": "vehicle_b.circumstances",
+      "kind": "ticks",
+      "expected": [
+        22
+      ],
+      "predicted": [],
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.circumstance_count",
+      "kind": "tick_count",
+      "expected": 1,
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    },
+    {
+      "path": "vehicle_b.impact_zone",
+      "kind": "category",
+      "expected": "left",
+      "predicted": null,
+      "correct": false,
+      "edit_distance": 0,
+      "reference_length": 0
+    }
+  ],
+  "usage": {
+    "ocr_seconds": 2.3138802079993184,
+    "structure_seconds": 15.058976693002478,
+    "input_tokens": 3064,
+    "output_tokens": 955
+  }
+}

@@ -91,15 +91,15 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 
 ## Tests
 
-From `backend/`. None of them needs Tesseract or the network except where stated.
-
 ```bash
-cd ~/projects/constat-ocr/backend && uv run python -m tests.test_schema && uv run python -m tests.test_metrics && uv run python -m tests.test_graph
+cd backend && uv run pytest
 ```
 
-- `test_schema`: the 300 generated records validate against `Record`, and the schema and the generator agree on every field and choice.
-- `test_metrics`: 8 hand-made cases (perfect prediction, one wrong digit, no output, ticks found/missed/extra, the guessing baseline, cost and time).
-- `test_graph`: the graph and the runner with fake parts: steps save their output, `--reuse` skips finished steps, one failing form does not stop a run, and without an answer key the graph stops after `structure`.
+Unit (`tests/unit/`: schema, metrics, graph, run metadata — fakes only, no network) and regression
+(`tests/regression/`: generator consistency, dataset determinism, and this pipeline's own scoring
+math replayed against v1's saved output) run on every push, no key needed. Integration
+(`tests/integration/`: the real pipeline on 2 forms) needs `GROQ_API_KEY` and self-skips without
+it. Full breakdown, file by file: [docs/testing.md](testing.md).
 
 ## Known limits of v1
 

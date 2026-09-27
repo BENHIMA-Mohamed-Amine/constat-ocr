@@ -48,7 +48,8 @@ Clean code, open for extension and closed for modification, from day one.
 - One definition of the record (`Record`), used by the LLM's output, the scoring and the tests.
 - Python 3.13, type hints, docstrings, one exception class per step, tests with fakes.
 
-How it works and how to extend it: [docs/pipeline.md](docs/pipeline.md).
+How it works and how to extend it: [docs/pipeline.md](docs/pipeline.md). How it's tested (unit,
+regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/testing.md).
 
 ## Limitations
 - **The text reader (Tesseract) is the main weakness**, as above. Ticks and pictures are invisible to a text-only pipeline.

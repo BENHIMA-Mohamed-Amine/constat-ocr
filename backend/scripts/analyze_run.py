@@ -13,7 +13,13 @@ from collections import Counter, defaultdict
 
 from pipeline.config import Settings
 from pipeline.dataset import DatasetReader
-from pipeline.evaluation.fields import FIELD_KINDS, TOP_LEVEL_FIELDS, VEHICLE_FIELDS, VEHICLES, FieldKind
+from pipeline.evaluation.fields import (
+    FIELD_KINDS,
+    TOP_LEVEL_FIELDS,
+    VEHICLE_FIELDS,
+    VEHICLES,
+    FieldKind,
+)
 from pipeline.evaluation.normalize import normalize
 from pipeline.schema import Record
 from pipeline.storage import FileArtifactStore

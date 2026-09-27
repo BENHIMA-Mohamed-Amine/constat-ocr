@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  offline:
+    name: lint + unit + regression
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: install Tesseract
+        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-fra
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run pytest tests/unit tests/regression -q
+
+  e2e:
+    name: integration (2 forms, needs GROQ_API_KEY)
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push' }}
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: install Tesseract
+        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-fra
+      - uses: astral-sh/setup-uv@v3
+      - run: uv sync
+      - name: generate the 2 dev forms only (form i uses seed*1e6+i, so this is the same 2 dev
+          forms v1's own dev run used, without wastefully rendering test-split images too)
+        run: uv run python -m generator.dataset --out ../data/synthetic --count 2 --dev 2 --seed 1
+      - run: uv run pytest tests/integration -q
