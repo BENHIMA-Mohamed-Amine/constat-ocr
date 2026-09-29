@@ -4,6 +4,7 @@ One pytest item made of 3 named sub-checks. The generator and the schema are two
 descriptions of the same form; these catch the case where one is updated (a field renamed, a
 choice added) and the other is not.
 """
+
 import random
 from typing import get_args
 
@@ -28,7 +29,9 @@ def _generated_records_validate_against_schema() -> None:
     for seed in SEEDS:
         truth = sample_record(random.Random(seed))
         record = Record.model_validate(truth)
-        assert record.vehicle_a is not None and record.vehicle_b is not None, f"seed {seed}"
+        assert record.vehicle_a is not None and record.vehicle_b is not None, (
+            f"seed {seed}"
+        )
 
 
 def _generator_and_schema_agree_on_field_names() -> None:
@@ -63,8 +66,16 @@ def test_schema_and_generator_agree() -> None:
 
     See the module docstring: runs 3 named sub-checks and reports every one that fails.
     """
-    run_checks([
-        ("generated_records_validate_against_schema", _generated_records_validate_against_schema),
-        ("generator_and_schema_agree_on_field_names", _generator_and_schema_agree_on_field_names),
-        ("schema_and_generator_choices_match", _schema_and_generator_choices_match),
-    ])
+    run_checks(
+        [
+            (
+                "generated_records_validate_against_schema",
+                _generated_records_validate_against_schema,
+            ),
+            (
+                "generator_and_schema_agree_on_field_names",
+                _generator_and_schema_agree_on_field_names,
+            ),
+            ("schema_and_generator_choices_match", _schema_and_generator_choices_match),
+        ]
+    )

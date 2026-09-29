@@ -14,6 +14,7 @@ real per-form scoring results from the v1 baseline's dev and test runs) plus the
 The originals live under ``runs/`` but that folder's per-form output is gitignored, so these copies
 are committed here instead — they hold no personal data, since every form is synthetic.
 """
+
 import json
 from pathlib import Path
 
@@ -29,7 +30,9 @@ from pipeline.evaluation.fields import FieldKind
 from ..checks import run_checks
 
 FIXTURES = Path(__file__).parent / "fixtures" / "evaluation"
-EVALUATOR: Evaluator = build_default_evaluator(input_price_per_million=0.15, output_price_per_million=0.60)
+EVALUATOR: Evaluator = build_default_evaluator(
+    input_price_per_million=0.15, output_price_per_million=0.60
+)
 RUN_IDS = ("v1-dev", "v1")
 
 
@@ -43,12 +46,25 @@ def _load_form_result(path: Path) -> FormResult:
         The :class:`FormResult` that produced that file, field for field.
     """
     data = json.loads(path.read_text())
-    fields = tuple(FieldResult(path=f["path"], kind=FieldKind(f["kind"]), expected=f["expected"],
-                               predicted=f["predicted"], correct=f["correct"],
-                               edit_distance=f["edit_distance"], reference_length=f["reference_length"])
-                   for f in data["fields"])
+    fields = tuple(
+        FieldResult(
+            path=f["path"],
+            kind=FieldKind(f["kind"]),
+            expected=f["expected"],
+            predicted=f["predicted"],
+            correct=f["correct"],
+            edit_distance=f["edit_distance"],
+            reference_length=f["reference_length"],
+        )
+        for f in data["fields"]
+    )
     usage = Usage(**data["usage"]) if data["usage"] is not None else None
-    return FormResult(form_id=data["form_id"], produced_output=data["produced_output"], fields=fields, usage=usage)
+    return FormResult(
+        form_id=data["form_id"],
+        produced_output=data["produced_output"],
+        fields=fields,
+        usage=usage,
+    )
 
 
 def _load_run_fixture(run_id: str) -> tuple[list[FormResult], dict]:
@@ -61,7 +77,11 @@ def _load_run_fixture(run_id: str) -> tuple[list[FormResult], dict]:
         The list of :class:`FormResult` (one per form, sorted by id) and the committed summary dict.
     """
     run_dir = FIXTURES / run_id
-    results = [_load_form_result(p) for p in sorted(run_dir.glob("*.json")) if p.stem != "summary"]
+    results = [
+        _load_form_result(p)
+        for p in sorted(run_dir.glob("*.json"))
+        if p.stem != "summary"
+    ]
     summary = json.loads((run_dir / "summary.json").read_text())
     return results, summary
 
@@ -77,4 +97,12 @@ def test_evaluation_reproduces_v1_saved_results() -> None:
 
     See the module docstring: covers both the 2-form dev run and the 20-form test run.
     """
-    run_checks([(f"summary_matches[{run_id}]", lambda run_id=run_id: _summary_matches(run_id)) for run_id in RUN_IDS])
+    run_checks(
+        [
+            (
+                f"summary_matches[{run_id}]",
+                lambda run_id=run_id: _summary_matches(run_id),
+            )
+            for run_id in RUN_IDS
+        ]
+    )

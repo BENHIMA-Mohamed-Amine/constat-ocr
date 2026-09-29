@@ -5,6 +5,7 @@ still naming exactly which sub-check failed, and reporting every failure at once
 stopping at the first — a merged test that only ever shows its first failure would hide the rest
 on the next run too.
 """
+
 from collections.abc import Callable, Iterable
 
 
@@ -26,4 +27,6 @@ def run_checks(checks: Iterable[tuple[str, Callable[[], None]]]) -> None:
         except AssertionError as exc:
             failures.append(f"{name}: {exc}")
     if failures:
-        raise AssertionError(f"{len(failures)} check(s) failed:\n" + "\n".join(failures))
+        raise AssertionError(
+            f"{len(failures)} check(s) failed:\n" + "\n".join(failures)
+        )

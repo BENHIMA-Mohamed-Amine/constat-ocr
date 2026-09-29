@@ -10,6 +10,7 @@ itself) and to ``os.environ`` directly — which is what
 runs without having to ``source .env`` by hand; in CI, where the real secret is already exported by
 the workflow and there is no ``.env`` file to find, this is a harmless no-op.
 """
+
 import random
 from collections.abc import Iterator
 from pathlib import Path
@@ -75,8 +76,13 @@ class FakeStructurer:
         plate = self.truth.vehicle_a.plate
         flipped = plate[:-1] + ("0" if plate[-1] != "0" else "1")
         record = self.truth.model_copy(
-            update={"vehicle_a": self.truth.vehicle_a.model_copy(update={"plate": flipped})})
-        return StructuringResult(record, input_tokens=100, output_tokens=50, seconds=1.5)
+            update={
+                "vehicle_a": self.truth.vehicle_a.model_copy(update={"plate": flipped})
+            }
+        )
+        return StructuringResult(
+            record, input_tokens=100, output_tokens=50, seconds=1.5
+        )
 
 
 def sample_truth(seed: int) -> Record:

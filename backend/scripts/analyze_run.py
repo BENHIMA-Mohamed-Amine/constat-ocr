@@ -7,6 +7,7 @@ For every text field that is wrong, ask whether the answer-key value appears any
 
     uv run python -m scripts.analyze_run v1-dev   (from backend/)
 """
+
 import json
 import sys
 from collections import Counter, defaultdict
@@ -38,21 +39,44 @@ def main(run_id: str) -> None:
     store = FileArtifactStore(run_dir)
     forms = json.loads((run_dir / "run.json").read_text())["forms"]
     reader = DatasetReader(settings.dataset_dir)
-    refs = {f.form_id: f for split in {f["split"] for f in forms} for f in reader.first(split, 10_000)}
-    counts: dict[str, Counter] = defaultdict(Counter)  # "critical/vehicle_a" -> outcome -> count
+    refs = {
+        f.form_id: f
+        for split in {f["split"] for f in forms}
+        for f in reader.first(split, 10_000)
+    }
+    counts: dict[str, Counter] = defaultdict(
+        Counter
+    )  # "critical/vehicle_a" -> outcome -> count
     for form in forms:
         truth = refs[form["id"]].load_truth()
         ocr = compact(store.read_text("ocr", form["id"]))
-        predicted = Record.model_validate(store.read_json("structured", form["id"])["record"]) if store.exists("structured", form["id"]) else None
-        pairs = [(name, getattr(truth, name), getattr(predicted, name, None), "top") for name in TOP_LEVEL_FIELDS]
+        predicted = (
+            Record.model_validate(store.read_json("structured", form["id"])["record"])
+            if store.exists("structured", form["id"])
+            else None
+        )
+        pairs = [
+            (name, getattr(truth, name), getattr(predicted, name, None), "top")
+            for name in TOP_LEVEL_FIELDS
+        ]
         for side in VEHICLES:
             pv = getattr(predicted, side, None)
-            pairs += [(name, getattr(getattr(truth, side), name), getattr(pv, name, None), side) for name in VEHICLE_FIELDS]
+            pairs += [
+                (
+                    name,
+                    getattr(getattr(truth, side), name),
+                    getattr(pv, name, None),
+                    side,
+                )
+                for name in VEHICLE_FIELDS
+            ]
         for name, expected, got, where in pairs:
             kind = FIELD_KINDS[name]
             if kind not in TEXT:
                 continue
-            group = f"{'critical' if kind is FieldKind.CRITICAL_TEXT else 'minor'}/{where}"
+            group = (
+                f"{'critical' if kind is FieldKind.CRITICAL_TEXT else 'minor'}/{where}"
+            )
             if got is not None and normalize(got) == normalize(expected):
                 outcome = "correct"
             elif compact(str(expected)) not in ocr:
@@ -66,7 +90,10 @@ def main(run_id: str) -> None:
     (run_dir / "failures.json").write_text(json.dumps(report, indent=2))
     for group, c in report.items():
         total = sum(c.values())
-        print(f"{group:20} ({total} fields): " + "; ".join(f"{k} {v}" for k, v in sorted(c.items(), key=lambda kv: -kv[1])))
+        print(
+            f"{group:20} ({total} fields): "
+            + "; ".join(f"{k} {v}" for k, v in sorted(c.items(), key=lambda kv: -kv[1]))
+        )
 
 
 if __name__ == "__main__":

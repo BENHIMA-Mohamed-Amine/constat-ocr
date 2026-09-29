@@ -55,14 +55,20 @@ def _skeleton(model: type[BaseModel]) -> dict[str, Any]:
     }
 
 
-def _field_lines(model: type[BaseModel], indent: int = 0, described: dict[type[BaseModel], str] | None = None) -> list[str]:
+def _field_lines(
+    model: type[BaseModel],
+    indent: int = 0,
+    described: dict[type[BaseModel], str] | None = None,
+) -> list[str]:
     """One line per key. A nested object used twice is described once; the second use points back to the first."""
     described = {} if described is None else described
     lines: list[str] = []
     for name, field in model.model_fields.items():
         nested = _nested_model(field.annotation)
         kind = "object" if nested else _describe_type(field.annotation)
-        line = f"{_INDENT * indent}- {name} ({kind}): {field.description or ''}".rstrip()
+        line = (
+            f"{_INDENT * indent}- {name} ({kind}): {field.description or ''}".rstrip()
+        )
         if nested and nested in described:
             lines.append(f"{line} Same keys and meanings as {described[nested]}.")
             continue

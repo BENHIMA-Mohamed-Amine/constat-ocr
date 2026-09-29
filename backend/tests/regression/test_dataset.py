@@ -4,6 +4,7 @@ One pytest item made of 3 named sub-checks, each calling ``generate`` directly (
 tiny counts into temporary directories, so the whole test runs in well under a minute without
 touching the real ``data/synthetic/`` tree.
 """
+
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -15,7 +16,9 @@ from ..checks import run_checks
 
 def _rows(out: Path) -> list[dict]:
     """Parse every line of ``manifest.jsonl`` in ``out``."""
-    return [json.loads(line) for line in (out / "manifest.jsonl").read_text().splitlines()]
+    return [
+        json.loads(line) for line in (out / "manifest.jsonl").read_text().splitlines()
+    ]
 
 
 def _same_command_gives_identical_manifest() -> None:
@@ -69,8 +72,16 @@ def test_dataset_command_is_deterministic_and_correct() -> None:
 
     See the module docstring: runs 3 named sub-checks and reports every one that fails.
     """
-    run_checks([
-        ("same_command_gives_identical_manifest", _same_command_gives_identical_manifest),
-        ("split_and_level_are_as_asked", _split_and_level_are_as_asked),
-        ("different_seed_changes_the_fingerprint", _different_seed_changes_the_fingerprint),
-    ])
+    run_checks(
+        [
+            (
+                "same_command_gives_identical_manifest",
+                _same_command_gives_identical_manifest,
+            ),
+            ("split_and_level_are_as_asked", _split_and_level_are_as_asked),
+            (
+                "different_seed_changes_the_fingerprint",
+                _different_seed_changes_the_fingerprint,
+            ),
+        ]
+    )

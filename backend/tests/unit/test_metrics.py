@@ -4,6 +4,7 @@ One pytest item made of 8 named sub-checks, each a hand-built prediction/answer-
 correct score is known by construction (not generated), so a failing sub-check points to a bug in
 the scoring math itself, independent of any LLM output.
 """
+
 import random
 
 from generator.data import sample_record
@@ -15,7 +16,9 @@ from pipeline.schema import Record
 from ..checks import run_checks
 
 SCORER = FormScorer()
-EVALUATOR = build_default_evaluator(input_price_per_million=0.15, output_price_per_million=0.60)
+EVALUATOR = build_default_evaluator(
+    input_price_per_million=0.15, output_price_per_million=0.60
+)
 
 
 def _truth(seed: int = 0, **vehicle_a: object) -> Record:
@@ -31,10 +34,14 @@ def _truth(seed: int = 0, **vehicle_a: object) -> Record:
     base = Record.model_validate(sample_record(random.Random(seed)))
     if not vehicle_a:
         return base
-    return base.model_copy(update={"vehicle_a": base.vehicle_a.model_copy(update=vehicle_a)})
+    return base.model_copy(
+        update={"vehicle_a": base.vehicle_a.model_copy(update=vehicle_a)}
+    )
 
 
-def _summary(pairs: list[tuple[Record | None, Record]], usages: list[Usage | None] | None = None) -> dict:
+def _summary(
+    pairs: list[tuple[Record | None, Record]], usages: list[Usage | None] | None = None
+) -> dict:
     """Score each (prediction, truth) pair and return the aggregated metrics.
 
     Args:
@@ -44,8 +51,10 @@ def _summary(pairs: list[tuple[Record | None, Record]], usages: list[Usage | Non
     Returns:
         The dict :meth:`Evaluator.summarize` returns for these forms.
     """
-    results = [SCORER.score(str(i), pred, true, (usages or [None] * len(pairs))[i])
-              for i, (pred, true) in enumerate(pairs)]
+    results = [
+        SCORER.score(str(i), pred, true, (usages or [None] * len(pairs))[i])
+        for i, (pred, true) in enumerate(pairs)
+    ]
     return EVALUATOR.summarize(results)
 
 
@@ -94,7 +103,9 @@ def _one_wrong_digit() -> None:
     record = _truth()
     plate = record.vehicle_a.plate
     flipped = plate[:-1] + ("0" if plate[-1] != "0" else "1")
-    wrong = record.model_copy(update={"vehicle_a": record.vehicle_a.model_copy(update={"plate": flipped})})
+    wrong = record.model_copy(
+        update={"vehicle_a": record.vehicle_a.model_copy(update={"plate": flipped})}
+    )
     s = _summary([(wrong, record)])
     critical = s["field_accuracy"]["critical"]
     assert critical["correct"] == critical["total"] - 1
@@ -132,8 +143,17 @@ def _checkboxes_found_missed_extra() -> None:
     """
     record = _truth(circumstances=[8, 10], circumstance_count=2)
     record = record.model_copy(
-        update={"vehicle_b": record.vehicle_b.model_copy(update={"circumstances": [], "circumstance_count": 0})})
-    guess = record.model_copy(update={"vehicle_a": record.vehicle_a.model_copy(update={"circumstances": [8, 11]})})
+        update={
+            "vehicle_b": record.vehicle_b.model_copy(
+                update={"circumstances": [], "circumstance_count": 0}
+            )
+        }
+    )
+    guess = record.model_copy(
+        update={
+            "vehicle_a": record.vehicle_a.model_copy(update={"circumstances": [8, 11]})
+        }
+    )
     box = _summary([(guess, record)])["checkbox_score"]
     assert (box["ticks_found"], box["ticks_missed"], box["ticks_extra"]) == (1, 1, 1)
     assert box["precision"] == 0.5
@@ -154,8 +174,16 @@ def _category_accuracy_next_to_the_guessing_baseline() -> None:
     pairs = []
     for i, kind in enumerate(["car", "car", "car", "moto"]):
         record = _truth(seed=i, vehicle_type=kind)
-        record = record.model_copy(update={"vehicle_b": record.vehicle_b.model_copy(update={"vehicle_type": "car"})})
-        guess = record.model_copy(update={"vehicle_a": record.vehicle_a.model_copy(update={"vehicle_type": "car"})})
+        record = record.model_copy(
+            update={
+                "vehicle_b": record.vehicle_b.model_copy(update={"vehicle_type": "car"})
+            }
+        )
+        guess = record.model_copy(
+            update={
+                "vehicle_a": record.vehicle_a.model_copy(update={"vehicle_type": "car"})
+            }
+        )
         pairs.append((guess, record))
     vehicle_type = _summary(pairs)["category_accuracy"]["vehicle_type"]
     assert vehicle_type["total"] == 8
@@ -184,13 +212,18 @@ def test_scorer_and_metrics_compute_correctly() -> None:
 
     See the module docstring: runs the 8 named sub-checks and reports every one that fails.
     """
-    run_checks([
-        ("every_field_is_classified", _every_field_is_classified),
-        ("normalize_rule", _normalize_rule),
-        ("perfect_prediction", _perfect_prediction),
-        ("one_wrong_digit", _one_wrong_digit),
-        ("no_output_counts_everything_wrong", _no_output_counts_everything_wrong),
-        ("checkboxes_found_missed_extra", _checkboxes_found_missed_extra),
-        ("category_accuracy_next_to_the_guessing_baseline", _category_accuracy_next_to_the_guessing_baseline),
-        ("cost_and_time", _cost_and_time),
-    ])
+    run_checks(
+        [
+            ("every_field_is_classified", _every_field_is_classified),
+            ("normalize_rule", _normalize_rule),
+            ("perfect_prediction", _perfect_prediction),
+            ("one_wrong_digit", _one_wrong_digit),
+            ("no_output_counts_everything_wrong", _no_output_counts_everything_wrong),
+            ("checkboxes_found_missed_extra", _checkboxes_found_missed_extra),
+            (
+                "category_accuracy_next_to_the_guessing_baseline",
+                _category_accuracy_next_to_the_guessing_baseline,
+            ),
+            ("cost_and_time", _cost_and_time),
+        ]
+    )

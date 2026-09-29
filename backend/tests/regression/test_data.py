@@ -5,6 +5,7 @@ sub-checks, each looped over 300 seeds. Kept as separate private functions for r
 name the exact property that broke, but run together through ``run_checks`` so pytest reports this
 as the single capability it is, not 8 unrelated items.
 """
+
 import math
 from datetime import datetime
 from random import Random
@@ -41,7 +42,9 @@ def _tick_count_matches_circumstances() -> None:
     for seed, record in _records():
         for side in ("a", "b"):
             vehicle = record[f"vehicle_{side}"]
-            assert vehicle["circumstance_count"] == len(vehicle["circumstances"]), f"seed {seed}, vehicle {side}"
+            assert vehicle["circumstance_count"] == len(vehicle["circumstances"]), (
+                f"seed {seed}, vehicle {side}"
+            )
 
 
 def _attestation_covers_accident_date() -> None:
@@ -54,7 +57,9 @@ def _attestation_covers_accident_date() -> None:
         accident = _day(record["date"])
         for side in ("a", "b"):
             vehicle = record[f"vehicle_{side}"]
-            assert _day(vehicle["valid_from"]) <= accident <= _day(vehicle["valid_to"]), f"seed {seed}, vehicle {side}"
+            assert (
+                _day(vehicle["valid_from"]) <= accident <= _day(vehicle["valid_to"])
+            ), f"seed {seed}, vehicle {side}"
 
 
 def _licence_valid_on_accident_date() -> None:
@@ -63,14 +68,19 @@ def _licence_valid_on_accident_date() -> None:
         accident = _day(record["date"])
         for side in ("a", "b"):
             vehicle = record[f"vehicle_{side}"]
-            assert _day(vehicle["license_issued"]) < accident <= _day(vehicle["license_valid_until"]), \
-                f"seed {seed}, vehicle {side}"
+            assert (
+                _day(vehicle["license_issued"])
+                < accident
+                <= _day(vehicle["license_valid_until"])
+            ), f"seed {seed}, vehicle {side}"
 
 
 def _plates_differ() -> None:
     """Vehicle A and vehicle B never share a registration plate."""
     for seed, record in _records():
-        assert record["vehicle_a"]["plate"] != record["vehicle_b"]["plate"], f"seed {seed}"
+        assert record["vehicle_a"]["plate"] != record["vehicle_b"]["plate"], (
+            f"seed {seed}"
+        )
 
 
 def _sketch_contact_points_touch() -> None:
@@ -123,12 +133,23 @@ def _t_junction_geometry_is_consistent() -> None:
         b = sketch["b"]
         if sketch["layout"] == "two_way":
             assert sketch["junction"] is None, f"seed {seed}"
-            assert min(_angle_offset(b["heading"], 0), _angle_offset(b["heading"], 180)) < 55, f"seed {seed}"
+            assert (
+                min(_angle_offset(b["heading"], 0), _angle_offset(b["heading"], 180))
+                < 55
+            ), f"seed {seed}"
         else:
-            direction = 90 if _angle_offset(b["heading"], 90) < _angle_offset(b["heading"], 270) else 270
+            direction = (
+                90
+                if _angle_offset(b["heading"], 90) < _angle_offset(b["heading"], 270)
+                else 270
+            )
             assert _angle_offset(b["heading"], direction) < 55, f"seed {seed}"
-            assert sketch["junction"]["side"] == ("north" if direction == 90 else "south"), f"seed {seed}"
-            assert abs(b["x"] - (sketch["junction"]["x"] + STEM_DX[direction])) < 1, f"seed {seed}"
+            assert sketch["junction"]["side"] == (
+                "north" if direction == 90 else "south"
+            ), f"seed {seed}"
+            assert abs(b["x"] - (sketch["junction"]["x"] + STEM_DX[direction])) < 1, (
+                f"seed {seed}"
+            )
 
 
 def test_generator_produces_internally_consistent_records() -> None:
@@ -138,13 +159,15 @@ def test_generator_produces_internally_consistent_records() -> None:
     rules, distinct plates, sketch/impact-zone/lane/junction geometry) and reports every one that
     fails, not just the first.
     """
-    run_checks([
-        ("tick_count_matches_circumstances", _tick_count_matches_circumstances),
-        ("attestation_covers_accident_date", _attestation_covers_accident_date),
-        ("licence_valid_on_accident_date", _licence_valid_on_accident_date),
-        ("plates_differ", _plates_differ),
-        ("sketch_contact_points_touch", _sketch_contact_points_touch),
-        ("cars_fit_the_canvas", _cars_fit_the_canvas),
-        ("lane_matches_heading", _lane_matches_heading),
-        ("t_junction_geometry_is_consistent", _t_junction_geometry_is_consistent),
-    ])
+    run_checks(
+        [
+            ("tick_count_matches_circumstances", _tick_count_matches_circumstances),
+            ("attestation_covers_accident_date", _attestation_covers_accident_date),
+            ("licence_valid_on_accident_date", _licence_valid_on_accident_date),
+            ("plates_differ", _plates_differ),
+            ("sketch_contact_points_touch", _sketch_contact_points_touch),
+            ("cars_fit_the_canvas", _cars_fit_the_canvas),
+            ("lane_matches_heading", _lane_matches_heading),
+            ("t_junction_geometry_is_consistent", _t_junction_geometry_is_consistent),
+        ]
+    )

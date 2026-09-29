@@ -4,6 +4,7 @@ A version's results are only meaningful if someone can later tell exactly what p
 model, which package versions, which dataset. This test does not call Groq or read a real image; it
 only needs the real Tesseract binary (for its version string) and a couple of fake forms.
 """
+
 from pathlib import Path
 
 import pytest
@@ -22,11 +23,15 @@ def settings() -> Settings:
 @pytest.fixture
 def forms() -> list[FormRef]:
     """A short fake form list, enough for describe_run's per-form listing."""
-    return [FormRef("000000", "dev", Path("a.jpg"), Path("a.json")),
-           FormRef("000100", "test", Path("b.jpg"), Path("b.json"))]
+    return [
+        FormRef("000000", "dev", Path("a.jpg"), Path("a.json")),
+        FormRef("000100", "test", Path("b.jpg"), Path("b.json")),
+    ]
 
 
-def test_describe_run_has_no_missing_metadata(settings: Settings, forms: list[FormRef]) -> None:
+def test_describe_run_has_no_missing_metadata(
+    settings: Settings, forms: list[FormRef]
+) -> None:
     """Every field needed to reproduce or audit a run is present and non-empty.
 
     Specifically: the LLM provider, model id, temperature and reasoning effort; the OCR engine's
@@ -39,7 +44,10 @@ def test_describe_run_has_no_missing_metadata(settings: Settings, forms: list[Fo
 
     assert description["run_id"] == "v1-dev"
     assert description["dataset_fingerprint"] == "deadbeef"
-    assert description["forms"] == [{"id": "000000", "split": "dev"}, {"id": "000100", "split": "test"}]
+    assert description["forms"] == [
+        {"id": "000000", "split": "dev"},
+        {"id": "000100", "split": "test"},
+    ]
 
     llm = description["llm"]
     assert llm["provider"] == "groq"
@@ -53,8 +61,17 @@ def test_describe_run_has_no_missing_metadata(settings: Settings, forms: list[Fo
     assert ocr["tesseract"], "Tesseract must be installed for this to be non-empty"
 
     versions = description["versions"]
-    expected_packages = {"langchain", "langchain-core", "langchain-groq", "langchain-community",
-                         "langgraph", "langsmith", "pydantic", "pytesseract", "jiwer"}
+    expected_packages = {
+        "langchain",
+        "langchain-core",
+        "langchain-groq",
+        "langchain-community",
+        "langgraph",
+        "langsmith",
+        "pydantic",
+        "pytesseract",
+        "jiwer",
+    }
     assert set(versions) == expected_packages
     assert all(versions.values()), "every package version must be non-empty"
 

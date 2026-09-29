@@ -6,6 +6,7 @@ is saved and reloadable, a failing form does not stop a run, and the graph behav
 and without an answer key (evaluation vs. production use). A failure here means the graph itself is
 broken, not that a specific OCR or LLM call went wrong.
 """
+
 from pathlib import Path
 
 from pipeline.dataset import FormRef
@@ -26,7 +27,9 @@ def _make_form(root: Path) -> FormRef:
     return FormRef("000000", "dev", root / "image.jpg", root / "truth.json")
 
 
-def _runs_saves_and_scores(ocr: FakeOcrEngine, structurer: FakeStructurer, store: FileArtifactStore) -> None:
+def _runs_saves_and_scores(
+    ocr: FakeOcrEngine, structurer: FakeStructurer, store: FileArtifactStore
+) -> None:
     """With an answer key, the graph runs ocr -> structure -> evaluate and saves every step.
 
     Checks: the returned :class:`FormResult` reflects the fake structurer's known one-field error
@@ -43,14 +46,19 @@ def _runs_saves_and_scores(ocr: FakeOcrEngine, structurer: FakeStructurer, store
     assert result.usage.total_seconds == 2.0
     assert result.usage.input_tokens == 100
     assert sum(not f.correct for f in result.fields if f.path == "vehicle_a.plate") == 1
-    assert all(store.exists(step, "000000") for step in ("ocr", "ocr_usage", "structured", "evaluation"))
+    assert all(
+        store.exists(step, "000000")
+        for step in ("ocr", "ocr_usage", "structured", "evaluation")
+    )
 
     state = graph.invoke({"form_id": "000001", "image_path": "x.jpg"})
     assert "record" in state
     assert "result" not in state
 
 
-def _reuse_skips_finished_steps(ocr: FakeOcrEngine, structurer: FakeStructurer, store: FileArtifactStore) -> None:
+def _reuse_skips_finished_steps(
+    ocr: FakeOcrEngine, structurer: FakeStructurer, store: FileArtifactStore
+) -> None:
     """``reuse=True`` loads a step's saved output instead of calling the engine/structurer again.
 
     Runs the same form through the graph twice, the second time with ``reuse=True``. The OCR and
@@ -77,24 +85,48 @@ def _runner_survives_a_failing_form(store: FileArtifactStore, tmp_path: Path) ->
     scorer = FormScorer()
     failing_structurer = FakeStructurer(TRUTH, fail=True)
     graph = build_graph(FakeOcrEngine(), failing_structurer, scorer, store)
-    summary = PipelineRunner(graph, scorer, build_default_evaluator(0.15, 0.60), store).run("t", [_make_form(tmp_path)])
+    summary = PipelineRunner(
+        graph, scorer, build_default_evaluator(0.15, 0.60), store
+    ).run("t", [_make_form(tmp_path)])
     assert summary["forms"] == 1
     assert summary["forms_with_output"] == 0
     assert summary["field_accuracy"]["critical"]["correct"] == 0
     assert store.read_json("errors", "000000")["type"] == "StructuringError"
 
 
-def test_graph_is_wired_correctly(fake_ocr_engine: FakeOcrEngine, fake_structurer: FakeStructurer,
-                                  tmp_run_dir: FileArtifactStore, tmp_path: Path) -> None:
+def test_graph_is_wired_correctly(
+    fake_ocr_engine: FakeOcrEngine,
+    fake_structurer: FakeStructurer,
+    tmp_run_dir: FileArtifactStore,
+    tmp_path: Path,
+) -> None:
     """The graph saves every step, reuses finished ones, and survives a failing form.
 
     See the module docstring: runs 3 named sub-checks and reports every one that fails. Each
     sub-check gets its own fresh fake OCR/structurer/store so they don't interfere with each
     other's call counts or saved artifacts.
     """
-    run_checks([
-        ("runs_saves_and_scores", lambda: _runs_saves_and_scores(fake_ocr_engine, fake_structurer, tmp_run_dir)),
-        ("reuse_skips_finished_steps",
-         lambda: _reuse_skips_finished_steps(FakeOcrEngine(), FakeStructurer(TRUTH), FileArtifactStore(tmp_path / "reuse"))),
-        ("runner_survives_a_failing_form", lambda: _runner_survives_a_failing_form(FileArtifactStore(tmp_path / "fail"), tmp_path)),
-    ])
+    run_checks(
+        [
+            (
+                "runs_saves_and_scores",
+                lambda: _runs_saves_and_scores(
+                    fake_ocr_engine, fake_structurer, tmp_run_dir
+                ),
+            ),
+            (
+                "reuse_skips_finished_steps",
+                lambda: _reuse_skips_finished_steps(
+                    FakeOcrEngine(),
+                    FakeStructurer(TRUTH),
+                    FileArtifactStore(tmp_path / "reuse"),
+                ),
+            ),
+            (
+                "runner_survives_a_failing_form",
+                lambda: _runner_survives_a_failing_form(
+                    FileArtifactStore(tmp_path / "fail"), tmp_path
+                ),
+            ),
+        ]
+    )

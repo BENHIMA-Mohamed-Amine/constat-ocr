@@ -3,6 +3,7 @@
 The graph only wires steps together. Each node calls an injected implementation (``OcrEngine``, ``Structurer``,
 ``FormScorer``), so a new engine or model changes nothing here, and a new step is one more node and edge.
 """
+
 import logging
 from dataclasses import asdict
 from pathlib import Path
@@ -37,8 +38,13 @@ class PipelineState(TypedDict, total=False):
     result: FormResult
 
 
-def build_graph(ocr: OcrEngine, structurer: Structurer, scorer: FormScorer, store: ArtifactStore,
-                reuse: bool = False) -> CompiledStateGraph:
+def build_graph(
+    ocr: OcrEngine,
+    structurer: Structurer,
+    scorer: FormScorer,
+    store: ArtifactStore,
+    reuse: bool = False,
+) -> CompiledStateGraph:
     """Assemble the graph.
 
     Args:
@@ -51,8 +57,15 @@ def build_graph(ocr: OcrEngine, structurer: Structurer, scorer: FormScorer, stor
 
     def ocr_node(state: PipelineState) -> dict[str, Any]:
         form_id = state["form_id"]
-        if reuse and store.exists("ocr", form_id) and store.exists("ocr_usage", form_id):
-            return {"ocr_text": store.read_text("ocr", form_id), "ocr_seconds": store.read_json("ocr_usage", form_id)["seconds"]}
+        if (
+            reuse
+            and store.exists("ocr", form_id)
+            and store.exists("ocr_usage", form_id)
+        ):
+            return {
+                "ocr_text": store.read_text("ocr", form_id),
+                "ocr_seconds": store.read_json("ocr_usage", form_id)["seconds"],
+            }
         result = ocr.read(Path(state["image_path"]))
         store.write_text("ocr", form_id, result.text)
         store.write_json("ocr_usage", form_id, {"seconds": result.seconds})
@@ -63,17 +76,42 @@ def build_graph(ocr: OcrEngine, structurer: Structurer, scorer: FormScorer, stor
         if reuse and store.exists("structured", form_id):
             saved = store.read_json("structured", form_id)
             usage = saved["usage"]
-            return {"record": Record.model_validate(saved["record"]), "structure_seconds": usage["seconds"],
-                    "input_tokens": usage["input_tokens"], "output_tokens": usage["output_tokens"]}
-        result = structurer.structure(StructuringInput(form_id, Path(state["image_path"]), state.get("ocr_text")))
-        usage = {"seconds": result.seconds, "input_tokens": result.input_tokens, "output_tokens": result.output_tokens}
-        store.write_json("structured", form_id, {"record": result.record.model_dump(mode="json"), "usage": usage})
-        return {"record": result.record, "structure_seconds": result.seconds,
-                "input_tokens": result.input_tokens, "output_tokens": result.output_tokens}
+            return {
+                "record": Record.model_validate(saved["record"]),
+                "structure_seconds": usage["seconds"],
+                "input_tokens": usage["input_tokens"],
+                "output_tokens": usage["output_tokens"],
+            }
+        result = structurer.structure(
+            StructuringInput(form_id, Path(state["image_path"]), state.get("ocr_text"))
+        )
+        usage = {
+            "seconds": result.seconds,
+            "input_tokens": result.input_tokens,
+            "output_tokens": result.output_tokens,
+        }
+        store.write_json(
+            "structured",
+            form_id,
+            {"record": result.record.model_dump(mode="json"), "usage": usage},
+        )
+        return {
+            "record": result.record,
+            "structure_seconds": result.seconds,
+            "input_tokens": result.input_tokens,
+            "output_tokens": result.output_tokens,
+        }
 
     def evaluate_node(state: PipelineState) -> dict[str, Any]:
-        usage = Usage(state["ocr_seconds"], state["structure_seconds"], state["input_tokens"], state["output_tokens"])
-        result = scorer.score(state["form_id"], state.get("record"), state["truth"], usage)
+        usage = Usage(
+            state["ocr_seconds"],
+            state["structure_seconds"],
+            state["input_tokens"],
+            state["output_tokens"],
+        )
+        result = scorer.score(
+            state["form_id"], state.get("record"), state["truth"], usage
+        )
         store.write_json("evaluation", state["form_id"], asdict(result))
         return {"result": result}
 
@@ -82,7 +120,11 @@ def build_graph(ocr: OcrEngine, structurer: Structurer, scorer: FormScorer, stor
 
     graph = StateGraph(PipelineState)
     graph.add_node("ocr", ocr_node)
-    graph.add_node("structure", structure_node, retry_policy=RetryPolicy(max_attempts=2, retry_on=StructuringError))
+    graph.add_node(
+        "structure",
+        structure_node,
+        retry_policy=RetryPolicy(max_attempts=2, retry_on=StructuringError),
+    )
     graph.add_node("evaluate", evaluate_node)
     graph.add_edge(START, "ocr")
     graph.add_edge("ocr", "structure")

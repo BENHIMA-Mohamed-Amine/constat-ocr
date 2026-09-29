@@ -12,6 +12,7 @@ Capped at exactly the 2 dev forms, on purpose: each run costs a couple of real G
 $0.002 based on the v1-dev run's actual usage) and a couple of minutes, so it must stay cheap
 enough to run on every CI push that has the secret available.
 """
+
 import json
 import os
 from pathlib import Path
@@ -28,7 +29,9 @@ from pipeline.runner import PipelineRunner, describe_run, write_run_files
 from pipeline.storage import FileArtifactStore
 from pipeline.structuring import LangChainStructurer, build_chat_model
 
-pytestmark = pytest.mark.skipif(not os.environ.get("GROQ_API_KEY"), reason="needs a live GROQ_API_KEY")
+pytestmark = pytest.mark.skipif(
+    not os.environ.get("GROQ_API_KEY"), reason="needs a live GROQ_API_KEY"
+)
 
 
 def test_dev_forms_run_through_the_real_pipeline(tmp_path: Path) -> None:
@@ -46,15 +49,23 @@ def test_dev_forms_run_through_the_real_pipeline(tmp_path: Path) -> None:
     forms = reader.first("dev", 2)
     store = FileArtifactStore(tmp_path)
     scorer = FormScorer()
-    graph = build_graph(LangChainTesseractEngine(settings.ocr_languages),
-                        LangChainStructurer(build_chat_model(settings)), scorer, store)
-    evaluator = build_default_evaluator(settings.input_price_per_million, settings.output_price_per_million)
+    graph = build_graph(
+        LangChainTesseractEngine(settings.ocr_languages),
+        LangChainStructurer(build_chat_model(settings)),
+        scorer,
+        store,
+    )
+    evaluator = build_default_evaluator(
+        settings.input_price_per_million, settings.output_price_per_million
+    )
     summary = PipelineRunner(graph, scorer, evaluator, store).run("e2e-test", forms)
 
     assert summary["forms"] == 2
     assert summary["forms_with_output"] == 2
 
-    write_run_files(tmp_path, describe_run("e2e-test", settings, forms, reader.fingerprint), summary)
+    write_run_files(
+        tmp_path, describe_run("e2e-test", settings, forms, reader.fingerprint), summary
+    )
     run_description = json.loads((tmp_path / "run.json").read_text())
     written_summary = json.loads((tmp_path / "summary.json").read_text())
     assert run_description["dataset_fingerprint"] == reader.fingerprint
