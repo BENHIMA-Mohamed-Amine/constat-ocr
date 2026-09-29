@@ -1,0 +1,42 @@
+{
+  "run_id": "v2-dev-rapidocr",
+  "date_utc": "2026-09-29T19:43:14+00:00",
+  "dataset_fingerprint": "3ba968bd8c4281e6ed76a1c94c0b60e6101a80011b6593a2751a8212ed73e291",
+  "forms": [
+    {
+      "id": "000000",
+      "split": "dev"
+    },
+    {
+      "id": "000001",
+      "split": "dev"
+    }
+  ],
+  "llm": {
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "reasoning_effort": "low"
+  },
+  "ocr": {
+    "engine": "rapidocr",
+    "languages": [
+      "fra"
+    ],
+    "tesseract": "5.3.4"
+  },
+  "versions": {
+    "langchain": "1.4.2",
+    "langchain-core": "1.6.5",
+    "langchain-groq": "1.1.3",
+    "langchain-community": "0.4.2",
+    "langgraph": "1.2.12",
+    "langsmith": "0.14.1",
+    "pydantic": "2.13.5",
+    "pytesseract": "0.3.13",
+    "rapidocr": "3.9.2",
+    "jiwer": "4.0.0"
+  },
+  "python": "3.13.9",
+  "command": "/home/benhima/projects/constat-ocr/backend/pipeline/run.py --run-id v2-dev-rapidocr --dev 2 --test 0"
+}

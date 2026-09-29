@@ -94,7 +94,7 @@ def describe_run(
             "reasoning_effort": settings.llm_reasoning_effort,
         },
         "ocr": {
-            "engine": "LangChainTesseractEngine",
+            "engine": settings.ocr_engine,
             "languages": list(settings.ocr_languages),
             "tesseract": str(pytesseract.get_tesseract_version()),
         },
@@ -109,6 +109,7 @@ def describe_run(
                 "langsmith",
                 "pydantic",
                 "pytesseract",
+                "rapidocr",
                 "jiwer",
             )
         },

@@ -1,7 +1,8 @@
-"""Command line: run v1 on the evaluation set.
+"""Command line: run the pipeline on the evaluation set.
 
-uv run python -m pipeline.run --run-id v1-dev --dev 2 --test 0
-uv run python -m pipeline.run --run-id v1 --dev 0 --test 20
+uv run python -m pipeline.run --run-id v2-dev --dev 5 --test 0
+uv run python -m pipeline.run --run-id v2 --dev 0 --test 20
+OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20   (the v1 baseline)
 """
 
 import argparse
@@ -13,7 +14,7 @@ from .dataset import DatasetReader
 from .evaluation import FormScorer, build_default_evaluator
 from .graph import build_graph
 from .observability import configure_tracing
-from .ocr import LangChainTesseractEngine
+from .ocr import build_ocr_engine
 from .runner import PipelineRunner, describe_run, write_run_files
 from .storage import FileArtifactStore
 from .structuring import LangChainStructurer, build_chat_model
@@ -63,7 +64,7 @@ def main() -> None:
     store = FileArtifactStore(run_dir)
     scorer = FormScorer()
     graph = build_graph(
-        LangChainTesseractEngine(settings.ocr_languages),
+        build_ocr_engine(settings),
         LangChainStructurer(build_chat_model(settings)),
         scorer,
         store,

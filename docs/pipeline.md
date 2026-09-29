@@ -35,7 +35,7 @@ step once, and after that the form is recorded as "no output".
 From `backend/`. Keys are read from `backend/.env` (`GROQ_API_KEY`, `LANGSMITH_API_KEY`); git ignores that file.
 
 ```bash
-cd ~/projects/constat-ocr/backend && uv run python -m pipeline.run --run-id v1-dev --dev 2 --test 0
+cd ~/projects/constat-ocr/backend && OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1-dev --dev 2 --test 0
 ```
 
 | Option | Default | Meaning |

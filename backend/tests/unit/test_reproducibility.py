@@ -56,7 +56,7 @@ def test_describe_run_has_no_missing_metadata(
     assert llm["reasoning_effort"]
 
     ocr = description["ocr"]
-    assert ocr["engine"] == "LangChainTesseractEngine"
+    assert ocr["engine"] == "rapidocr-v6"
     assert ocr["languages"] == ["fra"]
     assert ocr["tesseract"], "Tesseract must be installed for this to be non-empty"
 
@@ -70,6 +70,7 @@ def test_describe_run_has_no_missing_metadata(
         "langsmith",
         "pydantic",
         "pytesseract",
+        "rapidocr",
         "jiwer",
     }
     assert set(versions) == expected_packages

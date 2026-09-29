@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     output_price_per_million: float = 0.60  # dollars per million output tokens (Groq)
 
     # ocr
+    ocr_engine: str = "rapidocr-v6"  # see pipeline/ocr/factory.py for the names
     ocr_languages: tuple[str, ...] = ("fra",)
 
     # data and outputs
@@ -46,5 +47,5 @@ class Settings(BaseSettings):
     runs_dir: Path = REPO_DIR / "runs"
 
     # evaluation set: the first N forms of each split (kept small by the LLM provider's free-plan limits)
-    eval_dev_count: int = 2
+    eval_dev_count: int = 5
     eval_test_count: int = 20
