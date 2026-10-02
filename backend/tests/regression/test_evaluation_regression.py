@@ -40,7 +40,7 @@ def _load_form_result(path: Path) -> FormResult:
     """Rebuild a :class:`FormResult` from a saved ``evaluation/<id>.json`` file.
 
     Args:
-        path: Path to one form's saved evaluation JSON, as written by ``pipeline/graph.py``.
+        path: Path to one form's saved evaluation JSON, as written by ``pipeline/flow/graph.py``.
 
     Returns:
         The :class:`FormResult` that produced that file, field for field.

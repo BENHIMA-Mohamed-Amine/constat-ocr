@@ -10,8 +10,8 @@ import time
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage, SystemMessage
 
-from ..errors import StructuringError
-from ..schema import Record
+from ..core.errors import StructuringError
+from ..core.schema import Record
 from .base import StructuringInput, StructuringResult
 from .output_format import format_instructions
 from .prompts import HUMAN_PROMPT, SYSTEM_PROMPT

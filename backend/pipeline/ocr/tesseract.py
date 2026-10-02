@@ -8,7 +8,7 @@ from pathlib import Path
 from langchain_community.document_loaders.parsers.images import TesseractBlobParser
 from langchain_core.documents.base import Blob
 
-from ..errors import OcrError
+from ..core.errors import OcrError
 from .base import OcrResult
 
 logger = logging.getLogger(__name__)

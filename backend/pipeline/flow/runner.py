@@ -13,11 +13,11 @@ from typing import Any
 import pytesseract
 from langgraph.graph.state import CompiledStateGraph
 
-from .config import Settings
-from .dataset import FormRef
-from .errors import PipelineError
-from .evaluation import Evaluator, FormResult, FormScorer
-from .storage import ArtifactStore
+from ..core.config import Settings
+from ..core.errors import PipelineError
+from ..data.dataset import FormRef
+from ..data.storage import ArtifactStore
+from ..evaluation import Evaluator, FormResult, FormScorer
 
 logger = logging.getLogger(__name__)
 

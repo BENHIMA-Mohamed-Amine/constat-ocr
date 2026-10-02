@@ -8,10 +8,10 @@ the scoring math itself, independent of any LLM output.
 import random
 
 from generator.data import sample_record
+from pipeline.core.schema import Record
 from pipeline.evaluation import FormScorer, Usage, build_default_evaluator
 from pipeline.evaluation.fields import FIELD_KINDS, TOP_LEVEL_FIELDS, VEHICLE_FIELDS
 from pipeline.evaluation.normalize import normalize
-from pipeline.schema import Record
 
 from ..checks import run_checks
 

@@ -4,7 +4,7 @@ import logging
 import time
 from pathlib import Path
 
-from ..errors import OcrError
+from ..core.errors import OcrError
 from .base import OcrResult
 
 logger = logging.getLogger(__name__)

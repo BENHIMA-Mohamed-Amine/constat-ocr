@@ -9,14 +9,14 @@ import argparse
 import json
 import logging
 
-from .config import Settings
-from .dataset import DatasetReader
+from .core.config import Settings
+from .core.observability import configure_tracing
+from .data.dataset import DatasetReader
+from .data.storage import FileArtifactStore
 from .evaluation import FormScorer, build_default_evaluator
-from .graph import build_graph
-from .observability import configure_tracing
+from .flow.graph import build_graph
+from .flow.runner import PipelineRunner, describe_run, write_run_files
 from .ocr import build_ocr_engine
-from .runner import PipelineRunner, describe_run, write_run_files
-from .storage import FileArtifactStore
 from .structuring import LangChainStructurer, build_chat_model
 
 

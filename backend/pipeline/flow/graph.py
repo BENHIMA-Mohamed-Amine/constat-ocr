@@ -13,12 +13,12 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 from langgraph.types import RetryPolicy
 
-from .errors import StructuringError
-from .evaluation import FormResult, FormScorer, Usage
-from .ocr import OcrEngine
-from .schema import Record
-from .storage import ArtifactStore
-from .structuring import Structurer, StructuringInput
+from ..core.errors import StructuringError
+from ..core.schema import Record
+from ..data.storage import ArtifactStore
+from ..evaluation import FormResult, FormScorer, Usage
+from ..ocr import OcrEngine
+from ..structuring import Structurer, StructuringInput
 
 logger = logging.getLogger(__name__)
 

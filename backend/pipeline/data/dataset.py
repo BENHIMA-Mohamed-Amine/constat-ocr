@@ -4,8 +4,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from .errors import ConfigurationError
-from .schema import Record
+from ..core.errors import ConfigurationError
+from ..core.schema import Record
 
 
 @dataclass(frozen=True, slots=True)

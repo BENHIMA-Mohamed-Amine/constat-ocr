@@ -9,9 +9,9 @@ from pathlib import Path
 
 import pytest
 
-from pipeline.config import Settings
-from pipeline.dataset import FormRef
-from pipeline.runner import describe_run
+from pipeline.core.config import Settings
+from pipeline.data.dataset import FormRef
+from pipeline.flow.runner import describe_run
 
 
 @pytest.fixture

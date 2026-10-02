@@ -4,8 +4,8 @@ from collections.abc import Callable
 
 from langchain_core.language_models import BaseChatModel
 
-from ..config import Settings
-from ..errors import ConfigurationError
+from ..core.config import Settings
+from ..core.errors import ConfigurationError
 
 ModelBuilder = Callable[[Settings], BaseChatModel]
 _BUILDERS: dict[str, ModelBuilder] = {}

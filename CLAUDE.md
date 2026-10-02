@@ -93,7 +93,13 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 <project-root-folder-name>/
 ├── backend/           # Python 3.13 project (uv)
 │   ├── generator/     # synthetic constat generator: sampled record, drawn on the template, degraded to a phone photo
-│   ├── pipeline/      # LangGraph pipeline: ocr/ (engine registry), structuring/, evaluation/, graph.py, run.py
+│   ├── pipeline/      # the extraction pipeline; run.py is the CLI (python -m pipeline.run)
+│   │   ├── core/      # shared foundations: config, errors, schema (Record), observability
+│   │   ├── data/      # dataset.py (reads the frozen dataset), storage.py (saves each step's output)
+│   │   ├── flow/      # graph.py (LangGraph wiring), runner.py (runs the forms)
+│   │   ├── ocr/       # step 1: OcrEngine and the engine registry
+│   │   ├── structuring/  # step 2: Structurer, prompt, model factory
+│   │   └── evaluation/   # step 3: scorer, metrics
 │   ├── scripts/       # analyze_run.py (where errors come from), make_template.py
 │   ├── tests/         # unit/, regression/, integration/ (see docs/testing.md)
 │   └── assets/        # blank constat template and handwriting fonts

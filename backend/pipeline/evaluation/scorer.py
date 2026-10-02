@@ -2,8 +2,8 @@
 
 import jiwer
 
-from ..errors import EvaluationError
-from ..schema import Record, Vehicle
+from ..core.errors import EvaluationError
+from ..core.schema import Record, Vehicle
 from .fields import FIELD_KINDS, TOP_LEVEL_FIELDS, VEHICLE_FIELDS, VEHICLES, FieldKind
 from .normalize import normalize
 from .results import FieldResult, FormResult, Usage

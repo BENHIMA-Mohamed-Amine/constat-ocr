@@ -9,11 +9,11 @@ broken, not that a specific OCR or LLM call went wrong.
 
 from pathlib import Path
 
-from pipeline.dataset import FormRef
+from pipeline.data.dataset import FormRef
+from pipeline.data.storage import FileArtifactStore
 from pipeline.evaluation import FormScorer, build_default_evaluator
-from pipeline.graph import build_graph
-from pipeline.runner import PipelineRunner
-from pipeline.storage import FileArtifactStore
+from pipeline.flow.graph import build_graph
+from pipeline.flow.runner import PipelineRunner
 
 from ..checks import run_checks
 from ..conftest import FakeOcrEngine, FakeStructurer, sample_truth

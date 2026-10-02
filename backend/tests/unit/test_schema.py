@@ -10,7 +10,13 @@ from typing import get_args
 
 from generator import data, fields
 from generator.data import sample_record
-from pipeline.schema import ImpactZone, LicenseCategory, Record, Vehicle, VehicleType
+from pipeline.core.schema import (
+    ImpactZone,
+    LicenseCategory,
+    Record,
+    Vehicle,
+    VehicleType,
+)
 
 from ..checks import run_checks
 

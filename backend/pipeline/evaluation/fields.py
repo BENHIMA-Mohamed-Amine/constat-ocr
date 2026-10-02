@@ -2,7 +2,7 @@
 
 from enum import StrEnum
 
-from ..schema import Record, Vehicle
+from ..core.schema import Record, Vehicle
 
 
 class FieldKind(StrEnum):

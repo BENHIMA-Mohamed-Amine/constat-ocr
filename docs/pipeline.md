@@ -9,7 +9,7 @@ photo ──► ocr ──► structure ──► evaluate (only when an answer 
           OCR engine  LLM, JSON mode         field-by-field score
 ```
 
-It is one LangGraph graph (`backend/pipeline/graph.py`). Without an answer key the graph stops after `structure`, which
+It is one LangGraph graph (`backend/pipeline/flow/graph.py`). Without an answer key the graph stops after `structure`, which
 is how it would run in production.
 
 ## The steps
@@ -62,23 +62,24 @@ it and nothing downstream could have got it right. It writes `failures.json` nex
 ## Observability
 
 LangSmith traces every form as one trace (the graph run, with one span per step and the LLM call inside). The two secrets
-come from `.env`; `pipeline/observability.py` sets the non-secret variables (`LANGSMITH_TRACING`, `LANGSMITH_PROJECT`).
+come from `.env`; `pipeline/core/observability.py` sets the non-secret variables (`LANGSMITH_TRACING`, `LANGSMITH_PROJECT`).
 Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so nothing personal is sent.
 
 ## Code map
 
 | File | Role |
 |---|---|
-| `schema.py` | `Record`: the one definition of the answer-key shape (LLM output, scoring, tests) |
-| `config.py` | `Settings` from the environment; no secret defaults |
-| `errors.py` | `PipelineError` and one subclass per step |
+| `core/schema.py` | `Record`: the one definition of the answer-key shape (LLM output, scoring, tests) |
+| `core/config.py` | `Settings` from the environment; no secret defaults |
+| `core/errors.py` | `PipelineError` and one subclass per step |
+| `core/observability.py` | Turns on LangSmith tracing |
 | `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and four engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `doctr` |
 | `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompt, the generated output format, the model factory |
 | `evaluation/` | `FormScorer`, one class per metric, `Evaluator` |
-| `storage.py` | `ArtifactStore` (Protocol) and `FileArtifactStore` |
-| `dataset.py` | Reads the frozen dataset and picks the evaluation forms |
-| `graph.py` | Builds the LangGraph graph from injected parts |
-| `runner.py` | Runs forms one at a time; a failing form is recorded and scored as "no output" |
+| `data/storage.py` | `ArtifactStore` (Protocol) and `FileArtifactStore` |
+| `data/dataset.py` | Reads the frozen dataset and picks the evaluation forms |
+| `flow/graph.py` | Builds the LangGraph graph from injected parts |
+| `flow/runner.py` | Runs forms one at a time; a failing form is recorded and scored as "no output" |
 | `run.py` | The command line |
 
 ## Extending it (the point of the structure)
@@ -90,7 +91,7 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 - **A vision model:** a new `Structurer`. Its input already carries the image path as well as the OCR text.
 - **A new metric:** a class with a `name` and `compute(results)`, added to the list given to `Evaluator`.
 - **A new step** (image cleanup, validation, a second model on low confidence, routing to a human): a node and an edge
-  in `graph.py`; the existing nodes are untouched.
+  in `flow/graph.py`; the existing nodes are untouched.
 
 ## Tests
 

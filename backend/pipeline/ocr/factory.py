@@ -2,8 +2,8 @@
 
 from collections.abc import Callable
 
-from ..config import Settings
-from ..errors import ConfigurationError
+from ..core.config import Settings
+from ..core.errors import ConfigurationError
 from .base import OcrEngine
 
 EngineBuilder = Callable[[Settings], OcrEngine]

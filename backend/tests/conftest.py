@@ -20,10 +20,10 @@ import pytest
 from dotenv import load_dotenv
 
 from generator.data import sample_record
-from pipeline.errors import StructuringError
+from pipeline.core.errors import StructuringError
+from pipeline.core.schema import Record
+from pipeline.data.storage import FileArtifactStore
 from pipeline.ocr import OcrResult
-from pipeline.schema import Record
-from pipeline.storage import FileArtifactStore
 from pipeline.structuring import StructuringInput, StructuringResult
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")

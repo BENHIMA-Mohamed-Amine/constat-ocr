@@ -19,14 +19,14 @@ from pathlib import Path
 
 import pytest
 
-from pipeline.config import Settings
-from pipeline.dataset import DatasetReader
+from pipeline.core.config import Settings
+from pipeline.core.observability import configure_tracing
+from pipeline.data.dataset import DatasetReader
+from pipeline.data.storage import FileArtifactStore
 from pipeline.evaluation import FormScorer, build_default_evaluator
-from pipeline.graph import build_graph
-from pipeline.observability import configure_tracing
+from pipeline.flow.graph import build_graph
+from pipeline.flow.runner import PipelineRunner, describe_run, write_run_files
 from pipeline.ocr import LangChainTesseractEngine
-from pipeline.runner import PipelineRunner, describe_run, write_run_files
-from pipeline.storage import FileArtifactStore
 from pipeline.structuring import LangChainStructurer, build_chat_model
 
 pytestmark = pytest.mark.skipif(

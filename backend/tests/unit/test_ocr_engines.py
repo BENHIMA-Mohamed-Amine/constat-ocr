@@ -9,8 +9,8 @@ from pathlib import Path
 import pytest
 from PIL import Image, ImageDraw, ImageFont
 
-from pipeline.config import Settings
-from pipeline.errors import ConfigurationError
+from pipeline.core.config import Settings
+from pipeline.core.errors import ConfigurationError
 from pipeline.ocr import build_ocr_engine
 from pipeline.ocr.rapidocr import RapidOcrEngine
 

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
 
-from ..schema import Record
+from ..core.schema import Record
 
 
 @dataclass(frozen=True, slots=True)
