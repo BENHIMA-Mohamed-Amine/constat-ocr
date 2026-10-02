@@ -93,6 +93,7 @@ def describe_run(
             "temperature": settings.llm_temperature,
             "reasoning_effort": settings.llm_reasoning_effort,
         },
+        "straightener": settings.straightener,
         "ocr": {
             "engine": settings.ocr_engine,
             "languages": list(settings.ocr_languages),
@@ -109,6 +110,7 @@ def describe_run(
                 "langsmith",
                 "pydantic",
                 "pytesseract",
+                "opencv-python",
                 "rapidocr",
                 "jiwer",
             )

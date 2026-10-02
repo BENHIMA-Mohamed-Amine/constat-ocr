@@ -159,3 +159,71 @@ For each wrong text field: is the answer-key value anywhere in the OCR text? (co
 ```bash
 cd ~/projects/constat-ocr/backend && uv run python -m pipeline.run --run-id v2 --dev 0 --test 20
 ```
+
+## v3a: straighten the photo, then the same pipeline
+
+- **What:** one step is added before OCR. `OpenCvStraightener` finds the page against the desk and warps it flat, so the OCR
+  engine reads an upright, cropped page. Same PP-OCRv6, same `openai/gpt-oss-120b`, same prompt, same settings, same 20 test
+  forms (`000100` to `000119`). Run `v3a`, files in `runs/v3a/` (the straightened images are in `runs/v3a/straightened/`,
+  not committed). `runs/v3a/run.json` records `"straightener": "opencv"`.
+- **Why:** v2 read the photo as it was, tilted and angled. Straightening is the first change, and the column split of the next
+  run needs it. On its own it tests whether the tilt was holding the OCR back.
+- **Dev check:** on the first 5 dev forms, 15 of 95 critical fields right against 17 for v2, and 42 of 150 minor fields against
+  34. Character error rate 65.4% for both. No gain on 5 forms.
+- **Small sample:** 20 forms is 40 vehicles. A difference of 2 fields is noise.
+
+### v3a results (20 test forms)
+
+| Metric | v2 (PP-OCRv6) | v3a (straightened) | For comparison |
+|---|---|---|---|
+| Field accuracy, critical fields | 56 of 380 (14.7%) | **54 of 380 (14.2%)** | |
+| Field accuracy, minor fields | 88 of 600 (14.7%) | **89 of 600 (14.8%)** | |
+| Forms with no critical error | 0 of 20 | **0 of 20** | |
+| Character error rate | 70.1% (critical 65.8%, minor 72.8%) | **66.8%** (critical 63.7%, minor 68.6%) | |
+| Ticks found / missed / extra | 1 / 24 / 12 | 0 / 25 / 0 | the 12 extra in v2 came from one vehicle |
+| Tick count written on the form | 0 of 40 right | 0 of 40 right | |
+| Vehicle type | 0 of 40 | 0 of 40 | always answering "car": 88% |
+| Impact zone | 0 of 40 | 0 of 40 | always answering the most common: 28% |
+| Licence category | 0 of 40 | 0 of 40 | always answering "B": 88% |
+| Other damage (yes/no) | 0 of 20 | 0 of 20 | always answering "no": 95% |
+| Cost | $0.0010 per form | $0.0010 per form (51,601 tokens in, 22,037 out) | |
+| OCR time | 4.2 s per form | 3.9 s per form | straightening time is not measured separately |
+| Total time | 19.6 s per form, slowest 5% 29.1 s | 23.9 s per form, slowest 5% 29.0 s | includes waiting for Groq's free-plan limit, so it says little about the step |
+
+### Where the errors come from
+
+Same method as v2 (`scripts/analyze_run.py v3a`): is the answer-key value anywhere in the OCR text?
+
+| | Fields | Value never in the OCR text | In the text, no value returned | In the text, wrong value returned | Correct |
+|---|---|---|---|---|---|
+| Critical, top level | 20 | 11 | 0 | 0 | 9 |
+| Critical, vehicle A | 180 | 124 | 1 | 10 | 45 |
+| Critical, vehicle B | 180 | 146 | 32 | 2 | 0 |
+| Minor, top level | 80 | 45 | 2 | 10 | 23 |
+| Minor, vehicle A | 260 | 160 | 13 | 28 | 59 |
+| Minor, vehicle B | 260 | 184 | 65 | 4 | 7 |
+| **All text fields** | **980** | **670** | **113** | **54** | **143** |
+
+- **Straightening alone changes almost nothing.** Correct text fields: 143 of 980, against 144 in v2. Values never in the OCR
+  text: 670, against 673.
+- **The only visible gain is the character error rate,** 70.1% to 66.8%. Field counts are flat, and the other differences
+  (54 against 56 critical fields, ticks) are within noise on 20 forms.
+- **The OCR engine was already coping with the tilt.** The unread values are mostly handwriting the engine misreads, not
+  geometry.
+- **Vehicle B is unchanged.** 0 of 180 critical fields right (3 in v2). In 97 cases the value is in the OCR text and the model
+  returned nothing (32 critical, 65 minor), as in v2.
+- **No form failed.** All 20 forms produced output, and the page was found on every form.
+- **Ticks, vehicle type and impact zone stay at zero,** as for any text-only pipeline.
+
+### What this says about v3b
+- **Straightening is a prerequisite, not a fix.** It leaves the form upright with the columns at fixed positions, which the
+  column split needs.
+- **The next change is the layout.** Vehicle B's values are in the text but unlabelled and mixed with the circumstance lines.
+  Reading each column on its own and giving the model labelled blocks targets those 97 values.
+- **The ceiling is limited.** 670 values were never in the OCR text, so a layout change cannot recover them.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20
+```

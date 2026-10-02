@@ -97,6 +97,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 │   │   ├── core/      # shared foundations: config, errors, schema (Record), observability
 │   │   ├── data/      # dataset.py (reads the frozen dataset), storage.py (saves each step's output)
 │   │   ├── flow/      # graph.py (LangGraph wiring), runner.py (runs the forms)
+│   │   ├── straightening/  # optional step 0: Straightener, registry, OpenCvStraightener (flattens the photo)
 │   │   ├── ocr/       # step 1: OcrEngine and the engine registry
 │   │   ├── structuring/  # step 2: Structurer, prompt, model factory
 │   │   └── evaluation/   # step 3: scorer, metrics

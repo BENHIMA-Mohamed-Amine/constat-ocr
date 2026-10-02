@@ -29,6 +29,10 @@ class ArtifactStore(Protocol):
         """Whether that step already saved something for that form."""
         ...
 
+    def path(self, step: str, form_id: str, suffix: str) -> Path:
+        """Where a step's file for a form lives, for artifacts that are not text or JSON (such as images)."""
+        ...
+
 
 class FileArtifactStore:
     """Keeps artifacts as files: ``<root>/<step>/<form_id>.txt`` or ``.json``."""
@@ -41,8 +45,11 @@ class FileArtifactStore:
         """
         self._root = root
 
-    def _path(self, step: str, form_id: str, suffix: str) -> Path:
+    def path(self, step: str, form_id: str, suffix: str) -> Path:
         return self._root / step / f"{form_id}{suffix}"
+
+    def _path(self, step: str, form_id: str, suffix: str) -> Path:
+        return self.path(step, form_id, suffix)
 
     def write_text(self, step: str, form_id: str, text: str) -> None:
         path = self._path(step, form_id, ".txt")

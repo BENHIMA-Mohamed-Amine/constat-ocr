@@ -3,7 +3,9 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
-**v2 swaps the OCR engine** (PP-OCRv6 on CPU) and changes nothing else. Results below.
+**v3a adds one step before OCR** (straighten the photo) and changes nothing else. Results below.
+
+**v2 swaps the OCR engine** (PP-OCRv6 on CPU) and changes nothing else.
 
 **v1 is the baseline:** [Tesseract](https://github.com/tesseract-ocr/tesseract) reads the photo, then Groq's
 `gpt-oss-120b` fills a typed record from the text. No image cleanup, no vision model.
@@ -60,6 +62,22 @@ Only the OCR engine changed: PP-OCRv6 through RapidOCR (CPU) instead of Tesserac
 
 Details: [docs/results-log.md](docs/results-log.md).
 
+## v3a results (same 20 test forms)
+Only one step added: the photo is found against the desk and warped flat before OCR (OpenCV). Same OCR engine, LLM, prompt and forms as v2.
+
+| | v2 | v3a (straightened) |
+|---|---|---|
+| Critical fields right | 56 of 380 (14.7%) | 54 of 380 (14.2%) |
+| Forms with no critical error | 0 of 20 | 0 of 20 |
+| Character error rate | 70.1% | 66.8% |
+| Cost per form | $0.0010 | $0.0010 |
+
+- **Straightening alone changes almost nothing.** Correct text fields: 143 of 980, against 144 in v2.
+- **The OCR engine was already coping with the tilt.** The unread values are mostly handwriting misreads.
+- **It is the prerequisite for the next change:** reading each column of the form on its own, so vehicle B's values are no longer mixed with the circumstance lines.
+
+Details: [docs/results-log.md](docs/results-log.md).
+
 ## Design
 Clean code, open for extension and closed for modification, from day one.
 - One **LangGraph** graph (`ocr`, `structure`, `evaluate`) whose nodes only call injected parts.
@@ -90,12 +108,13 @@ sudo apt install tesseract-ocr tesseract-ocr-fra
 cd backend && uv sync
 uv run python -m generator.dataset        # the 500-form dataset
 uv run python -m pipeline.run --run-id v2 --dev 0 --test 20
+STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20   # v2 plus straightening
 OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20   # the v1 baseline
 ```
 
 ## Layout
 ```
-backend/     generator/ (synthetic data), pipeline/ (v1 and v2), tests/, scripts/
+backend/     generator/ (synthetic data), pipeline/ (v1 to v3a), tests/, scripts/
 frontend/    empty for now
 docs/        synthetic-data, metrics, pipeline, results-log
 runs/        run.json and summary.json of each run

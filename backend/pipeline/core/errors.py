@@ -27,6 +27,10 @@ class ConfigurationError(PipelineError):
     """A setting is missing or invalid."""
 
 
+class StraighteningError(PipelineError):
+    """The page could not be found or flattened in the photo."""
+
+
 class OcrError(PipelineError):
     """The image could not be read into text."""
 

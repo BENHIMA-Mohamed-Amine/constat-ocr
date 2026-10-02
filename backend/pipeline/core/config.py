@@ -42,6 +42,11 @@ class Settings(BaseSettings):
     ocr_engine: str = "rapidocr-v6"  # see pipeline/ocr/factory.py for the names
     ocr_languages: tuple[str, ...] = ("fra",)
 
+    # straightening: flatten the photo before OCR; None leaves the photo as it is (v1 and v2)
+    straightener: str | None = (
+        None  # see pipeline/straightening/factory.py for the names
+    )
+
     # data and outputs
     dataset_dir: Path = REPO_DIR / "data" / "synthetic"
     runs_dir: Path = REPO_DIR / "runs"

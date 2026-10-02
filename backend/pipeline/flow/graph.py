@@ -18,6 +18,7 @@ from ..core.schema import Record
 from ..data.storage import ArtifactStore
 from ..evaluation import FormResult, FormScorer, Usage
 from ..ocr import OcrEngine
+from ..straightening import Straightener
 from ..structuring import Structurer, StructuringInput
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,9 @@ class PipelineState(TypedDict, total=False):
     form_id: str
     image_path: str
     truth: Record  # the answer key; when present the graph also evaluates
+    straightened_path: (
+        str  # set when a straightener ran; OCR reads this instead of image_path
+    )
     ocr_text: str
     ocr_seconds: float
     record: Record
@@ -44,6 +48,7 @@ def build_graph(
     scorer: FormScorer,
     store: ArtifactStore,
     reuse: bool = False,
+    straightener: Straightener | None = None,
 ) -> CompiledStateGraph:
     """Assemble the graph.
 
@@ -53,7 +58,14 @@ def build_graph(
         scorer: Scores the record against the answer key.
         store: Where each step saves its output.
         reuse: If True, a step whose output is already saved is not run again (its saved output is loaded).
+        straightener: If given, flattens the photo before OCR reads it.
     """
+
+    def straighten_node(state: PipelineState) -> dict[str, Any]:
+        out = store.path("straightened", state["form_id"], ".jpg")
+        if not (reuse and out.is_file()):
+            straightener.straighten(Path(state["image_path"]), out)
+        return {"straightened_path": str(out)}
 
     def ocr_node(state: PipelineState) -> dict[str, Any]:
         form_id = state["form_id"]
@@ -66,7 +78,7 @@ def build_graph(
                 "ocr_text": store.read_text("ocr", form_id),
                 "ocr_seconds": store.read_json("ocr_usage", form_id)["seconds"],
             }
-        result = ocr.read(Path(state["image_path"]))
+        result = ocr.read(Path(state.get("straightened_path", state["image_path"])))
         store.write_text("ocr", form_id, result.text)
         store.write_json("ocr_usage", form_id, {"seconds": result.seconds})
         return {"ocr_text": result.text, "ocr_seconds": result.seconds}
@@ -126,7 +138,12 @@ def build_graph(
         retry_policy=RetryPolicy(max_attempts=2, retry_on=StructuringError),
     )
     graph.add_node("evaluate", evaluate_node)
-    graph.add_edge(START, "ocr")
+    if straightener:
+        graph.add_node("straighten", straighten_node)
+        graph.add_edge(START, "straighten")
+        graph.add_edge("straighten", "ocr")
+    else:
+        graph.add_edge(START, "ocr")
     graph.add_edge("ocr", "structure")
     graph.add_conditional_edges("structure", after_structure, ["evaluate", END])
     graph.add_edge("evaluate", END)

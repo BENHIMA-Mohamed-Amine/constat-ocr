@@ -70,6 +70,7 @@ def test_describe_run_has_no_missing_metadata(
         "langsmith",
         "pydantic",
         "pytesseract",
+        "opencv-python",
         "rapidocr",
         "jiwer",
     }
