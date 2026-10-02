@@ -2,8 +2,8 @@
 
 How every version of the project is scored. All numbers are computed on the **test forms** of the frozen dataset
 (see [synthetic-data.md](synthetic-data.md)) and compared with each form's answer key. Tune on the dev forms, never on the
-test forms. In v1 the evaluation set is small because of the LLM provider's free-plan limits: the first 2 dev forms and the
-first 20 test forms (see `plans/v1-baseline.md`). With so few forms, report counts next to percentages.
+test forms. The evaluation set is small because of the LLM provider's free-plan limits: the first 5 dev forms and the
+first 20 test forms (see `plans/done/v1-baseline.md`). With so few forms, report counts next to percentages.
 
 ## The six metrics
 

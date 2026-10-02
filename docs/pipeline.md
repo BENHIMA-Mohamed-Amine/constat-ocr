@@ -1,11 +1,12 @@
-# The v1 pipeline
+# The pipeline
 
 Read a phone photo of a filled constat amiable, turn it into a record, and score it against the answer key.
-v1 is the deliberately basic baseline: plain OCR, then an LLM that only sees the OCR text.
+It is deliberately basic: plain OCR, then an LLM that only sees the OCR text. v1 used Tesseract; v2 swapped in a stronger CPU
+engine (PP-OCRv6) and changed nothing else.
 
 ```
 photo ──► ocr ──► structure ──► evaluate (only when an answer key is given) ──► result
-          Tesseract   LLM, JSON mode         field-by-field score
+          OCR engine  LLM, JSON mode         field-by-field score
 ```
 
 It is one LangGraph graph (`backend/pipeline/graph.py`). Without an answer key the graph stops after `structure`, which
@@ -15,7 +16,7 @@ is how it would run in production.
 
 | Step | What it does | Saved to `runs/<run-id>/` |
 |---|---|---|
-| **ocr** | Tesseract (French pack) reads the image into text. No straightening, no contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
+| **ocr** | The engine named by `OCR_ENGINE` reads the image into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline). No straightening, no contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
 | **structure** | An LLM (Groq `openai/gpt-oss-120b`, temperature 0) fills the `Record` from the text only. It never sees the image | `structured/<id>.json` (record and token counts) |
 | **evaluate** | Compares the record with the answer key, field by field | `evaluation/<id>.json` |
 
@@ -35,13 +36,15 @@ step once, and after that the form is recorded as "no output".
 From `backend/`. Keys are read from `backend/.env` (`GROQ_API_KEY`, `LANGSMITH_API_KEY`); git ignores that file.
 
 ```bash
-cd ~/projects/constat-ocr/backend && OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1-dev --dev 2 --test 0
+cd ~/projects/constat-ocr/backend && uv run python -m pipeline.run --run-id v2-dev --dev 5 --test 0
 ```
+
+The v1 baseline is the same command with `OCR_ENGINE=tesseract`.
 
 | Option | Default | Meaning |
 |---|---|---|
 | `--run-id` | required | Name of the run. Its files go to `runs/<run-id>/` |
-| `--dev`, `--test` | 2 and 20 | How many forms to take from the start of each split |
+| `--dev`, `--test` | 5 and 20 | How many forms to take from the start of each split |
 | `--reuse` | off | Do not redo a step whose output is already saved |
 
 Two files per run are committed: `run.json` (what was run: the forms, the dataset fingerprint, the model, tool and package
@@ -50,7 +53,7 @@ versions, the command) and `summary.json` (the metrics of `docs/metrics.md`). Pe
 Where the errors come from:
 
 ```bash
-cd ~/projects/constat-ocr/backend && uv run python -m scripts.analyze_run v1-dev
+cd ~/projects/constat-ocr/backend && uv run python -m scripts.analyze_run v2-dev
 ```
 
 For every wrong text field it asks whether the answer-key value appears anywhere in the OCR text. If not, the OCR never read
@@ -69,7 +72,7 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 | `schema.py` | `Record`: the one definition of the answer-key shape (LLM output, scoring, tests) |
 | `config.py` | `Settings` from the environment; no secret defaults |
 | `errors.py` | `PipelineError` and one subclass per step |
-| `ocr/` | `OcrEngine` (Protocol) and `LangChainTesseractEngine` |
+| `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and four engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `doctr` |
 | `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompt, the generated output format, the model factory |
 | `evaluation/` | `FormScorer`, one class per metric, `Evaluator` |
 | `storage.py` | `ArtifactStore` (Protocol) and `FileArtifactStore` |
@@ -81,7 +84,7 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 ## Extending it (the point of the structure)
 
 - **A different OCR engine** (for example one that also returns confidences): a new class with `read(image_path) -> OcrResult`
-  in `ocr/`, passed to `build_graph`. Nothing else changes.
+  in `ocr/`, plus one `@register_ocr_engine("name")` builder in `ocr/factory.py`. Select it with `OCR_ENGINE=name`. Nothing else changes.
 - **A different model or provider:** register a builder with `@register_model_builder("name")` in `structuring/factory.py`
   and set `LLM_PROVIDER`.
 - **A vision model:** a new `Structurer`. Its input already carries the image path as well as the OCR text.
@@ -95,17 +98,17 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 cd backend && uv run pytest
 ```
 
-Unit (`tests/unit/`: schema, metrics, graph, run metadata — fakes only, no network) and regression
+Unit (`tests/unit/`: schema, metrics, graph, run metadata, OCR registry — fakes and a local OCR model, no network) and regression
 (`tests/regression/`: generator consistency, dataset determinism, and this pipeline's own scoring
 math replayed against v1's saved output) run on every push, no key needed. Integration
 (`tests/integration/`: the real pipeline on 2 forms) needs `GROQ_API_KEY` and self-skips without
 it. Full breakdown, file by file: [docs/testing.md](testing.md).
 
-## Known limits of v1
+## Known limits (v1 and v2)
 
 - The LLM sees text only, so ticks, circled letters, the highlighted vehicle type, the impact zone and the sketch are invisible to it by design.
-- Tesseract is run with default settings on tilted phone photos; there is no image cleanup.
-- The evaluation set is small (2 dev forms and 20 test forms) because of the free plan's rate limits, so percentages are an early signal, not a precise score.
+- The OCR engines run with default settings on tilted phone photos; there is no image cleanup and no column handling.
+- The evaluation set is small (5 dev forms and 20 test forms) because of the free plan's rate limits, so percentages are an early signal, not a precise score.
 - **Volume:** the provider's free plan (8,000 tokens a minute, 200,000 a day) makes a 20-form run take about 8 minutes, and a large
   run impractical. Hosted providers in general cap or bill by volume.
 - **Data governance and residency:** the OCR text of each form is sent to a third-party API, so where it is processed and stored is

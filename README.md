@@ -72,7 +72,7 @@ How it works and how to extend it: [docs/pipeline.md](docs/pipeline.md). How it'
 regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/testing.md).
 
 ## Limitations
-- **The text reader (Tesseract) is the main weakness**, as above. Ticks and pictures are invisible to a text-only pipeline.
+- **The text reader is still the main weakness**: 81% of wrong values in v2 were never in the OCR text. Ticks and pictures are invisible to a text-only pipeline.
 - **Small evaluation set:** 20 test forms (about 40 vehicles), so the percentages are an early signal, not a precise score.
 - **Hosted provider, free tier:** Groq's free plan allows 8,000 tokens a minute and 200,000 a day. 20 forms took about 8 minutes
   because the client had to wait, and volume would be a problem. This is common to most hosted providers.
@@ -82,7 +82,7 @@ regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/t
   self-hosted, which is a candidate for a later version.
 
 ## Run it
-Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack, and a `backend/.env` with
+Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack (only for the v1 baseline and the CI tests), and a `backend/.env` with
 `GROQ_API_KEY` and `LANGSMITH_API_KEY`.
 
 ```bash
@@ -95,7 +95,7 @@ OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20
 
 ## Layout
 ```
-backend/     generator/ (synthetic data), pipeline/ (v1), tests/, scripts/
+backend/     generator/ (synthetic data), pipeline/ (v1 and v2), tests/, scripts/
 frontend/    empty for now
 docs/        synthetic-data, metrics, pipeline, results-log
 runs/        run.json and summary.json of each run

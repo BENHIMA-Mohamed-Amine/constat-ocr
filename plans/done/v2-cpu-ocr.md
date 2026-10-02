@@ -1,6 +1,6 @@
 # v2: a stronger CPU OCR engine, same LLM
 
-Status: approved
+Status: done
 
 ## Goal
 v1 showed the OCR step is the bottleneck: 92% of the wrong text values were never in the text the LLM received. v2 changes

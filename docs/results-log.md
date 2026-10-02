@@ -82,7 +82,7 @@ cd ~/projects/constat-ocr/backend && OCR_ENGINE=tesseract uv run python -m pipel
 
 ### Choosing the engine: 5 dev forms
 
-Candidates: the CPU engines shortlisted in [the v2 plan](../plans/v2-cpu-ocr.md), run on the first 5 dev forms (`000000` to
+Candidates: the CPU engines shortlisted in [the v2 plan](../plans/done/v2-cpu-ocr.md), run on the first 5 dev forms (`000000` to
 `000004`) with the v1 prompt. Runs `v2-dev5-*`. Ordered by critical fields right.
 
 | Rank | OCR engine | Critical fields right (of 95) | Minor fields right (of 150) | Character error rate | OCR seconds per form |

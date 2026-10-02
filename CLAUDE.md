@@ -91,6 +91,17 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ```
 <project-root-folder-name>/
+├── backend/           # Python 3.13 project (uv)
+│   ├── generator/     # synthetic constat generator: sampled record, drawn on the template, degraded to a phone photo
+│   ├── pipeline/      # LangGraph pipeline: ocr/ (engine registry), structuring/, evaluation/, graph.py, run.py
+│   ├── scripts/       # analyze_run.py (where errors come from), make_template.py
+│   ├── tests/         # unit/, regression/, integration/ (see docs/testing.md)
+│   └── assets/        # blank constat template and handwriting fonts
+├── data/synthetic/    # the frozen 500-form dataset (manifest and dataset.json tracked, images git-ignored)
+├── docs/              # synthetic-data, metrics, pipeline, testing, results-log
+├── runs/              # run.json and summary.json of each scored run
+├── frontend/          # empty for now
+├── _local/            # private: original filled form, story, sample renders (never published)
 └── plans/
     └── done/          # completed plan files, moved here once a plan's status reaches `done`
 ```
