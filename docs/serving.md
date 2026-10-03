@@ -19,6 +19,25 @@ backend/serving/
 
 The evidence is in [results-log.md](results-log.md#models-that-were-tried-first-and-dropped).
 
+## Authentication
+The servers are **not public**. Modal's proxy requires a proxy token on every request and answers `401` without one, before any GPU container
+starts, so nobody can run up the bill. Proxy tokens (`wk-` id, `ws-` secret) are separate from the `modal` login tokens (`ak-`, `as-`).
+
+```bash
+cd backend && uv run modal workspace proxy-tokens create --name constat-ocr    # the secret is shown once
+```
+```
+MODAL_PROXY_TOKEN_ID=wk-...
+MODAL_PROXY_TOKEN_SECRET=ws-...
+```
+One token pair serves every model. Clients send `Authorization: Bearer <id>.<secret>` (or `Modal-Key` and `Modal-Secret` headers). The query
+scripts and `ChandraOcrEngine` read the two variables and do this. Check it:
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" "$CHANDRA_OCR_2_SERVER_URL/health"    # 401 without the token
+```
+The deploy files do not set `unauthenticated=True`; Modal's default is authenticated. A request with a valid token while no container is
+running gets `503` and starts one.
+
 ## One URL per model
 Each model has its own variable in `backend/.env` (git ignores it), named `<MODEL>_SERVER_URL` with the model name in capitals:
 
@@ -44,8 +63,7 @@ uv run modal app stop constat-chandra-ocr-2
   deploy file.
 - **The app scales to zero.** After `scaledown_window` (2 minutes) with no request the GPU container stops and billing stops. The next request
   is a cold start. A stopped container that has been used before starts faster, because the weights and the compile cache are in Modal Volumes.
-- **`unauthenticated=True` makes the URL public.** Anyone with the link can use the GPU while the app is deployed. Stop apps you are not using,
-  and add authentication before relying on this.
+- **Stop apps you are not using.** They cost nothing while idle, but a deployed app is still a live endpoint (protected by the proxy token).
 
 ## Settings that matter, and why
 | Setting | Why |
@@ -74,5 +92,5 @@ uv run modal app stop constat-chandra-ocr-2
 ## Not done yet
 - **Throughput test:** send 1, 4, 8, 16 and 32 pages at once and choose `--max-num-seqs` and `target_concurrency` where pages per minute stops
   rising.
-- **Cost per page** (GPU seconds), and authenticated access.
+- **Cost per page** (GPU seconds).
 - **Self-hosting the structuring LLM** (`gpt-oss-120b` needs a card with about 80 GB), which would keep the OCR text off a third-party API.

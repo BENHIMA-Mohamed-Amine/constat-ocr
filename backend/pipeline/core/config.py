@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     ocr_engine: str = "rapidocr-v6"  # see pipeline/ocr/factory.py for the names
     ocr_languages: tuple[str, ...] = ("fra",)
 
+    # a Modal proxy token (wk-...) and its secret (ws-...): the model servers require them
+    modal_proxy_token_id: str | None = None
+    modal_proxy_token_secret: SecretStr | None = None
     chandra_ocr_2_server_url: str | None = (
         None  # the vLLM server of engine "chandra-ocr-2" (backend/serving/)
     )

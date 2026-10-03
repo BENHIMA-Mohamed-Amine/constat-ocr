@@ -36,7 +36,6 @@ app = modal.App("constat-paddleocr-vl")
     volumes={"/root/.cache/huggingface": hf_cache, "/root/.cache/vllm": vllm_cache},
     port=VLLM_PORT,
     target_concurrency=8,
-    unauthenticated=True,
 )
 class Server:
     """One vLLM process serving PaddleOCR-VL for the life of the container."""

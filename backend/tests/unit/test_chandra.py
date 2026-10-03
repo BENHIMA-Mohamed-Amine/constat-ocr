@@ -75,23 +75,26 @@ def _engine_sends_the_page_and_retries_a_loop(
 ) -> None:
     """The request carries the model, the image and Datalab's prompt; a looping answer is regenerated warmer.
 
-    The fake server loops once, then answers. The first attempt must use temperature 0 and ``top_p`` 0.1, the second 0.2 and
+    Every request must carry the Bearer token. The fake server loops once, then answers. The first attempt must use temperature 0 and ``top_p`` 0.1, the second 0.2 and
     0.95, and the text returned is the second answer's.
     """
     calls = []
 
     def fake_post(url: str, **kwargs) -> _Reply:
-        calls.append((url, kwargs["json"]))
+        calls.append((url, kwargs["json"], kwargs["headers"]))
         return _Reply("<div>" + " أ ب" * 300 if len(calls) == 1 else PAGE_HTML)
 
     monkeypatch.setattr("pipeline.ocr.chandra.httpx.post", fake_post)
     page = tmp_path / "page.png"
     _drawn_page(page)
-    result = ChandraOcrEngine("http://host:1/", max_retries=2).read(page)
+    result = ChandraOcrEngine(
+        "http://host:1/", max_retries=2, auth_token="wk-id.ws-secret"
+    ).read(page)
 
     assert len(calls) == 2
     assert calls[0][0] == "http://host:1/v1/chat/completions"
     first, second = calls[0][1], calls[1][1]
+    assert all(h == {"Authorization": "Bearer wk-id.ws-secret"} for _, _, h in calls)
     assert first["model"] == "chandra-ocr-2" and first["max_tokens"] == 8000
     assert (first["temperature"], first["top_p"]) == (0, 0.1)
     assert (second["temperature"], second["top_p"]) == (0.2, 0.95)

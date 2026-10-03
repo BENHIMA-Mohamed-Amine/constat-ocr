@@ -205,6 +205,7 @@ class ChandraOcrEngine:
         max_tokens: int = 8000,
         max_retries: int = 6,
         timeout: float = 1800,
+        auth_token: str | None = None,
     ) -> None:
         """Create the engine.
 
@@ -214,8 +215,10 @@ class ChandraOcrEngine:
             max_tokens: Cap on one answer. A normal page is about 5,500 tokens, so a loop is cut off at this size.
             max_retries: How many times to regenerate an answer that ends in a loop.
             timeout: Seconds to wait for one answer.
+            auth_token: A Modal proxy token as ``<id>.<secret>``, sent as a Bearer header. The servers require one.
         """
         self._url, self._model = server_url.rstrip("/"), model
+        self._headers = {"Authorization": f"Bearer {auth_token}"} if auth_token else {}
         self._max_tokens, self._max_retries, self._timeout = (
             max_tokens,
             max_retries,
@@ -229,6 +232,7 @@ class ChandraOcrEngine:
         response = httpx.post(
             f"{self._url}/v1/chat/completions",
             timeout=self._timeout,
+            headers=self._headers,
             json={
                 "model": self._model,
                 "temperature": temperature,

@@ -31,7 +31,7 @@ between them, so both checkbox columns stay together) and `vehicle_b` (right of 
 the printed green strips (`ocr/columns.py`), because the page shifts by about 2% between forms. Each block is sorted top to bottom.
 `STRUCTURING_PROMPT=columns` selects the prompt that describes these blocks; the default `flat` prompt goes with the other engines.
 
-`chandra-ocr-2` (`ocr/chandra.py`) sends the straightened page to Chandra-OCR-2 on a vLLM server (`CHANDRA_OCR_2_SERVER_URL`). The answer is HTML,
+`chandra-ocr-2` (`ocr/chandra.py`) sends the straightened page to Chandra-OCR-2 on a vLLM server (`CHANDRA_OCR_2_SERVER_URL`, with the Modal proxy token `MODAL_PROXY_TOKEN_ID` and `MODAL_PROXY_TOKEN_SECRET` as a Bearer header). The answer is HTML,
 one block per layout region with its position (`data-bbox`, 0 to 1000). Each block goes to the same four zones, by the centre of its box and the
 same per-form cuts, so the grouping code is shared with `rapidocr-v6-columns`. Checkboxes become `[x]` and `[ ]`, a circled letter `(x)`, and a
 picture's description `[image: ...]`. An answer that ends in a repeated pattern is regenerated at a higher temperature (up to 6 times).

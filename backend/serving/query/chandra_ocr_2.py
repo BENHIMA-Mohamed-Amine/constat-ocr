@@ -3,7 +3,8 @@
 Chandra answers in HTML, one ``div`` per layout block, each with a ``data-bbox`` (x0 y0 x1 y1, normalised 0-1000) and a
 ``data-label``. The full answer is saved to ``_local/`` (git-ignored) and the first part is printed.
 
-Run from ``backend/`` with ``CHANDRA_OCR_2_SERVER_URL`` set in ``backend/.env``.
+Run from ``backend/`` with ``CHANDRA_OCR_2_SERVER_URL``, ``MODAL_PROXY_TOKEN_ID`` and ``MODAL_PROXY_TOKEN_SECRET`` set in
+``backend/.env``. The server requires a Modal proxy token, sent as a Bearer header.
 """
 
 import base64
@@ -15,6 +16,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 URL = os.environ["CHANDRA_OCR_2_SERVER_URL"]
+TOKEN = f"{os.environ['MODAL_PROXY_TOKEN_ID']}.{os.environ['MODAL_PROXY_TOKEN_SECRET']}"
+HEADERS = {"Authorization": f"Bearer {TOKEN}"}
 IMAGE = "../runs/v3a-dev5/straightened/000000.jpg"  # run from backend/
 OUTPUT = "../_local/chandra_ocr_2_000000.html"
 
@@ -76,7 +79,7 @@ Use the following labels:
 started = time.time()
 while True:
     try:
-        if httpx.get(f"{URL}/health", timeout=60).status_code == 200:
+        if httpx.get(f"{URL}/health", headers=HEADERS, timeout=60).status_code == 200:
             break
     except httpx.HTTPError:
         pass
@@ -107,7 +110,9 @@ body = {
 # 3. call twice: the first may still be warming up, the second is the warm time per page
 for attempt in range(2):
     started = time.time()
-    r = httpx.post(f"{URL}/v1/chat/completions", json=body, timeout=1800)
+    r = httpx.post(
+        f"{URL}/v1/chat/completions", headers=HEADERS, json=body, timeout=1800
+    )
     r.raise_for_status()
     reply = r.json()
     text = reply["choices"][0]["message"]["content"]

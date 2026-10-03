@@ -171,7 +171,7 @@ regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/t
   self-hosted, which is a candidate for a later version.
 
 ## Run it
-Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack (only for the v1 baseline and the CI tests), a Modal account for the GPU-served readers (v3c), and a `backend/.env` with
+Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack (only for the v1 baseline and the CI tests), a Modal account and a proxy token for the GPU-served readers (v3c, see [docs/serving.md](docs/serving.md)), and a `backend/.env` with
 `GROQ_API_KEY` and `LANGSMITH_API_KEY`.
 
 ```bash

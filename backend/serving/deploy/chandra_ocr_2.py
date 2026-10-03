@@ -38,7 +38,6 @@ app = modal.App("constat-chandra-ocr-2")
     volumes={"/root/.cache/huggingface": hf_cache, "/root/.cache/vllm": vllm_cache},
     port=VLLM_PORT,
     target_concurrency=CONCURRENCY,
-    unauthenticated=True,
 )
 class Server:
     """One vLLM process serving Chandra-OCR-2 for the life of the container."""

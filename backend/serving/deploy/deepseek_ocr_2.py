@@ -37,7 +37,6 @@ app = modal.App("constat-deepseek-ocr-2")
     volumes={"/root/.cache/huggingface": hf_cache, "/root/.cache/vllm": vllm_cache},
     port=VLLM_PORT,
     target_concurrency=CONCURRENCY,
-    unauthenticated=True,
 )
 class Server:
     """One vLLM process serving DeepSeek-OCR-2 for the life of the container."""

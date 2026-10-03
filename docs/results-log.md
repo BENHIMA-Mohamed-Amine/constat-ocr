@@ -446,7 +446,7 @@ Same method as before (`scripts/analyze_run.py v3c`): is the answer-key value an
 cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra \
   uv run python -m pipeline.run --run-id v3c --dev 0 --test 20 --workers 8
 ```
-Needs the Modal app of `serving/deploy/chandra_ocr_2.py` deployed and `CHANDRA_OCR_2_SERVER_URL` in `backend/.env`. With the free
+Needs the Modal app of `serving/deploy/chandra_ocr_2.py` deployed, and `CHANDRA_OCR_2_SERVER_URL`, `MODAL_PROXY_TOKEN_ID` and `MODAL_PROXY_TOKEN_SECRET` in `backend/.env` (the server requires a Modal proxy token, see [serving.md](serving.md#authentication)). With the free
 Groq plan, rerun with `--reuse --workers 1` to finish forms that hit the rate limit.
 
 ## v3d: repair the record with deterministic rules
