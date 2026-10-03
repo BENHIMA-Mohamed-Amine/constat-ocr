@@ -4,7 +4,7 @@ How this project is tested, and why it's split the way it is. Applies to every v
 v1: later versions add their own tests to the same folders, following the same categories.
 Design decisions are in [plans/done/testing-ci.md](../plans/done/testing-ci.md).
 
-## 11 tests in total
+## 12 tests in total
 
 One pytest item per file, one file per capability being verified — not one item per file per seed
 or per case. Where a capability needs several checks (e.g. 8 generator-consistency rules, or 8
@@ -19,6 +19,7 @@ tests/integration/test_pipeline_e2e.py s
 tests/regression/test_data.py .
 tests/regression/test_dataset.py .
 tests/regression/test_evaluation_regression.py .
+tests/unit/test_chandra.py .
 tests/unit/test_columns.py .
 tests/unit/test_graph.py .
 tests/unit/test_metrics.py .
@@ -26,7 +27,7 @@ tests/unit/test_ocr_engines.py .
 tests/unit/test_reproducibility.py .
 tests/unit/test_schema.py .
 tests/unit/test_straightening.py .
-10 passed, 1 skipped
+11 passed, 1 skipped
 ```
 
 `addopts = "-ra"` (`pyproject.toml`) makes the skip reason print by default — no extra flag needed:
@@ -79,6 +80,7 @@ Fakes and pure functions only; no I/O beyond a temp directory, no real model or 
 | `test_metrics.py` | 8 | The scorer and all six `docs/metrics.md` metrics, on hand-built prediction/truth pairs whose correct score is known by construction: perfect prediction, one wrong digit, no output at all, ticks found/missed/extra, the category "guess most common" baseline, cost/time math |
 | `test_graph.py` | 3 | The LangGraph pipeline's wiring, with a fake OCR engine and structurer: state flows between nodes, each step's output is saved and reloadable (`--reuse`), a failing form is recorded and doesn't stop the run, and the graph stops after `structure` when no answer key is given (production behaviour) |
 | `test_ocr_engines.py` | 2 | The OCR registry builds the engine named in the settings and raises a clear error for an unknown name; the real RapidOCR engine reads the words and digits of a printed image the test draws itself, and reports its seconds |
+| `test_chandra.py` | 4 | The repeat check flags a loop and not ordinary HTML; Chandra's HTML becomes the four zone blocks with `[x]`, `(x)` and picture descriptions, and a block cut off by the token cap is dropped; the engine sends the model, the image and Datalab's prompt, and regenerates a looping answer warmer; the `chandra` prompt is the `columns` prompt with the tick sentences replaced |
 | `test_columns.py` | 3 | The zone cuts sit on the outer edges of two green strips drawn on a page (and the header ends where the strips start, not at the short header bar); boxes at known positions land in the right block, sorted top to bottom, with the four blocks always printed; the `columns` prompt is the `flat` prompt with only the column bullet replaced |
 | `test_straightening.py` | 3 | A tilted page the test draws comes back upright and cropped; the registry builds the named straightener (none when unset) and rejects an unknown name; the graph feeds OCR the straightened file and does not redo the step on `--reuse` |
 | `test_reproducibility.py` | 1 | `describe_run()`'s metadata is complete: model, temperature, OCR engine + languages + the real installed Tesseract version, every dependency's installed version, the dataset fingerprint, the exact command |

@@ -46,6 +46,12 @@ def main() -> None:
         help="how many test forms (from the first)",
     )
     parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="forms processed at the same time (useful when OCR runs on a server)",
+    )
+    parser.add_argument(
         "--reuse",
         action="store_true",
         help="do not redo a step whose output is already saved",
@@ -78,7 +84,9 @@ def main() -> None:
     evaluator = build_default_evaluator(
         settings.input_price_per_million, settings.output_price_per_million
     )
-    summary = PipelineRunner(graph, scorer, evaluator, store).run(args.run_id, forms)
+    summary = PipelineRunner(graph, scorer, evaluator, store, args.workers).run(
+        args.run_id, forms
+    )
     write_run_files(
         run_dir, describe_run(args.run_id, settings, forms, reader.fingerprint), summary
     )

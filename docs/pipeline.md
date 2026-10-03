@@ -2,7 +2,7 @@
 
 Read a phone photo of a filled constat amiable, turn it into a record, and score it against the answer key.
 It is deliberately basic: plain OCR, then an LLM that only sees the OCR text. v1 used Tesseract; v2 swapped in a stronger CPU
-engine (PP-OCRv6), v3a added straightening, and v3b sorts the OCR text by zone of the form. Each changed one thing.
+engine (PP-OCRv6), v3a added straightening, and v3b sorts the OCR text by zone of the form, and v3c replaces the OCR engine with Chandra-OCR-2 served on a GPU ([serving.md](serving.md)). Each changed one thing.
 
 ```
 photo ──► straighten ──► ocr ──► structure ──► evaluate (only when an answer key is given) ──► result
@@ -17,7 +17,7 @@ is how it would run in production.
 | Step | What it does | Saved to `runs/<run-id>/` |
 |---|---|---|
 | **straighten** (optional) | `STRAIGHTENER=opencv` finds the page against the desk and warps it flat. Off by default, so v1 and v2 stay reproducible | `straightened/<id>.jpg` |
-| **ocr** | The engine named by `OCR_ENGINE` reads the image (the straightened one when that step ran) into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline; `rapidocr-v6-columns` returns the text as four zone blocks, see below). No contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
+| **ocr** | The engine named by `OCR_ENGINE` reads the image (the straightened one when that step ran) into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline; `rapidocr-v6-columns` returns the text as four zone blocks, and `chandra-ocr-2` reads the page with an OCR vision model on a server, see below). No contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
 | **structure** | An LLM (Groq `openai/gpt-oss-120b`, temperature 0) fills the `Record` from the text only. It never sees the image | `structured/<id>.json` (record and token counts) |
 | **evaluate** | Compares the record with the answer key, field by field | `evaluation/<id>.json` |
 
@@ -29,6 +29,12 @@ green strips: date, place, phones), `vehicle_a` (left of the left strip), `circu
 between them, so both checkbox columns stay together) and `vehicle_b` (right of the right strip). The cuts are found per form from
 the printed green strips (`ocr/columns.py`), because the page shifts by about 2% between forms. Each block is sorted top to bottom.
 `STRUCTURING_PROMPT=columns` selects the prompt that describes these blocks; the default `flat` prompt goes with the other engines.
+
+`chandra-ocr-2` (`ocr/chandra.py`) sends the straightened page to Chandra-OCR-2 on a vLLM server (`CHANDRA_OCR_2_SERVER_URL`). The answer is HTML,
+one block per layout region with its position (`data-bbox`, 0 to 1000). Each block goes to the same four zones, by the centre of its box and the
+same per-form cuts, so the grouping code is shared with `rapidocr-v6-columns`. Checkboxes become `[x]` and `[ ]`, a circled letter `(x)`, and a
+picture's description `[image: ...]`. An answer that ends in a repeated pattern is regenerated at a higher temperature (up to 6 times).
+`STRUCTURING_PROMPT=chandra` selects the prompt that describes these marks.
 
 ### How the LLM is asked (JSON mode)
 JSON mode guarantees valid JSON but does not enforce a schema. So the prompt (`structuring/prompts.py`) explains the task
@@ -47,7 +53,7 @@ From `backend/`. Keys are read from `backend/.env` (`GROQ_API_KEY`, `LANGSMITH_A
 cd ~/projects/constat-ocr/backend && uv run python -m pipeline.run --run-id v2-dev --dev 5 --test 0
 ```
 
-The v1 baseline is the same command with `OCR_ENGINE=tesseract`. Add `STRAIGHTENER=opencv` to straighten the photo first (v3a), and `OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns` for the zone blocks (v3b).
+The v1 baseline is the same command with `OCR_ENGINE=tesseract`. Add `STRAIGHTENER=opencv` to straighten the photo first (v3a), and `OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns` for the zone blocks (v3b), or `OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra` for Chandra (v3c, needs the server). `--workers N` processes N forms at the same time, useful when the reader runs on a server; with the free Groq plan keep it at 1 for the LLM step, or rerun with `--reuse`.
 
 | Option | Default | Meaning |
 |---|---|---|
@@ -82,8 +88,8 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 | `core/errors.py` | `PipelineError` and one subclass per step |
 | `core/observability.py` | Turns on LangSmith tracing |
 | `straightening/` | `Straightener` (Protocol), a registry (`factory.py`) and `OpenCvStraightener` |
-| `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and five engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `rapidocr-v6-columns` (v6 with zone blocks, `columns.py`), `doctr` |
-| `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompts (`flat` and `columns`), the generated output format, the model factory |
+| `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and six engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `rapidocr-v6-columns` (v6 with zone blocks, `columns.py`), `chandra-ocr-2` (`chandra.py`, a vision model on a server), `doctr` |
+| `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompts (`flat`, `columns` and `chandra`), the generated output format, the model factory |
 | `evaluation/` | `FormScorer`, one class per metric, `Evaluator` |
 | `data/storage.py` | `ArtifactStore` (Protocol) and `FileArtifactStore` |
 | `data/dataset.py` | Reads the frozen dataset and picks the evaluation forms |
@@ -116,9 +122,9 @@ math replayed against v1's saved output) run on every push, no key needed. Integ
 (`tests/integration/`: the real pipeline on 2 forms) needs `GROQ_API_KEY` and self-skips without
 it. Full breakdown, file by file: [docs/testing.md](testing.md).
 
-## Known limits (v1 to v3b)
+## Known limits (v1 to v3c)
 
-- The LLM sees text only, so ticks, circled letters, the highlighted vehicle type, the impact zone and the sketch are invisible to it by design.
+- The LLM sees text only. Up to v3b that made ticks, circled letters, the highlighted vehicle type and the impact zone invisible; from v3c Chandra's text carries ticks and picture descriptions, but the category answers are still poor.
 - The OCR engines run with default settings on tilted phone photos; the only image step is straightening, and the zone split only regroups the boxes the engine found.
 - The evaluation set is small (5 dev forms and 20 test forms) because of the free plan's rate limits, so percentages are an early signal, not a precise score.
 - **Volume:** the provider's free plan (8,000 tokens a minute, 200,000 a day) makes a 20-form run take about 8 minutes, and a large

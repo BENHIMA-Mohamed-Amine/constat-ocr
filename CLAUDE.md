@@ -98,14 +98,15 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 │   │   ├── data/      # dataset.py (reads the frozen dataset), storage.py (saves each step's output)
 │   │   ├── flow/      # graph.py (LangGraph wiring), runner.py (runs the forms)
 │   │   ├── straightening/  # optional step 0: Straightener, registry, OpenCvStraightener (flattens the photo)
-│   │   ├── ocr/       # step 1: OcrEngine, the engine registry, columns.py (text grouped by zone of the form)
+│   │   ├── ocr/       # step 1: OcrEngine, the engine registry, columns.py (text grouped by zone), chandra.py (vision model on a server)
 │   │   ├── structuring/  # step 2: Structurer, prompt, model factory
 │   │   └── evaluation/   # step 3: scorer, metrics
+│   ├── serving/       # Modal + vLLM model servers: deploy/ (one app per model), query/ (probes against a deployed URL)
 │   ├── scripts/       # analyze_run.py (where errors come from), make_template.py
 │   ├── tests/         # unit/, regression/, integration/ (see docs/testing.md)
 │   └── assets/        # blank constat template and handwriting fonts
 ├── data/synthetic/    # the frozen 500-form dataset (manifest and dataset.json tracked, images git-ignored)
-├── docs/              # synthetic-data, metrics, pipeline, testing, results-log
+├── docs/              # synthetic-data, metrics, pipeline, serving, testing, results-log
 ├── runs/              # run.json and summary.json of each scored run
 ├── frontend/          # empty for now
 ├── _local/            # private: original filled form, story, sample renders (never published)

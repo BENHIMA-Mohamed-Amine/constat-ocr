@@ -38,9 +38,32 @@ assert _MIXED_COLUMNS in SYSTEM_PROMPT, (
 )
 COLUMNS_SYSTEM_PROMPT = SYSTEM_PROMPT.replace(_MIXED_COLUMNS, _BLOCKS)
 
+_NO_TICKS = """\
+- Ticked boxes, circled letters, highlighted pictures and the sketch cannot be seen in text. Answer null for \
+vehicle_type, impact_zone, license_category and circumstances unless the text states them clearly.
+"""
+
+_TICKS = """\
+- Ticked boxes appear as [x] and empty ones as [ ]; a circled letter appears as (x); [image: ...] describes a picture, such as \
+the impact sketch of a vehicle. In the circumstances block the box before each row's number is vehicle A's: set \
+vehicle_a.circumstances to the numbers of its ticked rows, and leave vehicle_b.circumstances null unless the text clearly \
+gives its boxes. Use the picture descriptions for vehicle_type and impact_zone, and null when unsure.
+"""
+
+assert _NO_TICKS in COLUMNS_SYSTEM_PROMPT, (
+    "the tick bullet of SYSTEM_PROMPT changed; update _NO_TICKS"
+)
+assert "which holds no values to extract" in COLUMNS_SYSTEM_PROMPT, (
+    "the circumstances sentence changed"
+)
+CHANDRA_SYSTEM_PROMPT = COLUMNS_SYSTEM_PROMPT.replace(_NO_TICKS, _TICKS).replace(
+    "which holds no values to extract", "which holds the ticked boxes"
+)
+
 PROMPTS = {
     "flat": SYSTEM_PROMPT,
     "columns": COLUMNS_SYSTEM_PROMPT,
+    "chandra": CHANDRA_SYSTEM_PROMPT,
 }  # which one goes with which OCR text
 
 HUMAN_PROMPT = "OCR text of the form:\n\n{ocr_text}"

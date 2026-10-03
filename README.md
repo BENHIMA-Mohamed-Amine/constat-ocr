@@ -3,6 +3,8 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
+**v3c replaces the OCR engine with Chandra-OCR-2**, an OCR vision model served on a GPU, and changes nothing else. Results below.
+
 **v3b sorts the OCR text by zone of the form** (header, vehicle A, circumstances, vehicle B) and changes nothing else. Results below.
 
 **v3a adds one step before OCR** (straighten the photo) and changes nothing else.
@@ -102,6 +104,32 @@ the new text layout.
 
 Details: [docs/results-log.md](docs/results-log.md).
 
+## v3c results (same 20 test forms)
+The reader is **Chandra-OCR-2** (Datalab, 5.3B) on an H100 through vLLM on Modal, instead of RapidOCR. It reads the straightened page, returns
+layout blocks with their positions, and also reports checkboxes and picture descriptions. Same LLM, forms and zone blocks as v3b; the prompt only
+describes the new text. PaddleOCR-VL and DeepSeek-OCR-2 were tried first and dropped: they are built for printed documents and looped on
+the handwritten form.
+
+| | v2 | v3b | v3c |
+|---|---|---|---|
+| Critical fields right | 56 of 380 (14.7%) | 55 of 380 (14.5%) | **168 of 380 (44.2%)** |
+| Minor fields right | 88 of 600 (14.7%) | 99 of 600 (16.5%) | **377 of 600 (62.8%)** |
+| Forms with no critical error | 0 of 20 | 0 of 20 | 0 of 20 |
+| Character error rate | 70.1% | 53.2% | **16.8%** |
+| Vehicle B text fields right | 7 of 440 | 26 of 440 | **200 of 440** |
+| Ticks found / missed / extra | 1 / 24 / 12 | 0 / 25 / 0 | **10 / 15 / 4** |
+| OCR time per form | 4.2 s (CPU) | 4.3 s (CPU) | 55 s (H100, 13 pages in parallel) |
+| LLM cost per form | $0.0010 | $0.0011 | $0.0012 (GPU time not included) |
+
+- **The reader was the ceiling.** Values never in the OCR text fell from 676 to 377 of 980, and the LLM now loses almost nothing (8 values in the
+  text and not returned).
+- **Still not usable without a human:** no form has all its critical fields right, plates and policy, attestation and licence numbers are the
+  weakest fields, and the category answers (vehicle type, licence category, impact zone) are worse than always guessing the most common value.
+- **Speed is memory bandwidth:** generating was about 8 times faster per token on an H100 than on an L4 (one page took 200 s on an L4). Details, and why, in
+  [docs/serving.md](docs/serving.md).
+
+Details: [docs/results-log.md](docs/results-log.md).
+
 ## Design
 Clean code, open for extension and closed for modification, from day one.
 - One **LangGraph** graph (`ocr`, `structure`, `evaluate`) whose nodes only call injected parts.
@@ -114,7 +142,7 @@ How it works and how to extend it: [docs/pipeline.md](docs/pipeline.md). How it'
 regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/testing.md).
 
 ## Limitations
-- **The text reader is still the main weakness**: 81% of wrong values in v2 were never in the OCR text. Ticks and pictures are invisible to a text-only pipeline.
+- **Reading is still the main weakness:** 377 of 980 values (38%) are not in Chandra's output, mostly long digit strings. v1 to v3b used text-only readers and could not see ticks or pictures at all.
 - **Small evaluation set:** 20 test forms (about 40 vehicles), so the percentages are an early signal, not a precise score.
 - **Hosted provider, free tier:** Groq's free plan allows 8,000 tokens a minute and 200,000 a day. 20 forms took about 8 minutes
   because the client had to wait, and volume would be a problem. This is common to most hosted providers.
@@ -124,7 +152,7 @@ regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/t
   self-hosted, which is a candidate for a later version.
 
 ## Run it
-Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack (only for the v1 baseline and the CI tests), and a `backend/.env` with
+Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack (only for the v1 baseline and the CI tests), a Modal account for the GPU-served readers (v3c), and a `backend/.env` with
 `GROQ_API_KEY` and `LANGSMITH_API_KEY`.
 
 ```bash
@@ -134,14 +162,15 @@ uv run python -m generator.dataset        # the 500-form dataset
 uv run python -m pipeline.run --run-id v2 --dev 0 --test 20
 STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20   # v2 plus straightening
 STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns uv run python -m pipeline.run --run-id v3b --dev 0 --test 20   # v3a plus zone blocks
+STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra uv run python -m pipeline.run --run-id v3c --dev 0 --test 20 --workers 8   # needs the Chandra server, see docs/serving.md
 OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20   # the v1 baseline
 ```
 
 ## Layout
 ```
-backend/     generator/ (synthetic data), pipeline/ (v1 to v3b), tests/, scripts/
+backend/     generator/ (synthetic data), pipeline/ (v1 to v3c), serving/ (GPU model servers), tests/, scripts/
 frontend/    empty for now
-docs/        synthetic-data, metrics, pipeline, results-log
+docs/        synthetic-data, metrics, pipeline, serving, testing, results-log
 runs/        run.json and summary.json of each run
 plans/       done/ once a plan is finished
 ```

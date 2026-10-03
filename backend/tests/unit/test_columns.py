@@ -68,7 +68,9 @@ def _columns_prompt_differs_only_in_the_column_bullet() -> None:
     Everything else in the prompt (formats, rules about nulls) must be identical, so a run with the columns prompt differs
     from a run with the flat prompt only in how it describes the OCR text.
     """
-    assert PROMPTS == {"flat": SYSTEM_PROMPT, "columns": COLUMNS_SYSTEM_PROMPT}
+    assert (
+        PROMPTS["flat"] == SYSTEM_PROMPT and PROMPTS["columns"] == COLUMNS_SYSTEM_PROMPT
+    )
     flat = [line for line in SYSTEM_PROMPT.splitlines() if "two columns" not in line]
     columns = [
         line for line in COLUMNS_SYSTEM_PROMPT.splitlines() if "4 blocks" not in line

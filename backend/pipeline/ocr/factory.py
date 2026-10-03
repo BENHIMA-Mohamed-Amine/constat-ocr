@@ -48,6 +48,15 @@ def _rapidocr_v6_columns(settings: Settings) -> OcrEngine:
     return ColumnRapidOcrEngine("v6")
 
 
+@register_ocr_engine("chandra-ocr-2")
+def _chandra_ocr_2(settings: Settings) -> OcrEngine:
+    from .chandra import ChandraOcrEngine
+
+    if not settings.chandra_ocr_2_server_url:
+        raise ConfigurationError("CHANDRA_OCR_2_SERVER_URL is not set")
+    return ChandraOcrEngine(settings.chandra_ocr_2_server_url)
+
+
 @register_ocr_engine("doctr")
 def _doctr(settings: Settings) -> OcrEngine:
     from .doctr import DoctrEngine

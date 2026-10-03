@@ -29,6 +29,7 @@ candidates = [
 
 [dependency-groups]
 dev = [
+    "modal>=1.6.1",
     "pytest>=8.0",
     "ruff>=0.8",
 ]

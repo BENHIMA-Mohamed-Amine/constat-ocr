@@ -1,10 +1,11 @@
-"""Runs the graph over a list of forms, one at a time, and writes the run's summary."""
+"""Runs the graph over a list of forms (one at a time, or several in parallel) and writes the run's summary."""
 
 import json
 import logging
 import platform
 import sys
 from collections.abc import Sequence
+from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
 from importlib.metadata import version
 from pathlib import Path
@@ -31,6 +32,7 @@ class PipelineRunner:
         scorer: FormScorer,
         evaluator: Evaluator,
         store: ArtifactStore,
+        workers: int = 1,
     ) -> None:
         """Create the runner.
 
@@ -39,43 +41,52 @@ class PipelineRunner:
             scorer: Scores a form that produced no output.
             evaluator: Computes the metrics over all forms.
             store: Where per-form artifacts (including failures) are saved.
+            workers: Forms processed at the same time. More than 1 only helps when the slow step waits on a server.
         """
         self._graph = graph
         self._scorer = scorer
         self._evaluator = evaluator
         self._store = store
+        self._workers = workers
 
     def run(self, run_id: str, forms: Sequence[FormRef]) -> dict[str, Any]:
-        """Process every form, then compute the metrics."""
-        results: list[FormResult] = []
-        for position, form in enumerate(forms, start=1):
-            logger.info(
-                "[%d/%d] form %s (%s)", position, len(forms), form.form_id, form.split
+        """Process every form, then compute the metrics. Results keep the order of ``forms``."""
+        with ThreadPoolExecutor(max_workers=self._workers) as executor:
+            results = list(
+                executor.map(
+                    lambda item: self._run_form(run_id, item[0], len(forms), item[1]),
+                    enumerate(forms, start=1),
+                )
             )
-            truth = form.load_truth()
-            try:
-                state = self._graph.invoke(
-                    {
-                        "form_id": form.form_id,
-                        "image_path": str(form.image_path),
-                        "truth": truth,
-                    },
-                    config={
-                        "run_name": f"{run_id}/{form.form_id}",
-                        "tags": [run_id, form.split],
-                        "metadata": {"form_id": form.form_id, "split": form.split},
-                    },
-                )
-                results.append(state["result"])
-            except PipelineError as exc:
-                logger.error("form %s failed: %s", form.form_id, exc)
-                self._store.write_json(
-                    "errors",
-                    form.form_id,
-                    {"error": str(exc), "type": type(exc).__name__},
-                )
-                results.append(self._scorer.score(form.form_id, None, truth))
         return self._evaluator.summarize(results)
+
+    def _run_form(
+        self, run_id: str, position: int, total: int, form: FormRef
+    ) -> FormResult:
+        logger.info("[%d/%d] form %s (%s)", position, total, form.form_id, form.split)
+        truth = form.load_truth()
+        try:
+            state = self._graph.invoke(
+                {
+                    "form_id": form.form_id,
+                    "image_path": str(form.image_path),
+                    "truth": truth,
+                },
+                config={
+                    "run_name": f"{run_id}/{form.form_id}",
+                    "tags": [run_id, form.split],
+                    "metadata": {"form_id": form.form_id, "split": form.split},
+                },
+            )
+            return state["result"]
+        except PipelineError as exc:
+            logger.error("form %s failed: %s", form.form_id, exc)
+            self._store.write_json(
+                "errors",
+                form.form_id,
+                {"error": str(exc), "type": type(exc).__name__},
+            )
+            return self._scorer.score(form.form_id, None, truth)
 
 
 def describe_run(

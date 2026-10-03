@@ -303,3 +303,119 @@ Same method as before (`scripts/analyze_run.py v3b`): is the answer-key value an
 cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns \
   uv run python -m pipeline.run --run-id v3b --dev 0 --test 20
 ```
+
+## v3c: Chandra-OCR-2 reads the page
+
+- **What:** the OCR engine is replaced by an OCR vision model, **Chandra-OCR-2** (Datalab, 5.3B), served on Modal with vLLM 0.30.0
+  on an H100 (`backend/serving/`, see [serving.md](serving.md)). It gets the straightened photo and Datalab's `ocr_layout` prompt and
+  answers in HTML, one block per layout region, each with a bounding box. The blocks are sorted into the four zones of v3b by the
+  centre of their box, checkboxes are kept as `[x]` and `[ ]`, a circled letter as `(x)`, and the description of a picture as
+  `[image: ...]`. If an answer ends in a loop, the engine regenerates it warmer (0.2, 0.4 and so on), as Datalab's own client does.
+  The prompt is the v3b prompt with two sentences changed, because the text now contains ticks and pictures. Same
+  `openai/gpt-oss-120b`, same settings, same 20 test forms (`000100` to `000119`). Run `v3c`, files in `runs/v3c/`; the dev run
+  is `v3c-dev5`.
+- **Why:** v3b showed the ceiling was the reading (676 of 980 values never in the OCR text). v3c changes only the reader.
+- **Small sample:** 20 forms is 40 vehicles, and one run of each version. Read the percentages as an early signal.
+
+### Models that were tried first and dropped
+Public rankings put these OCR vision models at the top, but those rankings score printed pages. Both were tested on dev form
+`000000` (straightened) and neither was good enough to continue. The comparison is the number of answer-key values that
+appear in the output text (of 49, strict match).
+
+| Model | Setup | Result on the form |
+|---|---|---|
+| RapidOCR PP-OCRv6 (v3a, for comparison) | CPU, 4 s | 18 of 49 values found |
+| PaddleOCR-VL 1.5 (GGUF) | CPU, llama.cpp (Ollama could not load it), 151 s | 11 of 49. Read the header, then repeated `NON` until the token cap |
+| DeepSeek-OCR | CPU, Ollama build, 29 min | 10 of 49. Read the header and vehicle A, never vehicle B, then repeated a paragraph |
+| PaddleOCR-VL-1.6 | GPU (L4), vLLM, 18 s | Read the header, then repeated `Véhicule B` until the token cap |
+| DeepSeek-OCR-2 | GPU (L4), vLLM, with its repetition guard, 30 s | Header and some of vehicle A, then invented text (a made-up numbered list) until the token cap |
+| **Chandra-OCR-2** | GPU (L4), vLLM, 200 s (H100: 54 s for a looped answer) | **28 of 49**, including 8 of vehicle B's 22, and it read the ticks |
+
+- **Conclusion:** PaddleOCR-VL and DeepSeek-OCR were built for printed documents and failed on a dense, handwritten, bilingual form
+  with the whole page as input. They were not pursued further. One untested guess: their default image size is about 1 megapixel,
+  and our page is 4, so the handwriting may have been shrunk too far. Chandra keeps pages up to 6.3 megapixels.
+- **Only one page was scored for these tests,** so this is a reason to choose, not a measurement of each model.
+
+### Serving it
+- **Speed is set by memory bandwidth.** Generating a token reads all the weights, so tokens per second is about bandwidth divided
+  by weight size. On an L4 (300 GB/s, 10.6 GB of weights) that predicts 28 tokens per second, and 27.7 was measured: 200 s for a
+  5,537-token page. On an H100 it measured 221 tokens per second (12,000 tokens in 54 s), 8 times faster.
+- **The same page gave different text on the two GPUs** (the L4 run finished, the H100 run fell into a loop on the Arabic letters of
+  a licence row). Different hardware rounds differently, and over thousands of tokens one different choice changes the rest.
+  So a single run is weak evidence, and the loop retry is needed.
+- **Loops:** 5 regenerations in 25 pages (form `000103` needed 2).
+- **Throughput:** the runs used 5 and 8 parallel workers against one H100 container. OCR took 55 s per form on average (median 52 s,
+  slowest 158 s), measured while 13 pages shared the GPU, so it is not the latency of a single page. The throughput test that would
+  choose `--max-num-seqs` has not been run.
+
+### v3c results (20 test forms)
+
+| Metric | v2 | v3a | v3b | v3c (Chandra) |
+|---|---|---|---|---|
+| Field accuracy, critical fields | 56 of 380 (14.7%) | 54 (14.2%) | 55 (14.5%) | **168 of 380 (44.2%)** |
+| Field accuracy, minor fields | 88 of 600 (14.7%) | 89 (14.8%) | 99 (16.5%) | **377 of 600 (62.8%)** |
+| Forms with no critical error | 0 of 20 | 0 | 0 | **0 of 20** |
+| Character error rate | 70.1% | 66.8% | 53.2% | **16.8%** (critical 17.5%, minor 16.3%) |
+| Ticks found / missed / extra | 1 / 24 / 12 | 0 / 25 / 0 | 0 / 25 / 0 | **10 / 15 / 4** |
+| Tick count written on the form | 0 of 40 | 0 | 0 | 4 of 40 |
+| Vehicle type | 0 of 40 | 0 | 0 | 12 of 40 (always "car": 88%) |
+| Impact zone | 0 of 40 | 0 | 0 | 4 of 40 (always the most common: 28%) |
+| Licence category | 0 of 40 | 0 | 0 | 2 of 40 (always "B": 88%) |
+| Other damage (yes/no) | 0 of 20 | 0 | 4 | 8 of 20 (always "no": 95%) |
+| Cost of the LLM step | $0.0010 per form | $0.0010 | $0.0011 | $0.0012 per form (64,990 tokens in, 22,844 out) |
+| OCR step | 4.2 s per form | 3.9 s | 4.3 s | 55 s per form on an H100, 13 pages in parallel |
+
+- **The dev check agrees:** on the first 5 dev forms, 43 of 95 critical fields right (v3b: 17), 99 of 150 minor (40), character error
+  rate 9.9% (54.4%).
+- **The GPU cost is not in the table.** Chandra runs on rented GPU time, which the per-form cost does not include.
+
+### Where the errors come from
+
+Same method as before (`scripts/analyze_run.py v3c`): is the answer-key value anywhere in the OCR text?
+
+| | Fields | Value never in the OCR text | In the text, no value returned | In the text, wrong value returned | Correct |
+|---|---|---|---|---|---|
+| Critical, top level | 20 | 9 | 0 | 0 | 11 |
+| Critical, vehicle A | 180 | 79 | 0 | 5 | 96 |
+| Critical, vehicle B | 180 | 92 | 2 | 25 | 61 |
+| Minor, top level | 80 | 17 | 0 | 4 | 59 |
+| Minor, vehicle A | 260 | 72 | 0 | 9 | 179 |
+| Minor, vehicle B | 260 | 108 | 6 | 7 | 139 |
+| **All text fields** | **980** | **377** | **8** | **50** | **545** |
+
+- **The reader was the ceiling, and it moved.** Values never in the text fell from 676 (v3b) to 377, and correct text fields rose from
+  154 to 545 of 980 (55.6%).
+- **Vehicle B is read now.** 200 of its 440 text fields are right, against 26 in v3b. Vehicle A: 275 of 440, against 101.
+- **The LLM is no longer the problem.** Only 8 values were in the text and not returned, and 50 were returned wrong.
+- **Weakest fields (of 40):** attestation number 4, attestation start date 9, damage text 9, licence number 10, plate 15, policy
+  number 17. These are long digit strings and free handwriting. **Strongest:** licence prefecture 32, licence expiry 32, make 29,
+  insured last name 29, first names 28, licence issue date 28.
+- **Ticks are read for the first time:** 10 of 25 found, 15 missed, 4 extra. The ticks the model returns are probably vehicle A's
+  only (vehicle B's boxes were not in the HTML on the single page checked).
+- **The category answers are worse than guessing the most common value** (vehicle type 12 of 40 against 88% for "car", licence
+  category 2 of 40, other damage 8 of 20 against 95%). The prompt change that lets the model use the text for these fields has not
+  been tuned, and it answers too often when unsure.
+- **Still no form without a critical error** (0 of 20), so nothing could go through without a human.
+- **No form failed in the end.** In the first pass 8 forms hit the free Groq plan's rate limit in the LLM step (one request is
+  about 4,500 tokens against a limit of 8,000 a minute, with 13 forms in flight). They were rerun with `--reuse`, which reuses the
+  saved Chandra text, so the GPU was called once per page.
+
+### What this says about the next version
+- **Reading was the bottleneck, and a handwriting-capable model fixes most of it:** critical fields went from 14.5% to 44.2%
+  and the character error rate from 53.2% to 16.8%.
+- **The next gains are in the long digit strings** (plates, policy, attestation and licence numbers) and in the category fields.
+  Candidates: re-read those regions at higher resolution from the bounding boxes, validate formats and dates with the consistency
+  rules the generator already follows, and fix the category prompt.
+- **Before treating Chandra as the final choice:** read the OpenRAIL licence terms for company use, run the throughput test, and
+  compare a general vision model (Gemini, GPT or Qwen3.8) as the upper bound.
+- **Hosting:** an H100 makes a page about 8 times faster than an L4 here, but the cost per page and the cost of a mostly idle GPU
+  still have to be measured.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra \
+  uv run python -m pipeline.run --run-id v3c --dev 0 --test 20 --workers 8
+```
+Needs the Modal app of `serving/deploy/chandra_ocr_2.py` deployed and `CHANDRA_OCR_2_SERVER_URL` in `backend/.env`. With the free
+Groq plan, rerun with `--reuse --workers 1` to finish forms that hit the rate limit.
