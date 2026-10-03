@@ -41,6 +41,13 @@ def _rapidocr_v6(settings: Settings) -> OcrEngine:
     return RapidOcrEngine("v6")
 
 
+@register_ocr_engine("rapidocr-v6-columns")
+def _rapidocr_v6_columns(settings: Settings) -> OcrEngine:
+    from .columns import ColumnRapidOcrEngine
+
+    return ColumnRapidOcrEngine("v6")
+
+
 @register_ocr_engine("doctr")
 def _doctr(settings: Settings) -> OcrEngine:
     from .doctr import DoctrEngine

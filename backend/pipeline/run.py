@@ -19,6 +19,7 @@ from .flow.runner import PipelineRunner, describe_run, write_run_files
 from .ocr import build_ocr_engine
 from .straightening import build_straightener
 from .structuring import LangChainStructurer, build_chat_model
+from .structuring.prompts import PROMPTS
 
 
 def main() -> None:
@@ -66,7 +67,9 @@ def main() -> None:
     scorer = FormScorer()
     graph = build_graph(
         build_ocr_engine(settings),
-        LangChainStructurer(build_chat_model(settings)),
+        LangChainStructurer(
+            build_chat_model(settings), PROMPTS[settings.structuring_prompt]
+        ),
         scorer,
         store,
         reuse=args.reuse,

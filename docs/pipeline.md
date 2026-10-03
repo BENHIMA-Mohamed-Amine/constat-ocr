@@ -2,7 +2,7 @@
 
 Read a phone photo of a filled constat amiable, turn it into a record, and score it against the answer key.
 It is deliberately basic: plain OCR, then an LLM that only sees the OCR text. v1 used Tesseract; v2 swapped in a stronger CPU
-engine (PP-OCRv6) and changed nothing else.
+engine (PP-OCRv6), v3a added straightening, and v3b sorts the OCR text by zone of the form. Each changed one thing.
 
 ```
 photo ──► straighten ──► ocr ──► structure ──► evaluate (only when an answer key is given) ──► result
@@ -17,11 +17,18 @@ is how it would run in production.
 | Step | What it does | Saved to `runs/<run-id>/` |
 |---|---|---|
 | **straighten** (optional) | `STRAIGHTENER=opencv` finds the page against the desk and warps it flat. Off by default, so v1 and v2 stay reproducible | `straightened/<id>.jpg` |
-| **ocr** | The engine named by `OCR_ENGINE` reads the image (the straightened one when that step ran) into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline). No contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
+| **ocr** | The engine named by `OCR_ENGINE` reads the image (the straightened one when that step ran) into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline; `rapidocr-v6-columns` returns the text as four zone blocks, see below). No contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
 | **structure** | An LLM (Groq `openai/gpt-oss-120b`, temperature 0) fills the `Record` from the text only. It never sees the image | `structured/<id>.json` (record and token counts) |
 | **evaluate** | Compares the record with the answer key, field by field | `evaluation/<id>.json` |
 
 Each step saves its own output, so any step can be inspected or skipped on a re-run (`--reuse`).
+
+### Zone blocks (v3b)
+`rapidocr-v6-columns` keeps the boxes RapidOCR returns and assigns each to a zone by the position of its centre: `header` (above the
+green strips: date, place, phones), `vehicle_a` (left of the left strip), `circumstances` (the two green strips and the numbered list
+between them, so both checkbox columns stay together) and `vehicle_b` (right of the right strip). The cuts are found per form from
+the printed green strips (`ocr/columns.py`), because the page shifts by about 2% between forms. Each block is sorted top to bottom.
+`STRUCTURING_PROMPT=columns` selects the prompt that describes these blocks; the default `flat` prompt goes with the other engines.
 
 ### How the LLM is asked (JSON mode)
 JSON mode guarantees valid JSON but does not enforce a schema. So the prompt (`structuring/prompts.py`) explains the task
@@ -40,7 +47,7 @@ From `backend/`. Keys are read from `backend/.env` (`GROQ_API_KEY`, `LANGSMITH_A
 cd ~/projects/constat-ocr/backend && uv run python -m pipeline.run --run-id v2-dev --dev 5 --test 0
 ```
 
-The v1 baseline is the same command with `OCR_ENGINE=tesseract`. Add `STRAIGHTENER=opencv` to straighten the photo first (v3a).
+The v1 baseline is the same command with `OCR_ENGINE=tesseract`. Add `STRAIGHTENER=opencv` to straighten the photo first (v3a), and `OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns` for the zone blocks (v3b).
 
 | Option | Default | Meaning |
 |---|---|---|
@@ -75,8 +82,8 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 | `core/errors.py` | `PipelineError` and one subclass per step |
 | `core/observability.py` | Turns on LangSmith tracing |
 | `straightening/` | `Straightener` (Protocol), a registry (`factory.py`) and `OpenCvStraightener` |
-| `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and four engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `doctr` |
-| `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompt, the generated output format, the model factory |
+| `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and five engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `rapidocr-v6-columns` (v6 with zone blocks, `columns.py`), `doctr` |
+| `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompts (`flat` and `columns`), the generated output format, the model factory |
 | `evaluation/` | `FormScorer`, one class per metric, `Evaluator` |
 | `data/storage.py` | `ArtifactStore` (Protocol) and `FileArtifactStore` |
 | `data/dataset.py` | Reads the frozen dataset and picks the evaluation forms |
@@ -109,10 +116,10 @@ math replayed against v1's saved output) run on every push, no key needed. Integ
 (`tests/integration/`: the real pipeline on 2 forms) needs `GROQ_API_KEY` and self-skips without
 it. Full breakdown, file by file: [docs/testing.md](testing.md).
 
-## Known limits (v1 to v3a)
+## Known limits (v1 to v3b)
 
 - The LLM sees text only, so ticks, circled letters, the highlighted vehicle type, the impact zone and the sketch are invisible to it by design.
-- The OCR engines run with default settings on tilted phone photos; the only image step is straightening, and there is no column handling.
+- The OCR engines run with default settings on tilted phone photos; the only image step is straightening, and the zone split only regroups the boxes the engine found.
 - The evaluation set is small (5 dev forms and 20 test forms) because of the free plan's rate limits, so percentages are an early signal, not a precise score.
 - **Volume:** the provider's free plan (8,000 tokens a minute, 200,000 a day) makes a 20-form run take about 8 minutes, and a large
   run impractical. Hosted providers in general cap or bill by volume.

@@ -1,0 +1,36 @@
+{
+  "critical/top": {
+    "value not in the OCR text": 11,
+    "correct": 9
+  },
+  "critical/vehicle_a": {
+    "value not in the OCR text": 131,
+    "in the OCR text, wrong value returned": 9,
+    "correct": 37,
+    "in the OCR text, no value returned": 3
+  },
+  "critical/vehicle_b": {
+    "value not in the OCR text": 146,
+    "correct": 9,
+    "in the OCR text, wrong value returned": 11,
+    "in the OCR text, no value returned": 14
+  },
+  "minor/top": {
+    "correct": 18,
+    "value not in the OCR text": 46,
+    "in the OCR text, wrong value returned": 14,
+    "in the OCR text, no value returned": 2
+  },
+  "minor/vehicle_a": {
+    "correct": 64,
+    "value not in the OCR text": 158,
+    "in the OCR text, wrong value returned": 32,
+    "in the OCR text, no value returned": 6
+  },
+  "minor/vehicle_b": {
+    "correct": 17,
+    "value not in the OCR text": 184,
+    "in the OCR text, no value returned": 40,
+    "in the OCR text, wrong value returned": 19
+  }
+}

@@ -227,3 +227,79 @@ Same method as v2 (`scripts/analyze_run.py v3a`): is the answer-key value anywhe
 ```bash
 cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20
 ```
+
+## v3b: the OCR text sorted by zone of the form
+
+- **What:** the straightened photo is read by the same PP-OCRv6, but each text box is assigned to a zone by the position of its
+  centre and the text is given to the model as four labelled blocks: `header`, `vehicle_a`, `circumstances`, `vehicle_b`.
+  The cuts are found per form from the two printed green strips (outer edges, so both checkbox columns stay with the
+  circumstances), and the header ends where the strips start. The prompt is the v1 prompt with the one bullet about mixed
+  columns replaced by a description of the four blocks. Same `openai/gpt-oss-120b`, same settings, same 20 test forms
+  (`000100` to `000119`). Run `v3b`, files in `runs/v3b/`. `runs/v3b/run.json` records the straightener and the prompt name.
+- **Why:** in v3a, 97 of vehicle B's values were in the OCR text but the model returned nothing, because the two columns were
+  mixed in one stream and the Arabic labels were not read. This run gives the model the columns apart.
+- **Zones checked by eye** on the 5 dev forms: only the footer text crosses a cut, and both phone rows are in the header.
+- **Column crops were tried and not used.** Reading each column as its own image found 10% more text lines but the same
+  number of answer-key values (81 against 83 of 245 on the 5 dev forms), so the page is read once.
+- **Dev check:** on the first 5 dev forms, 17 of 95 critical fields right against 15 for v3a, 40 of 150 minor against 42, and a
+  character error rate of 54.4% against 65.4%.
+- **Small sample:** 20 forms is 40 vehicles. Read the percentages as an early signal, not a precise score.
+
+### v3b results (20 test forms)
+
+| Metric | v2 | v3a | v3b (zone blocks) | For comparison |
+|---|---|---|---|---|
+| Field accuracy, critical fields | 56 of 380 (14.7%) | 54 of 380 (14.2%) | **55 of 380 (14.5%)** | |
+| Field accuracy, minor fields | 88 of 600 (14.7%) | 89 of 600 (14.8%) | **99 of 600 (16.5%)** | |
+| Forms with no critical error | 0 of 20 | 0 of 20 | **0 of 20** | |
+| Character error rate | 70.1% | 66.8% | **53.2%** (critical 59.4%, minor 49.4%) | |
+| Ticks found / missed / extra | 1 / 24 / 12 | 0 / 25 / 0 | 0 / 25 / 0 | |
+| Tick count written on the form | 0 of 40 right | 0 of 40 right | 0 of 40 right | |
+| Vehicle type, impact zone, licence category | 0 | 0 | 0 | always guessing the most common: 88%, 28%, 88% |
+| Cost | $0.0010 per form | $0.0010 per form | $0.0011 per form (52,511 tokens in, 22,801 out) | |
+| OCR time | 4.2 s per form | 3.9 s per form | 4.3 s per form | |
+| Total time | 19.6 s per form | 23.9 s per form | 23.9 s per form, slowest 5% 31.5 s | includes waiting for Groq's free-plan limit |
+
+### Where the errors come from
+
+Same method as before (`scripts/analyze_run.py v3b`): is the answer-key value anywhere in the OCR text?
+
+| | Fields | Value never in the OCR text | In the text, no value returned | In the text, wrong value returned | Correct |
+|---|---|---|---|---|---|
+| Critical, top level | 20 | 11 | 0 | 0 | 9 |
+| Critical, vehicle A | 180 | 131 | 3 | 9 | 37 |
+| Critical, vehicle B | 180 | 146 | 14 | 11 | 9 |
+| Minor, top level | 80 | 46 | 2 | 14 | 18 |
+| Minor, vehicle A | 260 | 158 | 6 | 32 | 64 |
+| Minor, vehicle B | 260 | 184 | 40 | 19 | 17 |
+| **All text fields** | **980** | **676** | **65** | **85** | **154** |
+
+- **The split helped vehicle B.** Correct text fields went from 7 of 440 (v3a) to 26 of 440, nearly four times as many. Values
+  that were in the text but returned as nothing fell from 97 to 54. Values returned wrong rose from 6 to 30: the model now
+  tries, and sometimes misreads.
+- **Vehicle B is still mostly unread.** 330 of its 440 values are not in the OCR text, exactly as in v3a. 26 of 440 is 6%.
+- **Character error rate fell 13.6 points** (66.8% to 53.2%), the largest change of any version since v2. Values now land in
+  the right vehicle's fields, so far fewer characters are wrong.
+- **The critical total barely moved** (55 against 54) because vehicle A lost what vehicle B gained: 37 critical fields right
+  against 45. The OCR text did not lose these values (only 1 of 1,580 checked values left the text, 2 entered it).
+  In v3a the model had got 16 vehicle A critical values right although the exact value was not in the OCR text (it repaired a
+  misread date, or filled an end date); in v3b only 9 of those 16 are right. The likely cause is the new prompt wording, "if a
+  value is missing from its block, use null", which makes the model more careful. This is a guess: the prompt change and the
+  layout change were made together, so this run cannot separate them.
+- **Ticks, vehicle type and impact zone stay at zero,** as for any text-only pipeline.
+- **No form failed.** All 20 forms produced output, and both green strips were found on every form.
+
+### What this says about the next version
+- **The layout was a real problem, but a small one.** Fixing it moves vehicle B from 7 to 26 right and the character error
+  rate by 13 points, not the headline critical count.
+- **The ceiling is the reading.** 676 of 980 values are not in the OCR text, so grouping cannot recover them. The next gain
+  must come from a better handwriting reader: an OCR vision model, or a general vision model.
+- **One cheap test left on this version:** relax the "use null" rule of the new prompt, to see whether vehicle A's 8 lost
+  critical fields come back.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns \
+  uv run python -m pipeline.run --run-id v3b --dev 0 --test 20
+```

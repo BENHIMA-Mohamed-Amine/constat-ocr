@@ -94,6 +94,7 @@ def describe_run(
             "reasoning_effort": settings.llm_reasoning_effort,
         },
         "straightener": settings.straightener,
+        "structuring_prompt": settings.structuring_prompt,
         "ocr": {
             "engine": settings.ocr_engine,
             "languages": list(settings.ocr_languages),

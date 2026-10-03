@@ -3,7 +3,9 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
-**v3a adds one step before OCR** (straighten the photo) and changes nothing else. Results below.
+**v3b sorts the OCR text by zone of the form** (header, vehicle A, circumstances, vehicle B) and changes nothing else. Results below.
+
+**v3a adds one step before OCR** (straighten the photo) and changes nothing else.
 
 **v2 swaps the OCR engine** (PP-OCRv6 on CPU) and changes nothing else.
 
@@ -78,6 +80,28 @@ Only one step added: the photo is found against the desk and warped flat before 
 
 Details: [docs/results-log.md](docs/results-log.md).
 
+## v3b results (same 20 test forms)
+The straightened page is read once, then each text box is assigned to a zone by position (cuts found per form from the printed green
+strips) and the LLM gets four labelled blocks instead of one mixed stream. Same OCR engine, LLM and forms; the prompt only describes
+the new text layout.
+
+| | v2 | v3a | v3b |
+|---|---|---|---|
+| Critical fields right | 56 of 380 (14.7%) | 54 of 380 (14.2%) | 55 of 380 (14.5%) |
+| Minor fields right | 88 of 600 (14.7%) | 89 of 600 (14.8%) | 99 of 600 (16.5%) |
+| Forms with no critical error | 0 of 20 | 0 of 20 | 0 of 20 |
+| Character error rate | 70.1% | 66.8% | 53.2% |
+| Vehicle B text fields right | 7 of 440 | 7 of 440 | 26 of 440 |
+| Cost per form | $0.0010 | $0.0010 | $0.0011 |
+
+- **The split fixed what it targeted.** Vehicle B went from 7 to 26 fields right, and the character error rate fell by 13 points.
+- **The critical total did not move:** vehicle A lost 8 critical fields, probably because the new prompt makes the model more careful. The
+  layout change and the prompt change were made together, so this run cannot separate them.
+- **The ceiling is the reading, not the layout:** 676 of 980 values are not in the OCR text. The next gain has to come from a better
+  handwriting reader.
+
+Details: [docs/results-log.md](docs/results-log.md).
+
 ## Design
 Clean code, open for extension and closed for modification, from day one.
 - One **LangGraph** graph (`ocr`, `structure`, `evaluate`) whose nodes only call injected parts.
@@ -109,12 +133,13 @@ cd backend && uv sync
 uv run python -m generator.dataset        # the 500-form dataset
 uv run python -m pipeline.run --run-id v2 --dev 0 --test 20
 STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20   # v2 plus straightening
+STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns uv run python -m pipeline.run --run-id v3b --dev 0 --test 20   # v3a plus zone blocks
 OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20   # the v1 baseline
 ```
 
 ## Layout
 ```
-backend/     generator/ (synthetic data), pipeline/ (v1 to v3a), tests/, scripts/
+backend/     generator/ (synthetic data), pipeline/ (v1 to v3b), tests/, scripts/
 frontend/    empty for now
 docs/        synthetic-data, metrics, pipeline, results-log
 runs/        run.json and summary.json of each run
