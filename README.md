@@ -3,6 +3,8 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
+**v3d repairs the record after the LLM with small deterministic rules** and changes nothing else. Results below.
+
 **v3c replaces the OCR engine with Chandra-OCR-2**, an OCR vision model served on a GPU, and changes nothing else. Results below.
 
 **v3b sorts the OCR text by zone of the form** (header, vehicle A, circumstances, vehicle B) and changes nothing else. Results below.
@@ -130,6 +132,23 @@ the handwritten form.
 
 Details: [docs/results-log.md](docs/results-log.md).
 
+## v3d results (same 20 test forms, same OCR and LLM outputs as v3c)
+One optional step after the LLM: rules that put a swapped pair of validity dates in order, remove stray spaces from phone, policy and attestation
+numbers. The v3c outputs were reused, so the rules are the only difference and no GPU or LLM call was made.
+
+| | v3c | v3d |
+|---|---|---|
+| Critical fields right | 168 of 380 (44.2%) | **194 of 380 (51.1%)** |
+| Minor fields right | 377 of 600 (62.8%) | **381 of 600 (63.5%)** |
+| Forms with no critical error | 0 of 20 | 0 of 20 |
+| Character error rate | 16.8% | **16.1%** |
+
+- **40 fields changed, 30 became right, none that was right became wrong.** Dates in order gave 18 of the gain.
+- **One rule is trusted only on synthetic data:** the attestation number format is the generator's. Without it the gain is +19 critical, not +26.
+- **What rules cannot fix:** 177 values were never read, and 185 wrong fields are one or two characters off in the reading itself.
+
+Details: [docs/results-log.md](docs/results-log.md).
+
 ## Design
 Clean code, open for extension and closed for modification, from day one.
 - One **LangGraph** graph (`ocr`, `structure`, `evaluate`) whose nodes only call injected parts.
@@ -163,6 +182,7 @@ uv run python -m pipeline.run --run-id v2 --dev 0 --test 20
 STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20   # v2 plus straightening
 STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns uv run python -m pipeline.run --run-id v3b --dev 0 --test 20   # v3a plus zone blocks
 STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra uv run python -m pipeline.run --run-id v3c --dev 0 --test 20 --workers 8   # needs the Chandra server, see docs/serving.md
+# v3d: add REPAIRS=all to the v3c command and use --reuse on the saved v3c outputs (see docs/results-log.md)
 OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20   # the v1 baseline
 ```
 

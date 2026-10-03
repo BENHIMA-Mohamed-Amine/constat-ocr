@@ -22,6 +22,7 @@ node_modules/
 .ruff_cache/
 # run outputs: keep run.json and summary.json, not the per-form files
 runs/*/straightened/
+runs/*/repaired/
 runs/*/ocr/
 runs/*/ocr_usage/
 runs/*/structured/

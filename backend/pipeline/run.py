@@ -17,6 +17,7 @@ from .evaluation import FormScorer, build_default_evaluator
 from .flow.graph import build_graph
 from .flow.runner import PipelineRunner, describe_run, write_run_files
 from .ocr import build_ocr_engine
+from .repair import build_repairer
 from .straightening import build_straightener
 from .structuring import LangChainStructurer, build_chat_model
 from .structuring.prompts import PROMPTS
@@ -80,6 +81,7 @@ def main() -> None:
         store,
         reuse=args.reuse,
         straightener=build_straightener(settings),
+        repairer=build_repairer(settings),
     )
     evaluator = build_default_evaluator(
         settings.input_price_per_million, settings.output_price_per_million

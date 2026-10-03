@@ -400,6 +400,35 @@ Same method as before (`scripts/analyze_run.py v3c`): is the answer-key value an
   about 4,500 tokens against a limit of 8,000 a minute, with 13 forms in flight). They were rerun with `--reuse`, which reuses the
   saved Chandra text, so the GPU was called once per page.
 
+### How wrong are the wrong fields (`scripts/near_misses.py v3c`)
+
+435 of the 980 text fields are wrong. Most are wrong by a hair.
+
+| How far the final answer is from the truth | Fields | Share |
+|---|---|---|
+| No value returned | 101 | 23% |
+| 1 edit | 151 | 35% |
+| 2 edits | 97 | 22% |
+| 3 or more edits | 86 | 20% |
+
+| How close the truth is to the OCR text | Fields | Share |
+|---|---|---|
+| Exact in the text (the LLM got it wrong) | 58 | 13% |
+| In the text, punctuation or spaces differ | 15 | 3% |
+| 1 edit away | 85 | 20% |
+| 2 edits away | 100 | 23% |
+| 3 or more edits away (never read) | 177 | 41% |
+
+- **57% of the wrong answers are one or two characters off,** and 59% have the truth within two edits of something in the text (or in it
+  exactly). That is a pool a re-read or a repair rule can win back. The 41% never read are mostly plates (18 of 25), policy numbers (15 of 23),
+  attestation and licence numbers, and free text such as damage (18 of 31).
+- **Some errors are rules, not reading.** Vehicle B's validity dates are swapped in 20 cases where both dates are in the text exactly
+  (for example the answer key has start 17/07/2025 and end 16/07/2026 and the model returned them the other way round). That line is
+  written right to left, so the order of the dates is reversed. Start before end holds on any real attestation.
+- **Spaces inside ID numbers** make correct reads count as wrong (`59a 15 0196573` against `59a 150196573`, 7 attestation numbers and
+  more policy numbers). The comparison removes no spaces inside a value.
+- **Some values in the text were not returned** (for example vehicle B's licence issue date and prefecture): a placement problem to look at.
+
 ### What this says about the next version
 - **Reading was the bottleneck, and a handwriting-capable model fixes most of it:** critical fields went from 14.5% to 44.2%
   and the character error rate from 53.2% to 16.8%.
@@ -419,3 +448,63 @@ cd ~/projects/constat-ocr/backend && STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-
 ```
 Needs the Modal app of `serving/deploy/chandra_ocr_2.py` deployed and `CHANDRA_OCR_2_SERVER_URL` in `backend/.env`. With the free
 Groq plan, rerun with `--reuse --workers 1` to finish forms that hit the rate limit.
+
+## v3d: repair the record with deterministic rules
+
+- **What:** one optional step after the LLM and before the scoring, `repair`, runs small rules over the record and saves what it
+  changed (`runs/v3d/repaired/<id>.json`: the repaired record and a list of rule, field, before, after). Rules in this run:
+  - `validity-dates`: swap an attestation's start and end when the start is after the end;
+  - `attestation-format`: write an attestation number as three characters, a space, then the digits;
+  - `phone-digits`: remove spaces, dots and dashes from the phone numbers;
+  - `policy-spaces`: remove spaces from policy numbers.
+- **Why:** `scripts/near_misses.py v3c` showed 57% of the wrong text fields were one or two characters off, and some errors were rules:
+  vehicle B's validity line is written right to left, so its two dates were read in reverse order, and ID numbers carried stray spaces.
+- **One change only, from the same outputs.** The saved Chandra text and the saved LLM records of v3c were copied to the v3d run and
+  scored again with `--reuse`, so no GPU or LLM call was made and the only difference is the repair step. Run `v3d`, dev run `v3d-dev5`.
+- **Two rules are not equal in how far they can be trusted.** Dates in order and separator-free phone and policy numbers hold on any real
+  form. The attestation format is the format of the synthetic forms, and real attestation numbers differ between insurers, so
+  that rule is only trusted here. Snapping names, insurers and prefectures to lists was left out on purpose: the lists would come from
+  the generator and inflate the score without the pipeline improving.
+
+### v3d results (20 test forms)
+
+| Metric | v3c | v3d (repaired) |
+|---|---|---|
+| Field accuracy, critical fields | 168 of 380 (44.2%) | **194 of 380 (51.1%)** |
+| Field accuracy, minor fields | 377 of 600 (62.8%) | **381 of 600 (63.5%)** |
+| Forms with no critical error | 0 of 20 | 0 of 20 |
+| Character error rate | 16.8% (critical 17.5%, minor 16.3%) | **16.1%** (critical 16.1%, minor 16.2%) |
+| Ticks, vehicle type, impact zone | unchanged | unchanged |
+| Cost per form | $0.0012 | $0.0012 (the step is free) |
+
+- **Dev check (5 forms):** 48 of 95 critical fields right (v3c: 43), 101 of 150 minor (99), character error rate 9.3% (9.9%).
+- **40 fields were changed, 30 became right, none that was right became wrong,** and 10 had no effect (the value was still wrong
+  after the repair).
+
+| Rule | Fields changed | Became right | No effect |
+|---|---|---|---|
+| `validity-dates` | 20 (10 vehicles) | 18 | 2 |
+| `attestation-format` | 13 | 7 | 6 |
+| `phone-digits` | 5 | 4 | 1 |
+| `policy-spaces` | 2 | 1 | 1 |
+
+- **The gain is +26 critical fields and +4 minor fields.** The critical gain is 18 dates, 7 attestation numbers and 1 policy number. Without
+  the attestation rule it is +19 critical.
+- **Wrong text fields: 405 of 980** (435 before). Fields whose exact value is in the text but returned wrong fell from 58 to 28.
+- **The forms are not close to automatic yet:** still 0 of 20 without a critical error, and 177 values (44% of the wrong ones) were never read,
+  which no rule can repair.
+
+### What this says about the next version
+- **Rules take the cheap, certain errors.** What is left is reading: 185 wrong fields are one or two characters from something in the text
+  (names, licence numbers, dates, plates), and 177 were not read.
+- **Next candidates:** a second opinion for the digit fields (RapidOCR's text beside Chandra's), re-reading the hard fields from crops, and
+  reading ticks and categories on the template without a model.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend
+mkdir -p ../runs/v3d && cp -r ../runs/v3c/{straightened,ocr,ocr_usage,structured} ../runs/v3d/
+STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra REPAIRS=all \
+  uv run python -m pipeline.run --run-id v3d --dev 0 --test 20 --reuse
+```

@@ -18,6 +18,7 @@ from ..core.schema import Record
 from ..data.storage import ArtifactStore
 from ..evaluation import FormResult, FormScorer, Usage
 from ..ocr import OcrEngine
+from ..repair import Repairer
 from ..straightening import Straightener
 from ..structuring import Structurer, StructuringInput
 
@@ -49,6 +50,7 @@ def build_graph(
     store: ArtifactStore,
     reuse: bool = False,
     straightener: Straightener | None = None,
+    repairer: Repairer | None = None,
 ) -> CompiledStateGraph:
     """Assemble the graph.
 
@@ -59,6 +61,7 @@ def build_graph(
         store: Where each step saves its output.
         reuse: If True, a step whose output is already saved is not run again (its saved output is loaded).
         straightener: If given, flattens the photo before OCR reads it.
+        repairer: If given, repairs the record after the LLM, before it is scored.
     """
 
     def straighten_node(state: PipelineState) -> dict[str, Any]:
@@ -114,6 +117,18 @@ def build_graph(
             "output_tokens": result.output_tokens,
         }
 
+    def repair_node(state: PipelineState) -> dict[str, Any]:
+        result = repairer.repair(state["record"])
+        store.write_json(
+            "repaired",
+            state["form_id"],
+            {
+                "record": result.record.model_dump(mode="json"),
+                "changes": [asdict(change) for change in result.changes],
+            },
+        )
+        return {"record": result.record}
+
     def evaluate_node(state: PipelineState) -> dict[str, Any]:
         usage = Usage(
             state["ocr_seconds"],
@@ -145,6 +160,11 @@ def build_graph(
     else:
         graph.add_edge(START, "ocr")
     graph.add_edge("ocr", "structure")
-    graph.add_conditional_edges("structure", after_structure, ["evaluate", END])
+    last = "structure"
+    if repairer:
+        graph.add_node("repair", repair_node)
+        graph.add_edge("structure", "repair")
+        last = "repair"
+    graph.add_conditional_edges(last, after_structure, ["evaluate", END])
     graph.add_edge("evaluate", END)
     return graph.compile()

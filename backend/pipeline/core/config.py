@@ -45,6 +45,9 @@ class Settings(BaseSettings):
     chandra_ocr_2_server_url: str | None = (
         None  # the vLLM server of engine "chandra-ocr-2" (backend/serving/)
     )
+    repairs: str | None = (
+        None  # comma-separated repair rules, or "all"; see pipeline/repair/factory.py
+    )
     structuring_prompt: str = "flat"  # "columns" goes with the OCR engine that returns zone blocks (see structuring/prompts.py)
 
     # straightening: flatten the photo before OCR; None leaves the photo as it is (v1 and v2)
