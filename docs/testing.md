@@ -4,7 +4,7 @@ How this project is tested, and why it's split the way it is. Applies to every v
 v1: later versions add their own tests to the same folders, following the same categories.
 Design decisions are in [plans/done/testing-ci.md](../plans/done/testing-ci.md).
 
-## 13 tests in total
+## 14 tests in total
 
 One pytest item per file, one file per capability being verified — not one item per file per seed
 or per case. Where a capability needs several checks (e.g. 8 generator-consistency rules, or 8
@@ -22,13 +22,14 @@ tests/regression/test_evaluation_regression.py .
 tests/unit/test_chandra.py .
 tests/unit/test_columns.py .
 tests/unit/test_graph.py .
+tests/unit/test_marks.py .
 tests/unit/test_metrics.py .
 tests/unit/test_ocr_engines.py .
 tests/unit/test_repair.py .
 tests/unit/test_reproducibility.py .
 tests/unit/test_schema.py .
 tests/unit/test_straightening.py .
-12 passed, 1 skipped
+13 passed, 1 skipped
 ```
 
 `addopts = "-ra"` (`pyproject.toml`) makes the skip reason print by default — no extra flag needed:
@@ -78,6 +79,7 @@ Fakes and pure functions only; no I/O beyond a temp directory, no real model or 
 | File | Sub-checks | What it tests |
 |---|---|---|
 | `test_schema.py` | 3 | 300 generated records validate against `Record`; the schema's `Literal` choices (vehicle type, impact zone, licence category) exactly match what the generator can produce, in both directions |
+| `test_marks.py` | 3 | Two forms rendered by the generator are read back exactly (ticks, vehicle type, licence letter, impact zone, OUI or NON); the marks overwrite the five fields they give, the tick count is the number of ticks and a missing vehicle is created; the graph scores the marks and saves them |
 | `test_metrics.py` | 8 | The scorer and all six `docs/metrics.md` metrics, on hand-built prediction/truth pairs whose correct score is known by construction: perfect prediction, one wrong digit, no output at all, ticks found/missed/extra, the category "guess most common" baseline, cost/time math |
 | `test_graph.py` | 3 | The LangGraph pipeline's wiring, with a fake OCR engine and structurer: state flows between nodes, each step's output is saved and reloadable (`--reuse`), a failing form is recorded and doesn't stop the run, and the graph stops after `structure` when no answer key is given (production behaviour) |
 | `test_ocr_engines.py` | 2 | The OCR registry builds the engine named in the settings and raises a clear error for an unknown name; the real RapidOCR engine reads the words and digits of a printed image the test draws itself, and reports its seconds |

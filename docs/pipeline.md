@@ -5,8 +5,8 @@ It is deliberately basic: plain OCR, then an LLM that only sees the OCR text. v1
 engine (PP-OCRv6), v3a added straightening, and v3b sorts the OCR text by zone of the form, and v3c replaces the OCR engine with Chandra-OCR-2 served on a GPU ([serving.md](serving.md)). Each changed one thing.
 
 ```
-photo ──► straighten ──► ocr ──► structure ──► repair ──► evaluate (only when an answer key is given) ──► result
-          (optional)     OCR engine  LLM, JSON mode  (optional)      field-by-field score
+photo ──► straighten ──► ocr ──► structure ──► marks ──► repair ──► evaluate (only when an answer key is given) ──► result
+          (optional)     OCR engine  LLM, JSON mode  (optional) (optional)      field-by-field score
 ```
 
 It is one LangGraph graph (`backend/pipeline/flow/graph.py`). Without an answer key the graph stops after `structure`, which
@@ -19,6 +19,7 @@ is how it would run in production.
 | **straighten** (optional) | `STRAIGHTENER=opencv` finds the page against the desk and warps it flat. Off by default, so v1 and v2 stay reproducible | `straightened/<id>.jpg` |
 | **ocr** | The engine named by `OCR_ENGINE` reads the image (the straightened one when that step ran) into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline; `rapidocr-v6-columns` returns the text as four zone blocks, and `chandra-ocr-2` reads the page with an OCR vision model on a server, see below). No contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
 | **structure** | An LLM (Groq `openai/gpt-oss-120b`, temperature 0) fills the `Record` from the text only. It never sees the image | `structured/<id>.json` (record and token counts) |
+| **marks** (optional) | `READ_MARKS=true` reads the ticks, vehicle-type tile, circled licence letter, impact patch and OUI/NON cells from fixed positions on the blank template, with plain image processing, and puts them in the record. Needs the straightened page. Off by default | `marks/<id>.json` |
 | **repair** (optional) | `REPAIRS=all` (or rule names, comma-separated) applies small deterministic rules to the record: validity dates in order, phone and policy numbers without separators, attestation number format. Off by default | `repaired/<id>.json` (the record and the list of changes) |
 | **evaluate** | Compares the record with the answer key, field by field | `evaluation/<id>.json` |
 
@@ -36,6 +37,14 @@ one block per layout region with its position (`data-bbox`, 0 to 1000). Each blo
 same per-form cuts, so the grouping code is shared with `rapidocr-v6-columns`. Checkboxes become `[x]` and `[ ]`, a circled letter `(x)`, and a
 picture's description `[image: ...]`. An answer that ends in a repeated pattern is regenerated at a higher temperature (up to 6 times).
 `STRUCTURING_PROMPT=chandra` selects the prompt that describes these marks.
+
+### Template marks (v3e)
+`marks/` (`MarksReader`) reads what a driver marked, with no model. The straightened page is aligned on the blank template (`align.py`, an ECC
+homography on the printed content), then each mark is a measurement at a position given by the template (`layout.py`): ink in each of the 23
+checkboxes of each vehicle (each box is placed on its own printed square first, since the page alignment can be a few pixels off), colour in
+the five vehicle-type tiles, ink on a ring around each licence letter, the zone rectangle that best matches the blue patch of the impact picture,
+and ink in the OUI or NON cells. The tick count is the number of ticks. The values replace the LLM's for those fields. The thresholds were set on
+the dev forms; `scripts/eval_marks.py <split>` checks the reader alone on a whole split. Built for the synthetic forms, whose marks are clean.
 
 ### Repair rules (v3d)
 `repair/` holds a `Repairer` that runs `RepairRule`s in order and reports every field a rule changed. A rule is a small class with a name and
@@ -93,6 +102,7 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 | `core/config.py` | `Settings` from the environment; no secret defaults |
 | `core/errors.py` | `PipelineError` and one subclass per step |
 | `core/observability.py` | Turns on LangSmith tracing |
+| `marks/` | `MarksReader`, `Marks`: ticks, tiles, circles and patch read from template positions; `layout.py` (geometry), `align.py` (page on template) |
 | `repair/` | `Repairer`, `RepairRule` (Protocol), the rules and a registry (`factory.py`) |
 | `straightening/` | `Straightener` (Protocol), a registry (`factory.py`) and `OpenCvStraightener` |
 | `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and six engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `rapidocr-v6-columns` (v6 with zone blocks, `columns.py`), `chandra-ocr-2` (`chandra.py`, a vision model on a server), `doctr` |
@@ -130,7 +140,7 @@ math replayed against v1's saved output) run on every push, no key needed. Integ
 (`tests/integration/`: the real pipeline on 2 forms) needs `GROQ_API_KEY` and self-skips without
 it. Full breakdown, file by file: [docs/testing.md](testing.md).
 
-## Known limits (v1 to v3d)
+## Known limits (v1 to v3e)
 
 - The LLM sees text only. Up to v3b that made ticks, circled letters, the highlighted vehicle type and the impact zone invisible; from v3c Chandra's text carries ticks and picture descriptions, but the category answers are still poor.
 - The OCR engines run with default settings on tilted phone photos; the only image step is straightening, and the zone split only regroups the boxes the engine found.

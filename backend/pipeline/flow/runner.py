@@ -105,6 +105,7 @@ def describe_run(
             "reasoning_effort": settings.llm_reasoning_effort,
         },
         "straightener": settings.straightener,
+        "read_marks": settings.read_marks,
         "repairs": settings.repairs,
         "structuring_prompt": settings.structuring_prompt,
         "ocr": {

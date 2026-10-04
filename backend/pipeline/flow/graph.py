@@ -17,6 +17,7 @@ from ..core.errors import StructuringError
 from ..core.schema import Record
 from ..data.storage import ArtifactStore
 from ..evaluation import FormResult, FormScorer, Usage
+from ..marks import MarksReader
 from ..ocr import OcrEngine
 from ..repair import Repairer
 from ..straightening import Straightener
@@ -51,6 +52,7 @@ def build_graph(
     reuse: bool = False,
     straightener: Straightener | None = None,
     repairer: Repairer | None = None,
+    marks_reader: MarksReader | None = None,
 ) -> CompiledStateGraph:
     """Assemble the graph.
 
@@ -62,6 +64,8 @@ def build_graph(
         reuse: If True, a step whose output is already saved is not run again (its saved output is loaded).
         straightener: If given, flattens the photo before OCR reads it.
         repairer: If given, repairs the record after the LLM, before it is scored.
+        marks_reader: If given, reads the ticks, tiles and circles from the template positions of the straightened page and
+            puts them in the record, after the LLM and before the repair step.
     """
 
     def straighten_node(state: PipelineState) -> dict[str, Any]:
@@ -117,6 +121,13 @@ def build_graph(
             "output_tokens": result.output_tokens,
         }
 
+    def marks_node(state: PipelineState) -> dict[str, Any]:
+        marks = marks_reader.read(
+            Path(state.get("straightened_path", state["image_path"]))
+        )
+        store.write_json("marks", state["form_id"], asdict(marks))
+        return {"record": marks.apply(state["record"])}
+
     def repair_node(state: PipelineState) -> dict[str, Any]:
         result = repairer.repair(state["record"])
         store.write_json(
@@ -161,10 +172,14 @@ def build_graph(
         graph.add_edge(START, "ocr")
     graph.add_edge("ocr", "structure")
     last = "structure"
-    if repairer:
-        graph.add_node("repair", repair_node)
-        graph.add_edge("structure", "repair")
-        last = "repair"
+    for name, node, step in (
+        ("marks", marks_node, marks_reader),
+        ("repair", repair_node, repairer),
+    ):
+        if step:
+            graph.add_node(name, node)
+            graph.add_edge(last, name)
+            last = name
     graph.add_conditional_edges(last, after_structure, ["evaluate", END])
     graph.add_edge("evaluate", END)
     return graph.compile()

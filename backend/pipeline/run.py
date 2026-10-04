@@ -9,13 +9,14 @@ import argparse
 import json
 import logging
 
-from .core.config import Settings
+from .core.config import BACKEND_DIR, Settings
 from .core.observability import configure_tracing
 from .data.dataset import DatasetReader
 from .data.storage import FileArtifactStore
 from .evaluation import FormScorer, build_default_evaluator
 from .flow.graph import build_graph
 from .flow.runner import PipelineRunner, describe_run, write_run_files
+from .marks import MarksReader
 from .ocr import build_ocr_engine
 from .repair import build_repairer
 from .straightening import build_straightener
@@ -82,6 +83,9 @@ def main() -> None:
         reuse=args.reuse,
         straightener=build_straightener(settings),
         repairer=build_repairer(settings),
+        marks_reader=MarksReader(BACKEND_DIR / "assets" / "constat-template.pdf")
+        if settings.read_marks
+        else None,
     )
     evaluator = build_default_evaluator(
         settings.input_price_per_million, settings.output_price_per_million

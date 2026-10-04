@@ -3,6 +3,8 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
+**v3e reads the ticks, tiles and circles from the form template** with plain image processing and changes nothing else. Results below.
+
 **v3d repairs the record after the LLM with small deterministic rules** and changes nothing else. Results below.
 
 **v3c replaces the OCR engine with Chandra-OCR-2**, an OCR vision model served on a GPU, and changes nothing else. Results below.
@@ -149,6 +151,26 @@ numbers. The v3c outputs were reused, so the rules are the only difference and n
 
 Details: [docs/results-log.md](docs/results-log.md).
 
+## v3e results (same 20 test forms, same OCR and LLM outputs as v3d)
+Ticks, the vehicle-type tile, the circled licence letter, the impact patch and the OUI/NON cells are measurements at known places on a fixed
+template. A step after the LLM aligns the page on the blank template and reads them with plain image processing: no model, no GPU.
+
+| | v3d | v3e |
+|---|---|---|
+| Ticks found / missed / extra | 10 / 15 / 4 | **25 / 0 / 0** |
+| Vehicle type | 12 of 40 | **40 of 40** |
+| Licence category | 2 of 40 | **40 of 40** |
+| Impact zone | 4 of 40 | **40 of 40** |
+| Other damage | 8 of 20 | **20 of 20** |
+| Critical fields right | 194 of 380 (51.1%) | 194 of 380 (51.1%) |
+
+- **On all 400 held-out test forms the reader alone is exact:** 542 of 542 ticks, and every category 800 of 800 (400 of 400 for OUI/NON).
+  Thresholds were set on the 100 dev forms only.
+- **A statement about the synthetic forms:** their marks are clean. Real photographed marks are messier, so this is a baseline.
+- **The text metrics do not move,** since the step reads marks, not text. What is left is text: digits and free handwriting.
+
+Details: [docs/results-log.md](docs/results-log.md).
+
 ## Design
 Clean code, open for extension and closed for modification, from day one.
 - One **LangGraph** graph (`ocr`, `structure`, `evaluate`) whose nodes only call injected parts.
@@ -183,12 +205,13 @@ STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20
 STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns uv run python -m pipeline.run --run-id v3b --dev 0 --test 20   # v3a plus zone blocks
 STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra uv run python -m pipeline.run --run-id v3c --dev 0 --test 20 --workers 8   # needs the Chandra server, see docs/serving.md
 # v3d: add REPAIRS=all to the v3c command and use --reuse on the saved v3c outputs (see docs/results-log.md)
+# v3e: add READ_MARKS=true to the v3d command (needs the straightener); uv run python -m scripts.eval_marks test reads the marks of all 400 test forms
 OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20   # the v1 baseline
 ```
 
 ## Layout
 ```
-backend/     generator/ (synthetic data), pipeline/ (v1 to v3c), serving/ (GPU model servers), tests/, scripts/
+backend/     generator/ (synthetic data), pipeline/ (v1 to v3e), serving/ (GPU model servers), tests/, scripts/
 frontend/    empty for now
 docs/        synthetic-data, metrics, pipeline, serving, testing, results-log
 runs/        run.json and summary.json of each run

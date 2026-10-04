@@ -48,6 +48,7 @@ class Settings(BaseSettings):
     chandra_ocr_2_server_url: str | None = (
         None  # the vLLM server of engine "chandra-ocr-2" (backend/serving/)
     )
+    read_marks: bool = False  # read ticks, tiles and circles from the template positions (needs the straightened page)
     repairs: str | None = (
         None  # comma-separated repair rules, or "all"; see pipeline/repair/factory.py
     )

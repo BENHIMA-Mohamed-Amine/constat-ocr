@@ -23,6 +23,7 @@ node_modules/
 # run outputs: keep run.json and summary.json, not the per-form files
 runs/*/straightened/
 runs/*/repaired/
+runs/*/marks/
 runs/*/ocr/
 runs/*/ocr_usage/
 runs/*/structured/

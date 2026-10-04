@@ -508,3 +508,83 @@ mkdir -p ../runs/v3d && cp -r ../runs/v3c/{straightened,ocr,ocr_usage,structured
 STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra REPAIRS=all \
   uv run python -m pipeline.run --run-id v3d --dev 0 --test 20 --reuse
 ```
+
+## v3e: read the ticks, tiles and circles from the template
+
+- **What:** one optional step after the LLM, `marks`, reads what the driver marked from fixed positions on the blank template, with plain
+  image processing: no model, no GPU, no LLM. The straightened page is aligned on the template (ECC homography on the printed content),
+  then each mark is a measurement at a known place:
+  - **ticks:** the share of ink pixels inside each of the 23 boxes of each vehicle (a pixel darker than the blank template is ink);
+  - **tick count:** the number of ticks (the form asks the driver to write that number);
+  - **vehicle type:** the tile with the most colour in the vehicle-type picture (the chosen tile is filled with the vehicle's highlight);
+  - **licence category:** the letter with the most ink on a ring around it (the driver circles one);
+  - **impact zone:** the zone rectangle that best matches the vivid blue patch on the impact picture;
+  - **other damage:** more ink in the OUI cells or in the NON cells.
+  The values replace the LLM's for those fields; the text fields are untouched. Same Chandra text and LLM records as v3d, scored again with
+  `--reuse`, so the step is the only difference. Run `v3e`, dev run `v3e-dev5`.
+- **Why:** after v3d the tick and category fields were still poor (ticks 10 found of 25, vehicle type 12 of 40, licence category 2 of 40).
+  The form is a fixed template, so these are measurements at known places, not a reading problem.
+- **Two things made it work:** the geometry comes from the blank template PDF, and the alignment is refined per box. Aligning the page once
+  was not enough: a first version missed 4 of the 130 dev ticks because the page was a few pixels off (up to 7) at one end of the column.
+  Placing each box on its own printed square, and thickening the template by 2 pixels so a printed line that lands off is not counted as
+  ink, took the gap between the lowest ticked box and the highest empty box from negative to +0.167.
+- **Thresholds were set on the dev forms only** (ticked boxes scored 0.225 and above, empty ones 0.058 and below, threshold 0.14).
+
+### v3e results
+
+**The reader alone, on whole splits** (`scripts/eval_marks.py`, no LLM, no GPU):
+
+| | Dev, 100 forms (thresholds set here) | Test, 400 held-out forms (read once) |
+|---|---|---|
+| Ticks found / missed / extra | 130 / 0 / 0 | **542 / 0 / 0** |
+| Tick count | 200 of 200 | **800 of 800** |
+| Vehicle type | 200 of 200 | **800 of 800** |
+| Licence category | 200 of 200 | **800 of 800** |
+| Impact zone | 200 of 200 | **800 of 800** |
+| Other damage | 100 of 100 | **400 of 400** |
+
+**In the pipeline, on the same 20 test forms as v3d:**
+
+| Metric | v3d | v3e |
+|---|---|---|
+| Ticks found / missed / extra | 10 / 15 / 4 | **25 / 0 / 0** |
+| Tick count written on the form | 4 of 40 | **40 of 40** |
+| Vehicle type | 12 of 40 (always "car": 88%) | **40 of 40** |
+| Licence category | 2 of 40 (always "B": 88%) | **40 of 40** |
+| Impact zone | 4 of 40 (always the most common: 28%) | **40 of 40** |
+| Other damage (yes/no) | 8 of 20 (always "no": 95%) | **20 of 20** |
+| Critical fields right | 194 of 380 (51.1%) | 194 of 380 (51.1%) |
+| Minor fields right | 381 of 600 (63.5%) | 381 of 600 (63.5%) |
+| Character error rate | 16.1% | 16.1% |
+| Cost and time | $0.0012 per form | $0.0012, plus about 0.7 s per form on a CPU |
+
+- **Every mark field now beats the "always guess the most common value" baseline,** which no earlier version did.
+- **Vehicle B's ticks are covered** (Chandra returned only vehicle A's boxes).
+- **The text metrics do not move:** the step reads marks, not text. The 405 wrong text fields of v3d are the same fields.
+- **Dev check (5 forms):** ticks 6 / 0 / 0 against 2 / 4 / 1, tick count 10 of 10, all categories 10 of 10.
+
+### What this does and does not show
+- **The reader is perfect on the synthetic forms, and that is a statement about those forms.** Their marks are clean programmatic ink
+  crosses, one circle, a colour fill and a blue patch, on a template the reader knows exactly. Real photographed forms have messier marks
+  (a tick that is a stroke, a circle that misses, a blue ballpoint patch), so this is a baseline for what the template alone can tell, not a
+  claim that the problem is solved on real forms.
+- **Two readings depend on how the source app draws:** the filled tile and the blue patch are what the app puts on the form. A hand-drawn
+  arrow would need a model.
+- **The tick count is derived,** the number of ticks, not the handwritten digit in the box. On a real form a driver may miscount.
+- **The geometry is imported from the generator package** (the template's definition lives there); one module, `pipeline/marks/layout.py`,
+  crosses that line.
+
+### What this says about the next version
+- **The mark fields are done on this data.** What is left is text: 405 wrong text fields, 55% one or two characters off and 44% never read.
+- **Next candidates:** a second opinion for the digit fields, re-reading the hard fields from crops, a general VLM as the upper bound,
+  and testing the template reader on messier marks.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend
+mkdir -p ../runs/v3e && cp -r ../runs/v3d/{straightened,ocr,ocr_usage,structured} ../runs/v3e/
+STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra REPAIRS=all READ_MARKS=true \
+  uv run python -m pipeline.run --run-id v3e --dev 0 --test 20 --reuse
+uv run python -m scripts.eval_marks test        # the reader alone on the 400 held-out forms
+```
