@@ -588,3 +588,120 @@ STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra REPAIRS=
   uv run python -m pipeline.run --run-id v3e --dev 0 --test 20 --reuse
 uv run python -m scripts.eval_marks test        # the reader alone on the 400 held-out forms
 ```
+
+## v4a: one open vision model reads the page and fills the record
+
+- **What:** the OCR step and the text LLM are replaced by one general open vision model, **Qwen3.8-27B** (Apache 2.0), served on Modal with
+  vLLM 0.30.0 on an H100 (`serving/deploy/qwen3_8_27b.py`, the Modal proxy token is required like for Chandra). It gets the straightened
+  photo and a short prompt, and answers with JSON that follows the `Record` schema (guided decoding, thinking switched off), so the keys and
+  types are always right. No `gpt-oss-120b` and no Groq call: the structurer is `VisionStructurer` (`STRUCTURER=vision`) and the OCR engine
+  is `none`. The marks reader (v3e) and the repair rules (v3d) still run after it. Same 20 test forms (`000100` to `000119`). Run `v4a`;
+  dev runs `v4a-dev5` (first prompt), `v4a-dev5-p2` and `v4a-dev5-p3`.
+- **Why:** v3e left 405 wrong text fields, 44% of them never read. A general model that sees the page and the schema together removes the
+  OCR-to-LLM hop where values were lost.
+- **The prompt** (`VLM_SYSTEM_PROMPT`, about 20 lines): copy exactly and use `null` rather than guess (a plausible value that is not on the page
+  is worse than null), read each digit on its own, leave the tick fields to the marks reader, and the written format of each value (dates,
+  time, plate, attestation, licence number, policy and phone digits, capitals). Set on the 5 dev forms only.
+- **Small sample:** 20 forms is 40 vehicles, one run. Read the percentages as an early signal.
+
+### Prompt iterations on the 5 dev forms (the test forms were not used)
+
+| Run | Prompt | Critical (of 95) | Minor (of 150) | Character error rate |
+|---|---|---|---|---|
+| v3e | Chandra + `gpt-oss-120b` | 48 | 101 | 9.3% |
+| `v4a-dev5` | first prompt | **52** | 121 | 5.85% |
+| `v4a-dev5-p2` | + capitals for names and places, licence slash hint | 50 | 121 | 5.78% |
+| `v4a-dev5-p3` | + "the 3rd character is always the slash" | 49 | 120 | 5.74% |
+
+- **The prompt is not the lever.** The three versions are within noise (a digit flips between runs). The only visible effect was the
+  capitalisation ("Ain sebaa casablanca" became "Ain Sebaa Casablanca").
+- **Licence numbers were the main error and the prompt did not fix them:** the thin `/` is read as `1` (`631063647` for `63/068647`) and
+  often another digit is wrong too. A repair rule that puts the slash back would fix 2 of 9, so it was not added.
+- **The kept prompt is the round-2 text.** Round 3's extra sentence did nothing, so it was removed.
+
+### v4a results (20 test forms)
+
+| Metric | v3c | v3d | v3e | v4a |
+|---|---|---|---|---|
+| Field accuracy, critical fields | 168 of 380 (44.2%) | 194 (51.1%) | 194 (51.1%) | **222 of 380 (58.4%)** |
+| Field accuracy, minor fields | 377 of 600 (62.8%) | 381 (63.5%) | 381 (63.5%) | **482 of 600 (80.3%)** |
+| Forms with no critical error | 0 of 20 | 0 | 0 | **0 of 20** |
+| Character error rate | 16.8% | 16.1% | 16.1% | **5.3%** |
+| Ticks found / missed / extra | 10 / 15 / 4 | 10 / 15 / 4 | 25 / 0 / 0 | 25 / 0 / 0 |
+| Vehicle type, licence category, impact zone, other damage | | | 100% | 100% (same reader as v3e) |
+| LLM cost (Groq) | $0.0012 per form | | | **none** (no LLM call) |
+| GPU cost (H100, estimated) | Chandra: **$0.018 per form** | | | **$0.029 per form** |
+| **Total cost per form** | **about $0.019** (v3c and v3e) | | | **about $0.029** |
+| Tokens per form | | | | 5,547 in, 850 out |
+| Time per form | 55 s OCR + LLM | | | 187 s mean, slowest 5% 233 s, with 8 forms at once on one H100 |
+
+- **The text got much better:** critical fields +28 against v3e, minor +101, character error rate down by two thirds. Wrong text fields:
+  **282 of 980** (405 in v3d).
+- **The marks do not move:** the v3e reader still fills them, so they equal v3e. The VLM was told to leave them `null`.
+- **Still no form without a critical error** (0 of 20), so nothing could go through without a human.
+- **No form failed.** All 20 produced valid JSON (guided decoding).
+
+### Where the errors are
+
+How far each of the 282 wrong text fields is from the truth (edit distance, computed from `runs/v4a/repaired/`). The model always answered, so
+there is no "never read" group: it is a misreading, not a gap.
+
+| Distance | Fields | Share |
+|---|---|---|
+| 1 edit | 135 | 48% |
+| 2 edits | 71 | 25% |
+| 3 or more | 76 | 27% |
+
+| Weakest fields (of 40) | Right | Strongest (of 40) | Right |
+|---|---|---|---|
+| licence number | 12 | licence prefecture | 39 |
+| attestation number | 16 | make | 37 |
+| validity start date | 16 | model | 36 |
+| plate | 18 | agency | 35 |
+| policy number | 18 | insurer | 34 |
+
+- **73% of the wrong fields are one or two characters off.** The pool is long digit strings (licence, attestation, policy, plate) and dates,
+  as in v3c: one digit flips, and a thin `/` becomes a `1`.
+- **It reads, it does not invent,** with one exception seen on the dev forms: vehicle B's make and model were wrong together on one form
+  (Dacia Logan for Toyota Yaris). Plausible-looking wrong values were not counted separately.
+- **`scripts/near_misses.py` does not apply here:** it compares with the OCR text, and this pipeline has none.
+
+### Cost and speed
+
+- **No per-token cost.** The `dollars_per_form` in `summary.json` ($0.0013) applies the Groq price to the VLM's tokens and is not a real cost.
+- **GPU cost** (H100 SXM5, $0.001097 per second on [modal.com/pricing](https://modal.com/pricing); wall-clock from the run log, not Modal's
+  bill): the batch took about 532 s for 20 forms, 8 at once. With the 250 s cold start and the 120 s scale-down window the container was up
+  for about 900 s: **about $0.99 for the batch, $0.05 per form**. Without the cold start and idle time, **about $0.029 per form**.
+- **Chandra's GPU cost, estimated from the saved v3c files** so the comparison is fair (the file times and OCR seconds of `runs/v3c` and
+  `runs/v3c-dev5`, which ran at the same time): 25 pages went through the H100 in about 406 s, so **16.3 s per page, $0.018 per form**.
+  Add the Groq LLM step ($0.0012) and **v3e costs about $0.019 per form**.
+- **So v4a is about 50% dearer per form** ($0.029 against $0.019), not free: it dropped the LLM bill but the 27B model uses more GPU time
+  per page than Chandra (26.6 s against 16.3 s). Both numbers leave out the cold start and the idle scale-down window.
+- **The two estimates are not on equal footing.** v3c ran 13 pages at once on the GPU and v4a 8 (the container's limit), so Chandra had a
+  fuller batch. A single run each, wall-clock times and not Modal's bill. Treat the gap as "about 1.5 times", not a precise ratio.
+- **Per-form latency is high (187 s)** because the 27B model shares the GPU between 8 pages; one page alone takes about 34 s.
+
+### What this does and does not show
+- **Same data caveat as before:** these are synthetic forms, and the VLM was never trained on them. The marks reader is still tuned to the
+  clean synthetic marks.
+- **The format rules in the prompt follow the generator** (plate, attestation, licence number shapes). On real forms those shapes would
+  differ, so part of the gain on the format-related fields is only trusted here.
+- **One run, one model, thinking off.** A 1 or 2 field gap between versions is noise.
+
+### What this says about the next version
+- **A general open VLM beats the OCR-model-plus-LLM chain on accuracy** on this data: 58% against 51% critical fields and 5% against 16%
+  character error rate, with one model and no LLM bill. It costs about 1.5 times more per form once the GPU is counted on both sides.
+- **The prompt is not the lever.** The remaining errors are digit-level misreadings.
+- **v4b candidates:** thinking mode on (costs time), re-reading the digit fields from crops at higher resolution, voting between several
+  samples, a bigger model (Gemini) as the upper bound, and raising the container's concurrency to cut GPU seconds per page, and measuring both GPU costs from Modal's bill.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend
+mkdir -p ../runs/v4a && cp -r ../runs/v3e/straightened ../runs/v4a/
+STRAIGHTENER=opencv OCR_ENGINE=none STRUCTURER=vision STRUCTURING_PROMPT=vlm REPAIRS=all READ_MARKS=true \
+  uv run python -m pipeline.run --run-id v4a --dev 0 --test 20 --workers 8 --reuse
+```
+Needs the Modal app of `serving/deploy/qwen3_8_27b.py` deployed, and `QWEN3_8_27B_SERVER_URL`, `MODAL_PROXY_TOKEN_ID` and `MODAL_PROXY_TOKEN_SECRET`
+in `backend/.env`. The first request after a deploy takes about 5 to 10 minutes while 55 GB of weights load.

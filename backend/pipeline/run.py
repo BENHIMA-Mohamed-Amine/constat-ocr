@@ -20,8 +20,7 @@ from .marks import MarksReader
 from .ocr import build_ocr_engine
 from .repair import build_repairer
 from .straightening import build_straightener
-from .structuring import LangChainStructurer, build_chat_model
-from .structuring.prompts import PROMPTS
+from .structuring import build_structurer
 
 
 def main() -> None:
@@ -75,9 +74,7 @@ def main() -> None:
     scorer = FormScorer()
     graph = build_graph(
         build_ocr_engine(settings),
-        LangChainStructurer(
-            build_chat_model(settings), PROMPTS[settings.structuring_prompt]
-        ),
+        build_structurer(settings),
         scorer,
         store,
         reuse=args.reuse,

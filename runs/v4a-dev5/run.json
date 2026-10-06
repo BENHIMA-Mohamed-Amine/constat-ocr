@@ -1,0 +1,60 @@
+{
+  "run_id": "v4a-dev5",
+  "date_utc": "2026-10-06T19:09:48+00:00",
+  "dataset_fingerprint": "3ba968bd8c4281e6ed76a1c94c0b60e6101a80011b6593a2751a8212ed73e291",
+  "forms": [
+    {
+      "id": "000000",
+      "split": "dev"
+    },
+    {
+      "id": "000001",
+      "split": "dev"
+    },
+    {
+      "id": "000002",
+      "split": "dev"
+    },
+    {
+      "id": "000003",
+      "split": "dev"
+    },
+    {
+      "id": "000004",
+      "split": "dev"
+    }
+  ],
+  "llm": {
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "temperature": 0.0,
+    "reasoning_effort": "low"
+  },
+  "straightener": "opencv",
+  "read_marks": true,
+  "repairs": "all",
+  "structurer": "vision",
+  "structuring_prompt": "vlm",
+  "ocr": {
+    "engine": "none",
+    "languages": [
+      "fra"
+    ],
+    "tesseract": "5.3.4"
+  },
+  "versions": {
+    "langchain": "1.4.2",
+    "langchain-core": "1.6.5",
+    "langchain-groq": "1.1.3",
+    "langchain-community": "0.4.2",
+    "langgraph": "1.2.12",
+    "langsmith": "0.14.1",
+    "pydantic": "2.13.5",
+    "pytesseract": "0.3.13",
+    "opencv-python": "5.0.0.93",
+    "rapidocr": "3.9.2",
+    "jiwer": "4.0.0"
+  },
+  "python": "3.13.9",
+  "command": "/home/benhima/projects/constat-ocr/backend/pipeline/run.py --run-id v4a-dev5 --dev 5 --test 0 --workers 5 --reuse"
+}

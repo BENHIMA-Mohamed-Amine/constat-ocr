@@ -106,7 +106,7 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 | `repair/` | `Repairer`, `RepairRule` (Protocol), the rules and a registry (`factory.py`) |
 | `straightening/` | `Straightener` (Protocol), a registry (`factory.py`) and `OpenCvStraightener` |
 | `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and six engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `rapidocr-v6-columns` (v6 with zone blocks, `columns.py`), `chandra-ocr-2` (`chandra.py`, a vision model on a server), `doctr` |
-| `structuring/` | `Structurer` (Protocol), `LangChainStructurer`, the prompts (`flat`, `columns` and `chandra`), the generated output format, the model factory |
+| `structuring/` | `Structurer` (Protocol), `LangChainStructurer` (text, `STRUCTURER=text`), `VisionStructurer` (v4a, `STRUCTURER=vision`: the image goes to a vision model on a vLLM server and a schema-guided JSON comes back), the prompts (`flat`, `columns`, `chandra` and `vlm`), the generated output format, the model and structurer factories |
 | `evaluation/` | `FormScorer`, one class per metric, `Evaluator` |
 | `data/storage.py` | `ArtifactStore` (Protocol) and `FileArtifactStore` |
 | `data/dataset.py` | Reads the frozen dataset and picks the evaluation forms |

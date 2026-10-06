@@ -5,7 +5,7 @@ The pipeline reaches them through one URL per model. Code: `backend/serving/`.
 
 ```
 backend/serving/
-├── deploy/    one Modal app per model: chandra_ocr_2.py, paddleocr_vl.py, deepseek_ocr_2.py
+├── deploy/    one Modal app per model: chandra_ocr_2.py, qwen3_8_27b.py, paddleocr_vl.py, deepseek_ocr_2.py
 └── query/     probes you run from your machine against a deployed server (one page, called twice: cold, then warm)
 ```
 
@@ -14,6 +14,7 @@ backend/serving/
 | Model | App name | Served name | Result |
 |---|---|---|---|
 | Chandra-OCR-2 (Datalab, 5.3B) | `constat-chandra-ocr-2` | `chandra-ocr-2` | **Used by v3c.** H100 |
+| Qwen3.8-27B (Alibaba, general vision model) | `constat-qwen3-8-27b` | `qwen3-8-27b` | **Used by v4a.** H100, reads the page and returns the record as JSON |
 | PaddleOCR-VL-1.6 (0.9B) | `constat-paddleocr-vl` | `paddleocr-vl` | Looped on the whole handwritten page. Dropped |
 | DeepSeek-OCR-2 (3.4B) | `constat-deepseek-ocr-2` | `deepseek-ocr-2` | Hallucinated after the header, even with its repetition guard. Dropped |
 

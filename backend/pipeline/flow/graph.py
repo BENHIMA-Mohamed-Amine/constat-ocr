@@ -102,7 +102,11 @@ def build_graph(
                 "output_tokens": usage["output_tokens"],
             }
         result = structurer.structure(
-            StructuringInput(form_id, Path(state["image_path"]), state.get("ocr_text"))
+            StructuringInput(
+                form_id,
+                Path(state.get("straightened_path", state["image_path"])),
+                state.get("ocr_text"),
+            )
         )
         usage = {
             "seconds": result.seconds,

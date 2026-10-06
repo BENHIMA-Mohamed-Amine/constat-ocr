@@ -107,6 +107,7 @@ def describe_run(
         "straightener": settings.straightener,
         "read_marks": settings.read_marks,
         "repairs": settings.repairs,
+        "structurer": settings.structurer,
         "structuring_prompt": settings.structuring_prompt,
         "ocr": {
             "engine": settings.ocr_engine,

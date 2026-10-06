@@ -8,6 +8,8 @@ from pathlib import Path
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from .errors import ConfigurationError
+
 BACKEND_DIR = Path(__file__).resolve().parents[2]
 REPO_DIR = BACKEND_DIR.parent
 
@@ -48,6 +50,10 @@ class Settings(BaseSettings):
     chandra_ocr_2_server_url: str | None = (
         None  # the vLLM server of engine "chandra-ocr-2" (backend/serving/)
     )
+    qwen3_8_27b_server_url: str | None = (
+        None  # the vLLM server of the vision structurer (backend/serving/)
+    )
+    structurer: str = "text"  # "vision" reads the image with a vision model instead of the OCR text (see structuring/factory.py)
     read_marks: bool = False  # read ticks, tiles and circles from the template positions (needs the straightened page)
     repairs: str | None = (
         None  # comma-separated repair rules, or "all"; see pipeline/repair/factory.py
@@ -66,3 +72,15 @@ class Settings(BaseSettings):
     # evaluation set: the first N forms of each split (kept small by the LLM provider's free-plan limits)
     eval_dev_count: int = 5
     eval_test_count: int = 20
+
+    def modal_proxy_token(self) -> str:
+        """The proxy token the model servers require, as ``<id>.<secret>``.
+
+        Raises:
+            ConfigurationError: If the id or the secret is not set.
+        """
+        if not (self.modal_proxy_token_id and self.modal_proxy_token_secret):
+            raise ConfigurationError(
+                "MODAL_PROXY_TOKEN_ID and MODAL_PROXY_TOKEN_SECRET are not set"
+            )
+        return f"{self.modal_proxy_token_id}.{self.modal_proxy_token_secret.get_secret_value()}"

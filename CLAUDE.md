@@ -100,10 +100,10 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 │   │   ├── marks/      # optional step after the LLM: MarksReader reads ticks, tiles, circles and patch from template positions (no model)
 │   │   ├── repair/     # optional step after the LLM: Repairer, rules (dates in order, ID and phone formats), registry
 │   │   ├── straightening/  # optional step 0: Straightener, registry, OpenCvStraightener (flattens the photo)
-│   │   ├── ocr/       # step 1: OcrEngine, the engine registry, columns.py (text grouped by zone), chandra.py (vision model on a server)
-│   │   ├── structuring/  # step 2: Structurer, prompt, model factory
+│   │   ├── ocr/       # step 1: OcrEngine, the engine registry, columns.py (text grouped by zone), chandra.py (vision model on a server), none.py (reads nothing, for v4a)
+│   │   ├── structuring/  # step 2: Structurer, prompts, model and structurer factories, vision.py (v4a: a vision model reads the image and returns the record)
 │   │   └── evaluation/   # step 3: scorer, metrics
-│   ├── serving/       # Modal + vLLM model servers: deploy/ (one app per model), query/ (probes against a deployed URL)
+│   ├── serving/       # Modal + vLLM model servers: deploy/ (one app per model: Chandra, Qwen3.8-27B, ...), query/ (probes against a deployed URL)
 │   ├── scripts/       # analyze_run.py (where errors come from), near_misses.py (how close wrong fields are), eval_marks.py (template reader on a split), make_template.py
 │   ├── tests/         # unit/, regression/, integration/ (see docs/testing.md)
 │   └── assets/        # blank constat template and handwriting fonts

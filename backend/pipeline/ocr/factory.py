@@ -54,15 +54,16 @@ def _chandra_ocr_2(settings: Settings) -> OcrEngine:
 
     if not settings.chandra_ocr_2_server_url:
         raise ConfigurationError("CHANDRA_OCR_2_SERVER_URL is not set")
-    if not (settings.modal_proxy_token_id and settings.modal_proxy_token_secret):
-        raise ConfigurationError(
-            "MODAL_PROXY_TOKEN_ID and MODAL_PROXY_TOKEN_SECRET are not set"
-        )
-    secret = settings.modal_proxy_token_secret.get_secret_value()
     return ChandraOcrEngine(
-        settings.chandra_ocr_2_server_url,
-        auth_token=f"{settings.modal_proxy_token_id}.{secret}",
+        settings.chandra_ocr_2_server_url, auth_token=settings.modal_proxy_token()
     )
+
+
+@register_ocr_engine("none")
+def _none(settings: Settings) -> OcrEngine:
+    from .none import NoOcrEngine
+
+    return NoOcrEngine()
 
 
 @register_ocr_engine("doctr")

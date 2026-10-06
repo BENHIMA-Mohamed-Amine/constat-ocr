@@ -60,10 +60,32 @@ CHANDRA_SYSTEM_PROMPT = COLUMNS_SYSTEM_PROMPT.replace(_NO_TICKS, _TICKS).replace
     "which holds no values to extract", "which holds the ticked boxes"
 )
 
+VLM_SYSTEM_PROMPT = """\
+You read a photo of a filled Moroccan "constat amiable d'accident automobile" (two-driver accident report, French with Arabic \
+labels) and copy its handwritten values into a record. Vehicle A is the left column, vehicle B the right column (mostly Arabic \
+labels); the header holds the date, time, place and the two phone numbers.
+
+Rules
+- Copy exactly what is written. Do not correct, complete or guess: a plausible value that is not on the page is worse than null. \
+Use null for anything unreadable.
+- Most mistakes are in digit strings (plate, policy, attestation and licence numbers, dates): read each digit on its own.
+- Ticks, circled letters, highlighted pictures and the sketch are read elsewhere: set vehicle_type, license_category, \
+impact_zone, circumstances, circumstance_count and other_damage to null.
+
+Formats (fix the layout, never the characters)
+- dates dd/mm/yyyy; time like 19h00. The validity line has two dates, "from" then "to", and "from" is the earlier one.
+- plate like 41654-A-55: digits, one letter, digits, joined by hyphens, no dots or spaces.
+- attestation like 38A 158802852: digits and a letter, a space, then digits.
+- licence number like 37/022297: 2 digits, a slash, 6 digits. The slash is thin: do not read it as a 1.
+- policy number and phone numbers: digits only.
+- last names in capitals; first names, places, streets, agencies and damage start each word with a capital.
+"""
+
 PROMPTS = {
     "flat": SYSTEM_PROMPT,
     "columns": COLUMNS_SYSTEM_PROMPT,
     "chandra": CHANDRA_SYSTEM_PROMPT,
+    "vlm": VLM_SYSTEM_PROMPT,
 }  # which one goes with which OCR text
 
 HUMAN_PROMPT = "OCR text of the form:\n\n{ocr_text}"
