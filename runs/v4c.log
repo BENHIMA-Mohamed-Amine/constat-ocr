@@ -1,0 +1,261 @@
+20:17:51 INFO LangSmith tracing: on
+20:17:51 INFO [1/20] form 000100 (test)
+20:17:51 INFO [2/20] form 000101 (test)
+20:17:51 INFO [3/20] form 000102 (test)
+20:17:51 INFO [4/20] form 000103 (test)
+20:17:51 INFO [5/20] form 000104 (test)
+20:17:51 INFO [6/20] form 000105 (test)
+20:17:51 INFO [7/20] form 000106 (test)
+20:17:51 INFO [8/20] form 000107 (test)
+20:25:14 INFO [9/20] form 000108 (test)
+20:25:45 INFO [10/20] form 000109 (test)
+20:26:14 INFO [11/20] form 000110 (test)
+20:26:16 INFO [12/20] form 000111 (test)
+20:27:04 INFO [13/20] form 000112 (test)
+20:27:04 INFO [14/20] form 000113 (test)
+20:27:06 INFO [15/20] form 000114 (test)
+20:29:01 INFO [16/20] form 000115 (test)
+20:29:54 WARNING Failed to send compressed multipart ingest: Connection error caused failure to POST https://api.smith.langchain.com/runs/multipart in LangSmith API. Please confirm your internet connection. ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Max retries exceeded with url: /runs/multipart (Caused by ReadTimeoutError("HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Read timed out. (read timeout=3)"))'))
+Content-Length: 2069
+API Key: lsv2_********************************************2btrace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112dd-8d73-7440-aa98-5b2a113c6147; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c313-7ee2-957b-ecde0ab2ef37
+20:30:23 INFO [17/20] form 000116 (test)
+20:30:41 WARNING Failed to send compressed multipart ingest: Connection error caused failure to POST https://api.smith.langchain.com/runs/multipart in LangSmith API. Please confirm your internet connection. ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Max retries exceeded with url: /runs/multipart (Caused by ReadTimeoutError("HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Read timed out. (read timeout=3)"))'))
+Content-Length: 5608
+API Key: lsv2_********************************************2btrace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c313-7ee2-957b-ecde0ab2ef37; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c528-7cc1-a957-6db35139de97; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c529-7801-850a-1ce239718ffe; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c529-7801-850a-1ce239718ffe; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c528-7cc1-a957-6db35139de97; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c52a-71d0-84e3-671995207bd0; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112e7-c52a-71d0-84e3-671995207bd0; trace=01a112dd-8d3b-7523-8c15-7c5a6fdad1da,id=01a112dd-8d3b-7523-8c15-7c5a6fdad1da; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c52e-7851-abe8-d5e75063edc8; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c52f-7bf1-b791-c393a1ff27d1; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c52f-7bf1-b791-c393a1ff27d1; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c530-7221-a6fb-603f9bea908b; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c530-7221-a6fb-603f9bea908b; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c531-7692-a261-816528bbdd97; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c531-7692-a261-816528bbdd97; trace=01a112e7-c52e-7851-abe8-d5e75063edc8,id=01a112e7-c532-72c2-8287-f90d5f35b62a
+20:31:27 WARNING Failed to send compressed multipart ingest: Connection error caused failure to POST https://api.smith.langchain.com/runs/multipart in LangSmith API. Please confirm your internet connection. ConnectionError(MaxRetryError('HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Max retries exceeded with url: /runs/multipart (Caused by ReadTimeoutError("HTTPSConnectionPool(host=\'api.smith.langchain.com\', port=443): Read timed out. (read timeout=3)"))'))
+Content-Length: 5860
+API Key: lsv2_********************************************2btrace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e4-c84a-76d0-b70e-287d5a20a472; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-0361-7203-a7a2-45ea67ff056e; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-0361-7203-a7a2-45ea67ff056e; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-054f-7781-bd73-a985e4266ce3; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-0551-7550-bada-4c9095595588; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-0551-7550-bada-4c9095595588; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-054f-7781-bd73-a985e4266ce3; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-0552-7412-953b-a30b023f9afb; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e9-0552-7412-953b-a30b023f9afb; trace=01a112e4-c845-7c82-9ae5-14745fe2cee3,id=01a112e4-c845-7c82-9ae5-14745fe2cee3; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-056c-7673-a0fc-a7839bf347d6; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-056e-7f70-af35-88d45b1ebc93; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-056e-7f70-af35-88d45b1ebc93; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-056e-7f70-af35-88e1fe504385; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-056e-7f70-af35-88e1fe504385; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-0570-7ab0-ad76-ab714a6dedc9; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-0570-7ab0-ad76-ab714a6dedc9; trace=01a112e9-056c-7673-a0fc-a7839bf347d6,id=01a112e9-0571-7b10-849c-f03d4d6d94b2
+20:32:08 INFO [18/20] form 000117 (test)
+20:32:27 WARNING crop reading failed for 000117.jpg: ConnectError('[Errno -3] Temporary failure in name resolution')
+20:32:27 INFO [19/20] form 000118 (test)
+20:32:39 WARNING crop reading failed for 000110.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:32:39 INFO [20/20] form 000119 (test)
+20:32:40 WARNING crop reading failed for 000112.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:32:40 WARNING crop reading failed for 000113.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:32:50 WARNING crop reading failed for 000111.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:32:50 WARNING crop reading failed for 000114.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:32:50 WARNING crop reading failed for 000115.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:32:50 WARNING crop reading failed for 000116.jpg: HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+{
+  "forms": 20,
+  "forms_with_output": 20,
+  "field_accuracy": {
+    "critical": {
+      "correct": 285,
+      "total": 380,
+      "accuracy": 0.75
+    },
+    "minor": {
+      "correct": 495,
+      "total": 600,
+      "accuracy": 0.825
+    },
+    "per_field": {
+      "agency": {
+        "correct": 35,
+        "total": 40,
+        "accuracy": 0.875
+      },
+      "attestation_no": {
+        "correct": 27,
+        "total": 40,
+        "accuracy": 0.675
+      },
+      "coming_from": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "damage": {
+        "correct": 25,
+        "total": 40,
+        "accuracy": 0.625
+      },
+      "date": {
+        "correct": 16,
+        "total": 20,
+        "accuracy": 0.8
+      },
+      "driver_address": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "driver_first_name": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "driver_last_name": {
+        "correct": 29,
+        "total": 40,
+        "accuracy": 0.725
+      },
+      "going_to": {
+        "correct": 31,
+        "total": 40,
+        "accuracy": 0.775
+      },
+      "insured_address": {
+        "correct": 28,
+        "total": 40,
+        "accuracy": 0.7
+      },
+      "insured_first_name": {
+        "correct": 32,
+        "total": 40,
+        "accuracy": 0.8
+      },
+      "insured_last_name": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "insurer": {
+        "correct": 31,
+        "total": 40,
+        "accuracy": 0.775
+      },
+      "license_issued": {
+        "correct": 35,
+        "total": 40,
+        "accuracy": 0.875
+      },
+      "license_no": {
+        "correct": 22,
+        "total": 40,
+        "accuracy": 0.55
+      },
+      "license_prefecture": {
+        "correct": 39,
+        "total": 40,
+        "accuracy": 0.975
+      },
+      "license_valid_until": {
+        "correct": 37,
+        "total": 40,
+        "accuracy": 0.925
+      },
+      "make": {
+        "correct": 40,
+        "total": 40,
+        "accuracy": 1.0
+      },
+      "model": {
+        "correct": 38,
+        "total": 40,
+        "accuracy": 0.95
+      },
+      "phone_a": {
+        "correct": 14,
+        "total": 20,
+        "accuracy": 0.7
+      },
+      "phone_b": {
+        "correct": 17,
+        "total": 20,
+        "accuracy": 0.85
+      },
+      "place": {
+        "correct": 16,
+        "total": 20,
+        "accuracy": 0.8
+      },
+      "plate": {
+        "correct": 23,
+        "total": 40,
+        "accuracy": 0.575
+      },
+      "policy_no": {
+        "correct": 26,
+        "total": 40,
+        "accuracy": 0.65
+      },
+      "time": {
+        "correct": 19,
+        "total": 20,
+        "accuracy": 0.95
+      },
+      "valid_from": {
+        "correct": 29,
+        "total": 40,
+        "accuracy": 0.725
+      },
+      "valid_to": {
+        "correct": 39,
+        "total": 40,
+        "accuracy": 0.975
+      }
+    }
+  },
+  "forms_without_critical_error": {
+    "forms": 20,
+    "without_critical_error": 2,
+    "share": 0.1
+  },
+  "character_error_rate": {
+    "overall": {
+      "edits": 354,
+      "characters": 10897,
+      "rate": 0.03248600532256584
+    },
+    "critical": {
+      "edits": 165,
+      "characters": 4115,
+      "rate": 0.040097205346294046
+    },
+    "minor": {
+      "edits": 189,
+      "characters": 6782,
+      "rate": 0.02786788557947508
+    }
+  },
+  "checkbox_score": {
+    "ticks_found": 25,
+    "ticks_missed": 0,
+    "ticks_extra": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tick_count_correct": 40,
+    "tick_count_total": 40
+  },
+  "category_accuracy": {
+    "impact_zone": {
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "most_common_answer": "front_left",
+      "guess_most_common_accuracy": 0.275
+    },
+    "license_category": {
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "most_common_answer": "b",
+      "guess_most_common_accuracy": 0.875
+    },
+    "other_damage": {
+      "correct": 20,
+      "total": 20,
+      "accuracy": 1.0,
+      "most_common_answer": "false",
+      "guess_most_common_accuracy": 0.95
+    },
+    "vehicle_type": {
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "most_common_answer": "car",
+      "guess_most_common_accuracy": 0.875
+    }
+  },
+  "cost_and_time": {
+    "forms_measured": 20,
+    "input_tokens": 110935,
+    "output_tokens": 16997,
+    "dollars_total": 0.02683845,
+    "dollars_per_form": 0.0013419225,
+    "seconds_mean": 187.2128083605,
+    "seconds_p95": 232.68287274099976
+  }
+}

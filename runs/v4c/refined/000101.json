@@ -1,0 +1,124 @@
+{
+  "record": {
+    "date": "05/09/2024",
+    "time": "20h45",
+    "place": "Bd Al Massira Casablanca",
+    "phone_a": "0709535327",
+    "phone_b": "0697284038",
+    "other_damage": true,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Honda",
+      "model": "SH",
+      "plate": "37384-J-64",
+      "coming_from": "Av. Hassan II",
+      "going_to": "Av. Al Qods",
+      "insured_last_name": "LAMRANI",
+      "insured_first_name": "Youssef",
+      "insured_address": "Al Massira Kenitra",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "75A 203686288",
+      "policy_no": "194807153209152",
+      "valid_from": "27/06/2024",
+      "valid_to": "27/06/2025",
+      "agency": "AGENCE KENITRA CENTRE",
+      "driver_last_name": "LAMRANI",
+      "driver_first_name": "Youssef",
+      "driver_address": "Agdal Kenitra",
+      "license_no": "78/939623",
+      "license_category": null,
+      "license_issued": "28/04/1999",
+      "license_prefecture": "Kenitra",
+      "license_valid_until": "28/04/2029",
+      "damage": "Portiere avant droite",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Renault",
+      "model": "Kangoo",
+      "plate": "62233-J-30",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Rue Alal Ben Abdeliah",
+      "insured_last_name": "CHRAIBI",
+      "insured_first_name": "Youssef",
+      "insured_address": "Sidi Maouf Meknes",
+      "insurer": "SAHAM ASSURANCE",
+      "attestation_no": "20A 787700146",
+      "policy_no": "563883558770",
+      "valid_from": "25/08/2024",
+      "valid_to": "24/08/2025",
+      "agency": "BENALI ASSURANCES",
+      "driver_last_name": "KABBAD",
+      "driver_first_name": "Mohamed",
+      "driver_address": "Hay Riad Meknes",
+      "license_no": "93/01181",
+      "license_category": null,
+      "license_issued": "13/09/2023",
+      "license_prefecture": "Meknes",
+      "license_valid_until": "13/09/2028",
+      "damage": "Pare choc arriere, coffre",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "33384-J-64",
+      "after": "37384-J-64"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "35A 203686288",
+      "after": "75A 203686288"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "28/06/2024",
+      "after": "27/06/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "38/938623",
+      "after": "78/939623"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.coming_from",
+      "before": "Bd Zerhouni",
+      "after": "Bd Zerktouni"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.going_to",
+      "before": "Rue Abi Ben Abdelkader",
+      "after": "Rue Alal Ben Abdeliah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "563823558770",
+      "after": "563883558770"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.driver_last_name",
+      "before": "KABBADJ",
+      "after": "KABBAD"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "93/011381",
+      "after": "93/01181"
+    }
+  ]
+}

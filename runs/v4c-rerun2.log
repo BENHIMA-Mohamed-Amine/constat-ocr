@@ -1,0 +1,268 @@
+20:47:19 INFO LangSmith tracing: on
+20:47:19 INFO [1/20] form 000100 (test)
+20:47:19 INFO [2/20] form 000101 (test)
+20:47:19 INFO [3/20] form 000102 (test)
+20:47:19 INFO [4/20] form 000103 (test)
+20:47:19 INFO [5/20] form 000104 (test)
+20:47:19 INFO [6/20] form 000105 (test)
+20:47:19 INFO [7/20] form 000106 (test)
+20:47:19 INFO [8/20] form 000107 (test)
+20:47:21 INFO [9/20] form 000108 (test)
+20:47:21 INFO [10/20] form 000109 (test)
+20:47:21 INFO [11/20] form 000110 (test)
+20:47:22 INFO [12/20] form 000111 (test)
+20:47:22 INFO [13/20] form 000112 (test)
+20:47:22 INFO [14/20] form 000113 (test)
+20:47:22 INFO [15/20] form 000114 (test)
+20:47:22 INFO [16/20] form 000115 (test)
+20:47:22 INFO [17/20] form 000116 (test)
+20:47:23 INFO [18/20] form 000117 (test)
+20:54:32 WARNING crop reading failed for 000112.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:33 WARNING crop reading failed for 000114.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:33 WARNING crop reading failed for 000117.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:33 WARNING crop reading failed for 000115.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:33 WARNING crop reading failed for 000116.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:43 WARNING crop reading failed for 000111.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:43 WARNING crop reading failed for 000110.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:43 WARNING crop reading failed for 000113.jpg (try 1 of 3): HTTPStatusError("Server error '502 Bad Gateway' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502")
+20:54:47 WARNING crop reading failed for 000116.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:47 WARNING crop reading failed for 000115.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:47 WARNING crop reading failed for 000114.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:47 WARNING crop reading failed for 000117.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:47 WARNING crop reading failed for 000112.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:51 WARNING crop reading failed for 000110.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:51 WARNING crop reading failed for 000111.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:54:51 WARNING crop reading failed for 000113.jpg (try 2 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:01 WARNING crop reading failed for 000116.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:01 WARNING crop reading failed for 000115.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:01 WARNING crop reading failed for 000114.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:01 WARNING crop reading failed for 000117.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:01 WARNING crop reading failed for 000112.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:01 INFO [19/20] form 000118 (test)
+20:55:02 INFO [20/20] form 000119 (test)
+20:55:04 WARNING crop reading failed for 000110.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:04 WARNING crop reading failed for 000111.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+20:55:04 WARNING crop reading failed for 000113.jpg (try 3 of 3): HTTPStatusError("Server error '503 Service Unavailable' for url 'https://benhima-mohamed-amine--constat-qwen3-8-27b-server.us-east.modal.direct/v1/chat/completions'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503")
+{
+  "forms": 20,
+  "forms_with_output": 20,
+  "field_accuracy": {
+    "critical": {
+      "correct": 285,
+      "total": 380,
+      "accuracy": 0.75
+    },
+    "minor": {
+      "correct": 495,
+      "total": 600,
+      "accuracy": 0.825
+    },
+    "per_field": {
+      "agency": {
+        "correct": 35,
+        "total": 40,
+        "accuracy": 0.875
+      },
+      "attestation_no": {
+        "correct": 27,
+        "total": 40,
+        "accuracy": 0.675
+      },
+      "coming_from": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "damage": {
+        "correct": 25,
+        "total": 40,
+        "accuracy": 0.625
+      },
+      "date": {
+        "correct": 16,
+        "total": 20,
+        "accuracy": 0.8
+      },
+      "driver_address": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "driver_first_name": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "driver_last_name": {
+        "correct": 29,
+        "total": 40,
+        "accuracy": 0.725
+      },
+      "going_to": {
+        "correct": 31,
+        "total": 40,
+        "accuracy": 0.775
+      },
+      "insured_address": {
+        "correct": 28,
+        "total": 40,
+        "accuracy": 0.7
+      },
+      "insured_first_name": {
+        "correct": 32,
+        "total": 40,
+        "accuracy": 0.8
+      },
+      "insured_last_name": {
+        "correct": 33,
+        "total": 40,
+        "accuracy": 0.825
+      },
+      "insurer": {
+        "correct": 31,
+        "total": 40,
+        "accuracy": 0.775
+      },
+      "license_issued": {
+        "correct": 35,
+        "total": 40,
+        "accuracy": 0.875
+      },
+      "license_no": {
+        "correct": 22,
+        "total": 40,
+        "accuracy": 0.55
+      },
+      "license_prefecture": {
+        "correct": 39,
+        "total": 40,
+        "accuracy": 0.975
+      },
+      "license_valid_until": {
+        "correct": 37,
+        "total": 40,
+        "accuracy": 0.925
+      },
+      "make": {
+        "correct": 40,
+        "total": 40,
+        "accuracy": 1.0
+      },
+      "model": {
+        "correct": 38,
+        "total": 40,
+        "accuracy": 0.95
+      },
+      "phone_a": {
+        "correct": 14,
+        "total": 20,
+        "accuracy": 0.7
+      },
+      "phone_b": {
+        "correct": 17,
+        "total": 20,
+        "accuracy": 0.85
+      },
+      "place": {
+        "correct": 16,
+        "total": 20,
+        "accuracy": 0.8
+      },
+      "plate": {
+        "correct": 23,
+        "total": 40,
+        "accuracy": 0.575
+      },
+      "policy_no": {
+        "correct": 26,
+        "total": 40,
+        "accuracy": 0.65
+      },
+      "time": {
+        "correct": 19,
+        "total": 20,
+        "accuracy": 0.95
+      },
+      "valid_from": {
+        "correct": 29,
+        "total": 40,
+        "accuracy": 0.725
+      },
+      "valid_to": {
+        "correct": 39,
+        "total": 40,
+        "accuracy": 0.975
+      }
+    }
+  },
+  "forms_without_critical_error": {
+    "forms": 20,
+    "without_critical_error": 2,
+    "share": 0.1
+  },
+  "character_error_rate": {
+    "overall": {
+      "edits": 354,
+      "characters": 10897,
+      "rate": 0.03248600532256584
+    },
+    "critical": {
+      "edits": 165,
+      "characters": 4115,
+      "rate": 0.040097205346294046
+    },
+    "minor": {
+      "edits": 189,
+      "characters": 6782,
+      "rate": 0.02786788557947508
+    }
+  },
+  "checkbox_score": {
+    "ticks_found": 25,
+    "ticks_missed": 0,
+    "ticks_extra": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tick_count_correct": 40,
+    "tick_count_total": 40
+  },
+  "category_accuracy": {
+    "impact_zone": {
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "most_common_answer": "front_left",
+      "guess_most_common_accuracy": 0.275
+    },
+    "license_category": {
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "most_common_answer": "b",
+      "guess_most_common_accuracy": 0.875
+    },
+    "other_damage": {
+      "correct": 20,
+      "total": 20,
+      "accuracy": 1.0,
+      "most_common_answer": "false",
+      "guess_most_common_accuracy": 0.95
+    },
+    "vehicle_type": {
+      "correct": 40,
+      "total": 40,
+      "accuracy": 1.0,
+      "most_common_answer": "car",
+      "guess_most_common_accuracy": 0.875
+    }
+  },
+  "cost_and_time": {
+    "forms_measured": 20,
+    "input_tokens": 110935,
+    "output_tokens": 16997,
+    "dollars_total": 0.02683845,
+    "dollars_per_form": 0.0013419225,
+    "seconds_mean": 187.2128083605,
+    "seconds_p95": 232.68287274099976
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "record": {
+    "date": "22/11/2024",
+    "time": "19h15",
+    "place": "Rue Ali Ben Abellah Oujda",
+    "phone_a": "0725439789",
+    "phone_b": "0735433350",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Peugeot",
+      "model": "208",
+      "plate": "63785-W-3",
+      "coming_from": "Rue Ibn Sina",
+      "going_to": "Bd Zerktouni",
+      "insured_last_name": "BELHAJ",
+      "insured_first_name": "Sara",
+      "insured_address": "Hay Mohammadi Casablanca",
+      "insurer": "ALLIANZ MAROC",
+      "attestation_no": "44A 358641768",
+      "policy_no": "917388721973",
+      "valid_from": "05/04/2024",
+      "valid_to": "04/04/2025",
+      "agency": "BOUZID ASSURANCES",
+      "driver_last_name": "BELHAJ",
+      "driver_first_name": "Sara",
+      "driver_address": "Al Massira Casablanca",
+      "license_no": "40/501551",
+      "license_category": "B",
+      "license_issued": "06/04/2016",
+      "license_prefecture": "Casablanca",
+      "license_valid_until": "06/04/2026",
+      "damage": "Pare choc arriere, coffre",
+      "circumstances": [
+        18
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "rear"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Toyota",
+      "model": "Yaris",
+      "plate": "78327-B-3",
+      "coming_from": "Av. Mohammed V",
+      "going_to": "Av des FAR",
+      "insured_last_name": "BELHAJ",
+      "insured_first_name": "Youssef",
+      "insured_address": "Hay Mohammad Casablanca",
+      "insurer": "MAMDA",
+      "attestation_no": "73A 097433680",
+      "policy_no": "190740673696358",
+      "valid_from": "22/08/2024",
+      "valid_to": "21/08/2025",
+      "agency": "AGENCE CASABLANCA CENTRE",
+      "driver_last_name": "BELHAJ",
+      "driver_first_name": "Youssef",
+      "driver_address": "Al Massira Casablanca",
+      "license_no": "01/485586",
+      "license_category": "B",
+      "license_issued": "19/12/2014",
+      "license_prefecture": "Casablanca",
+      "license_valid_until": "19/12/2024",
+      "damage": "Cote droite, capot",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "left"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "99A 358691768",
+      "after": "44A 358641768"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "912388721973",
+      "after": "917388721973"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "09/04/2025",
+      "after": "04/04/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "502501551",
+      "after": "40/501551"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.model",
+      "before": "Logan",
+      "after": "Yaris"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.make",
+      "before": "Dacia",
+      "after": "Toyota"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insured_address",
+      "before": "Hay Mohammadi Casablanca",
+      "after": "Hay Mohammad Casablanca"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insurer",
+      "before": "MAIDA",
+      "after": "MAMDA"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "75A 0924369682",
+      "after": "73A 097433680"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "19079023696358",
+      "after": "190740673696358"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "21/08/2024",
+      "after": "22/08/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "09485584",
+      "after": "01/485586"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_issued",
+      "before": "19/12/2024",
+      "after": "19/12/2014"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_valid_until",
+      "before": "19/12/2029",
+      "after": "19/12/2024"
+    }
+  ]
+}

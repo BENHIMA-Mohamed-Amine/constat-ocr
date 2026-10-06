@@ -1,0 +1,172 @@
+{
+  "record": {
+    "date": "13/04/2025",
+    "time": "18h30",
+    "place": "Av. Hassan II Meknes",
+    "phone_a": "615016837",
+    "phone_b": "0608951213",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Volkswagen",
+      "model": "Polo",
+      "plate": "98218-B-37",
+      "coming_from": "Bd Moulay Youssef",
+      "going_to": "Av. Mohammed V",
+      "insured_last_name": "BENANI",
+      "insured_first_name": "Omar",
+      "insured_address": "Sidi Maarouf Tetouan",
+      "insurer": "W AFA ASSURANCE",
+      "attestation_no": "87A 79 333 478 3",
+      "policy_no": "671682427567574",
+      "valid_from": "17/02/2025",
+      "valid_to": "16/02/2026",
+      "agency": "LAMRANI ASSURANCES",
+      "driver_last_name": "HAMIDI",
+      "driver_first_name": "Samira",
+      "driver_address": "Hay Mohammadi Tetouan",
+      "license_no": "31/994199",
+      "license_category": null,
+      "license_issued": "23/09/2021",
+      "license_prefecture": "Tetouan",
+      "license_valid_until": "23/09/2031",
+      "damage": "Pare choc arriere, coffre",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Renault",
+      "model": "Clio",
+      "plate": "72223-H-36",
+      "coming_from": "Rue Allal Ben Abdellah",
+      "going_to": "Rue Tarfaya",
+      "insured_last_name": "LAHLOU",
+      "insured_first_name": "Youssef",
+      "insured_address": "Agdal Tetouan",
+      "insurer": "ATLANT ASSURANCE",
+      "attestation_no": "85B 475834031",
+      "policy_no": "431069185294164",
+      "valid_from": "22/09/2024",
+      "valid_to": "21/09/2025",
+      "agency": "AGENCE TETOUAN CENTRE",
+      "driver_last_name": "LAHLOU",
+      "driver_first_name": "Youssef",
+      "driver_address": "Sidi Maarouf Tetouan",
+      "license_no": "83/475862",
+      "license_category": null,
+      "license_issued": "25/07/2015",
+      "license_prefecture": "Tetouan",
+      "license_valid_until": "25/07/2025",
+      "damage": "Portiere arriere droite, aile",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0615016837",
+      "after": "615016837"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.model",
+      "before": "Rogo",
+      "after": "Polo"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.make",
+      "before": "Dacia",
+      "after": "Volkswagen"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "9821-B-37",
+      "after": "98218-B-37"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_last_name",
+      "before": "BENNAJI",
+      "after": "BENANI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insurer",
+      "before": "Wafa Assurance",
+      "after": "W AFA ASSURANCE"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "87A 334783",
+      "after": "87A 79 333 478 3"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "67162427567574",
+      "after": "671682427567574"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "01/02/2025",
+      "after": "17/02/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "31/01/2026",
+      "after": "16/02/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.agency",
+      "before": "Lambani Assurances",
+      "after": "LAMRANI ASSURANCES"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "31/94197",
+      "after": "31/994199"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Pare choc, aile, coffre",
+      "after": "Pare choc arriere, coffre"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insurer",
+      "before": "Atlant Assurances",
+      "after": "ATLANT ASSURANCE"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "85B 525839031",
+      "after": "85B 475834031"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "43106918529416",
+      "after": "431069185294164"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.agency",
+      "before": "Agence Tetouan Centre",
+      "after": "AGENCE TETOUAN CENTRE"
+    }
+  ]
+}

@@ -3,6 +3,9 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
+**v4c crops the other fields too** (22 in all, with the header), the last iteration of v4: **315 of 380 critical fields right, 501 of 600 minor, character error rate 2.5%, 4 of 20 forms
+with no critical error** (v4b: 299, 482, 3.7%, 2). About $0.04 per form of GPU time. Details in [docs/results-log.md](docs/results-log.md#v4c-crop-the-remaining-fields-the-last-iteration-of-v4).
+
 **v4b re-reads the six hardest digit fields from enlarged crops** of the page, at their known template positions, with the same Qwen server, and changes nothing else.
 On the same 20 test forms: **299 of 380 critical fields right (v4a: 222, v3e: 194)**, character error rate 3.7%, and the **first 2 forms with no critical error**.
 The licence number went from 12 to 27 of 40 right and the validity dates from 16 to 34 and 28 to 40. It costs about $0.043 per form of GPU time (v3e: about $0.019).
@@ -215,6 +218,7 @@ STRAIGHTENER=opencv uv run python -m pipeline.run --run-id v3a --dev 0 --test 20
 STRAIGHTENER=opencv OCR_ENGINE=rapidocr-v6-columns STRUCTURING_PROMPT=columns uv run python -m pipeline.run --run-id v3b --dev 0 --test 20   # v3a plus zone blocks
 STRAIGHTENER=opencv OCR_ENGINE=chandra-ocr-2 STRUCTURING_PROMPT=chandra uv run python -m pipeline.run --run-id v3c --dev 0 --test 20 --workers 8   # needs the Chandra server, see docs/serving.md
 # v3d: add REPAIRS=all to the v3c command and use --reuse on the saved v3c outputs (see docs/results-log.md)
+# v4c: REFINE_FIELDS lists 22 fields, see the reproduce command in docs/results-log.md
 # v4b: add REFINE_FIELDS=plate,attestation_no,policy_no,license_no,valid_from,valid_to to the v4a command
 # v4a: needs the Qwen server, see docs/serving.md
 STRAIGHTENER=opencv OCR_ENGINE=none STRUCTURER=vision STRUCTURING_PROMPT=vlm REPAIRS=all READ_MARKS=true uv run python -m pipeline.run --run-id v4a --dev 0 --test 20 --workers 8
@@ -224,7 +228,7 @@ OCR_ENGINE=tesseract uv run python -m pipeline.run --run-id v1 --dev 0 --test 20
 
 ## Layout
 ```
-backend/     generator/ (synthetic data), pipeline/ (v1 to v4b), serving/ (GPU model servers), tests/, scripts/
+backend/     generator/ (synthetic data), pipeline/ (v1 to v4c), serving/ (GPU model servers), tests/, scripts/
 frontend/    empty for now
 docs/        synthetic-data, metrics, pipeline, serving, testing, results-log
 runs/        run.json and summary.json of each run

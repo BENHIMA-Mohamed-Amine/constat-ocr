@@ -139,14 +139,17 @@ def build_graph(
         result = refiner.refine(
             Path(state.get("straightened_path", state["image_path"])), state["record"]
         )
-        store.write_json(
-            "refined",
-            form_id,
-            {
-                "record": result.record.model_dump(mode="json"),
-                "changes": [asdict(change) for change in result.changes],
-            },
-        )
+        if (
+            not result.failed
+        ):  # a failed call is not saved, so a later --reuse run reads this form again
+            store.write_json(
+                "refined",
+                form_id,
+                {
+                    "record": result.record.model_dump(mode="json"),
+                    "changes": [asdict(change) for change in result.changes],
+                },
+            )
         return {"record": result.record}
 
     def marks_node(state: PipelineState) -> dict[str, Any]:

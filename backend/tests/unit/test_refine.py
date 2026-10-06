@@ -86,16 +86,41 @@ def _failure_and_bad_fields(refiner: FieldRefiner, page: Path, monkeypatch) -> N
     monkeypatch.setattr(httpx, "post", boom)
     record = Record(vehicle_a=Vehicle(plate="1-A-1"))
     result = refiner.refine(page, record)
-    assert result.record == record and result.changes == []
+    assert result.record == record and result.changes == [] and result.failed
     with pytest.raises(ConfigurationError):
         FieldRefiner(TEMPLATE, "https://x.modal.run", ["not_a_field"])
+
+
+def _header_and_damage(page: Path, monkeypatch) -> None:
+    """Header fields get one crop each and are merged into the top level; damage is a vehicle field."""
+    refiner = FieldRefiner(
+        TEMPLATE, "https://x.modal.run", ["date", "phone_b", "damage"]
+    )
+    assert {g: list(c) for g, c in refiner.crops(page).items()} == {
+        "header": ["date", "phone_b"],
+        "vehicle_a": ["damage"],
+        "vehicle_b": ["damage"],
+    }
+    answer = {
+        "header": {"date": "29/06/2022", "phone_b": None},
+        "vehicle_a": {"damage": "Pare choc arriere, coffre"},
+        "vehicle_b": {"damage": None},
+    }
+    monkeypatch.setattr(httpx, "post", lambda *a, **k: _Reply(answer))
+    record = Record(
+        date="29/06/2021", phone_b="0709147381", vehicle_b=Vehicle(damage="x")
+    )
+    result = refiner.refine(page, record).record
+    assert (result.date, result.phone_b) == ("29/06/2022", "0709147381")
+    assert result.vehicle_a.damage == "Pare choc arriere, coffre"
+    assert result.vehicle_b.damage == "x"
 
 
 def test_refine(tmp_path: Path, monkeypatch) -> None:
     page = tmp_path / "page.png"
     cv2.imwrite(str(page), load_layout(TEMPLATE).template)
     refiner = FieldRefiner(
-        TEMPLATE, "https://x.modal.run", FIELDS, auth_token="wk-1.ws-2"
+        TEMPLATE, "https://x.modal.run", FIELDS, auth_token="wk-1.ws-2", retry_delay=0
     )
     run_checks(
         [

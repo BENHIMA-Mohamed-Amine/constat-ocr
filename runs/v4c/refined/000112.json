@@ -1,0 +1,126 @@
+{
+  "record": {
+    "date": "19/01/2023",
+    "time": "20h05",
+    "place": "Rue Allal Ben Abdallah Oujda",
+    "phone_a": "0680635618",
+    "phone_b": "0616172104",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Kia",
+      "model": "Rio",
+      "plate": "91592-H-84",
+      "coming_from": "Rue Tarfaya",
+      "going_to": "Av. Mohammed VI",
+      "insured_last_name": "LAMRANI",
+      "insured_first_name": "Salma",
+      "insured_address": "Magrif Sale",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "72A 634944375",
+      "policy_no": "084293697219",
+      "valid_from": "23/09/2022",
+      "valid_to": "22/09/2023",
+      "agency": "BENALI ASSURANCES",
+      "driver_last_name": "LAMRANI",
+      "driver_first_name": "Salma",
+      "driver_address": "Agdal Sale",
+      "license_no": "53/531330",
+      "license_category": "A",
+      "license_issued": "10/11/1993",
+      "license_prefecture": "Sale",
+      "license_valid_until": "10/11/2023",
+      "damage": "Portiere arriere droite; - aile",
+      "circumstances": [
+        17
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "rear"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Citroen",
+      "model": "Berlingo",
+      "plate": "28153-W-7",
+      "coming_from": "Rue Tarfaya",
+      "going_to": "Av. Hassan II",
+      "insured_last_name": "BENNANI",
+      "insured_first_name": "Hassan",
+      "insured_address": "Hay Riad Kenitra",
+      "insurer": "ATLANTASANAD",
+      "attestation_no": "46B 949561931",
+      "policy_no": "811473159826",
+      "valid_from": "07/08/2022",
+      "valid_to": "06/08/2023",
+      "agency": "AGENCE KENITRA CENTRE",
+      "driver_last_name": "MANSOURI",
+      "driver_first_name": "Latifa",
+      "driver_address": "Agdal Kenitra",
+      "license_no": "24/851365",
+      "license_category": "B",
+      "license_issued": "04/03/2016",
+      "license_prefecture": "Kenitra",
+      "license_valid_until": "04/03/2026",
+      "damage": "Aile arriere gauche",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Rue Tartaga",
+      "after": "Rue Tarfaya"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "23/04/2022",
+      "after": "23/09/2022"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "22/04/2023",
+      "after": "22/09/2023"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Partie arriere droite, aile",
+      "after": "Portiere arriere droite; - aile"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "28153-B-7",
+      "after": "28153-W-7"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.coming_from",
+      "before": "Rue Tartaga",
+      "after": "Rue Tarfaya"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insurer",
+      "before": "ATLANTASSURANCE",
+      "after": "ATLANTASANAD"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "46B 99956193",
+      "after": "46B 949561931"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.driver_last_name",
+      "before": "MAN SOURI",
+      "after": "MANSOURI"
+    }
+  ]
+}

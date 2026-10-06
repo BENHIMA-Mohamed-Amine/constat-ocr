@@ -1,0 +1,192 @@
+{
+  "record": {
+    "date": "27/11/2023",
+    "time": "13h15",
+    "place": "Rue Allal Ben Abdelah Rabat",
+    "phone_a": "079877842",
+    "phone_b": "0615775301",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Fiat",
+      "model": "Tropo",
+      "plate": "11987-D-48",
+      "coming_from": "Bd Al Massira",
+      "going_to": "Bd Moulay Youssef",
+      "insured_last_name": "IDRISSI",
+      "insured_first_name": "Imane",
+      "insured_address": "Agdal Meknes",
+      "insurer": "ZURICH MAROC",
+      "attestation_no": "95A 081790549",
+      "policy_no": "755420753279375",
+      "valid_from": "24/04/2023",
+      "valid_to": "22/04/2024",
+      "agency": "AGENCE MEKNES CENTRE",
+      "driver_last_name": "IDRISSI",
+      "driver_first_name": "Imane",
+      "driver_address": "Al Massira Meknes",
+      "license_no": "16/573513",
+      "license_category": "B",
+      "license_issued": "17/04/2021",
+      "license_prefecture": "Meknes",
+      "license_valid_until": "17/04/2031",
+      "damage": "Portiere arriere droite ade",
+      "circumstances": [
+        9
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Peugeot",
+      "model": "301",
+      "plate": "7302-B-45",
+      "coming_from": "Rue Allal Ben Abdellah",
+      "going_to": "Rue Allal Ben Abdellah",
+      "insured_last_name": "NACIRI",
+      "insured_first_name": "Samia",
+      "insured_address": "Sidi Maorouf Agadir",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "57A 922659979",
+      "policy_no": "951280698215394",
+      "valid_from": "07/03/2023",
+      "valid_to": "05/03/2024",
+      "agency": "AGENCE AGADIR CENTRE",
+      "driver_last_name": "NACIRI",
+      "driver_first_name": "Sami",
+      "driver_address": "Hay Salam Agadir",
+      "license_no": "51/393258",
+      "license_category": "B",
+      "license_issued": "04/11/2010",
+      "license_prefecture": "Agadir",
+      "license_valid_until": "04/11/2025",
+      "damage": "Aile arriere gauche",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "time",
+      "before": "13h45",
+      "after": "13h15"
+    },
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0798778421",
+      "after": "079877842"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.model",
+      "before": "Tipe",
+      "after": "Tropo"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.make",
+      "before": "Clio 4",
+      "after": "Fiat"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "17987-D-58",
+      "after": "11987-D-48"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Bd Allal Messaouda",
+      "after": "Bd Al Massira"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_last_name",
+      "before": "DERSSI",
+      "after": "IDRISSI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "93A 081790549",
+      "after": "95A 081790549"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "7584201753529378",
+      "after": "755420753279375"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "01/12/2023",
+      "after": "24/04/2023"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "31/12/2024",
+      "after": "22/04/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.driver_last_name",
+      "before": "DERSSI",
+      "after": "IDRISSI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "16/0528543",
+      "after": "16/573513"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_valid_until",
+      "before": "31/04/2031",
+      "after": "17/04/2031"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Portiere arriere droite",
+      "after": "Portiere arriere droite ade"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.coming_from",
+      "before": "Rue Allal Ben Abdelah",
+      "after": "Rue Allal Ben Abdellah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.going_to",
+      "before": "Rue Allal Ben Abdelah",
+      "after": "Rue Allal Ben Abdellah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insured_first_name",
+      "before": "Sami",
+      "after": "Samia"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "951280698215339",
+      "after": "951280698215394"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_valid_until",
+      "before": "04/11/2022",
+      "after": "04/11/2025"
+    }
+  ]
+}

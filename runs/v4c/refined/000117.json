@@ -1,0 +1,144 @@
+{
+  "record": {
+    "date": "11/11/2025",
+    "time": "11h30",
+    "place": "Av. des FAR Marrakech",
+    "phone_a": "0654757298",
+    "phone_b": "0669907856",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Hyundai",
+      "model": "Accent",
+      "plate": "7406-A-37",
+      "coming_from": "Badzedtauni",
+      "going_to": "Av. des FAR",
+      "insured_last_name": "KABBAL",
+      "insured_first_name": "Youssef",
+      "insured_address": "Lot Al Wafa Kenitra",
+      "insurer": "MAMDA",
+      "attestation_no": "5A 911682518",
+      "policy_no": "51881584060",
+      "valid_from": "06/09/2025",
+      "valid_to": "05/09/2026",
+      "agency": "LAHLOU ASSURANCES",
+      "driver_last_name": "KABBAL",
+      "driver_first_name": "Youssef",
+      "driver_address": "Ain Sebaa Kenitra",
+      "license_no": "95/041717",
+      "license_category": "B",
+      "license_issued": "05/12/2006",
+      "license_prefecture": "Kenitra",
+      "license_valid_until": "05/12/2026",
+      "damage": "Phare avant gauche, pare choc",
+      "circumstances": [
+        17
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Renault",
+      "model": "Kangoo",
+      "plate": "52687-A-78",
+      "coming_from": "Av. Mohammed V",
+      "going_to": "Av. Hassan II",
+      "insured_last_name": "EL AMRANI",
+      "insured_first_name": "Abdelilah",
+      "insured_address": "Ain Sebaa Agadir",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "91B 047793349",
+      "policy_no": "235368372376629",
+      "valid_from": "04/04/2025",
+      "valid_to": "03/04/2026",
+      "agency": "AGENCE AGADIR CENTRE",
+      "driver_last_name": "EL AMRANI",
+      "driver_first_name": "Abdellah",
+      "driver_address": "Hay Sidi Agadir",
+      "license_no": "39/546615",
+      "license_category": "B",
+      "license_issued": "23/01/2019",
+      "license_prefecture": "Agadir",
+      "license_valid_until": "23/01/2029",
+      "damage": "Calandre, capot",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "7406-A-7",
+      "after": "7406-A-37"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Bd. Zerktouni",
+      "after": "Badzedtauni"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "58A 91682548",
+      "after": "5A 911682518"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "54884584060",
+      "after": "51881584060"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "05/09/2025",
+      "after": "06/09/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "95644747",
+      "after": "95/041717"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Phare avant, cache, pare choc",
+      "after": "Phare avant gauche, pare choc"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insured_first_name",
+      "before": "Abdellah",
+      "after": "Abdelilah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "91B 042793349",
+      "after": "91B 047793349"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "391546615",
+      "after": "39/546615"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_issued",
+      "before": "23/11/2019",
+      "after": "23/01/2019"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_valid_until",
+      "before": "23/11/2029",
+      "after": "23/01/2029"
+    }
+  ]
+}

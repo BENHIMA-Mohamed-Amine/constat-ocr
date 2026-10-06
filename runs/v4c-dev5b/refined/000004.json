@@ -1,0 +1,192 @@
+{
+  "record": {
+    "date": "5/10/2024",
+    "time": "20h55",
+    "place": "Rue Allal Ben Abdallah Fes",
+    "phone_a": "0669717976",
+    "phone_b": "0708573725",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Kia",
+      "model": "Picanto",
+      "plate": "63608-D-19",
+      "coming_from": "Av. des FAR",
+      "going_to": "Rue Tarfaya",
+      "insured_last_name": "BERGADA",
+      "insured_first_name": "Youssef",
+      "insured_address": "Al Massira Tetouan",
+      "insurer": "ATLANTIC SANAD",
+      "attestation_no": "66A 385616059",
+      "policy_no": "8975093191550",
+      "valid_from": "25/6/2024",
+      "valid_to": "23/01/2025",
+      "agency": "MERNISSI ASSURANCES",
+      "driver_last_name": "CHRAIBI",
+      "driver_first_name": "Hassan",
+      "driver_address": "Bourgogne Tetouan",
+      "license_no": "14/008486",
+      "license_category": "B",
+      "license_issued": "18/07/2007",
+      "license_prefecture": "Tetouan",
+      "license_valid_until": "18/07/2027",
+      "damage": "Portiere arriere droite, aile",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "rear"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Dacia",
+      "model": "Duster",
+      "plate": "67011-H-53",
+      "coming_from": "Av. des FAR",
+      "going_to": "Bd Al Massira",
+      "insured_last_name": "NACIRI",
+      "insured_first_name": "Hicham",
+      "insured_address": "Hay Mdhammadi Temara",
+      "insurer": "RMA",
+      "attestation_no": "66B 355986088",
+      "policy_no": "693798223367",
+      "valid_from": "02/11/2023",
+      "valid_to": "31/10/2024",
+      "agency": "KABBAJ ASSURANCES",
+      "driver_last_name": "NACIRI",
+      "driver_first_name": "Hicham",
+      "driver_address": "Bourgogne Temara",
+      "license_no": "8V/219706",
+      "license_category": "B",
+      "license_issued": "21/09/1997",
+      "license_prefecture": "Touara",
+      "license_valid_until": "21/09/2027",
+      "damage": "Retroviseur gauche, aile avant",
+      "circumstances": [
+        11
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "date",
+      "before": "01/10/2024",
+      "after": "5/10/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "place",
+      "before": "Rue Allal Ben Abdellah Fes",
+      "after": "Rue Allal Ben Abdallah Fes"
+    },
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0669712976",
+      "after": "0669717976"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "63608-D-39",
+      "after": "63608-D-19"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_last_name",
+      "before": "BERKADA",
+      "after": "BERGADA"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_first_name",
+      "before": "Yassine",
+      "after": "Youssef"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insurer",
+      "before": "ATLAS SANAD",
+      "after": "ATLANTIC SANAD"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "66A 285614059",
+      "after": "66A 385616059"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "8975098197550",
+      "after": "8975093191550"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "25/03/2025",
+      "after": "25/6/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "25/03/2026",
+      "after": "23/01/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.agency",
+      "before": "MENISSI ASSURANCES",
+      "after": "MERNISSI ASSURANCES"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.driver_last_name",
+      "before": "HRAIBI",
+      "after": "CHRAIBI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Portiere arriere droite",
+      "after": "Portiere arriere droite, aile"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "22/11/2023",
+      "after": "02/11/2023"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "21/10/2024",
+      "after": "31/10/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.agency",
+      "before": "KABBASJ ASSURANCES",
+      "after": "KABBAJ ASSURANCES"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "8V219706",
+      "after": "8V/219706"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_prefecture",
+      "before": "Temara",
+      "after": "Touara"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.damage",
+      "before": "Retroviseur gauche et avant",
+      "after": "Retroviseur gauche, aile avant"
+    }
+  ]
+}

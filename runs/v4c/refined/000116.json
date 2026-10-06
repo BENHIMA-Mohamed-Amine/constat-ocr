@@ -1,0 +1,180 @@
+{
+  "record": {
+    "date": "27/11/2023",
+    "time": "12h10",
+    "place": "Bd Al Massira Sale",
+    "phone_a": "076712485",
+    "phone_b": "0747787786",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Ford",
+      "model": "Focus",
+      "plate": "78081-A-59",
+      "coming_from": "Bd Moulay Youssef",
+      "going_to": "Av. Hassan II",
+      "insured_last_name": "HAMIDI",
+      "insured_first_name": "Meriem",
+      "insured_address": "Agdal Rabat",
+      "insurer": "SANLAM MAROC",
+      "attestation_no": "78B 60030958",
+      "policy_no": "54886768641",
+      "valid_from": "26/05/2023",
+      "valid_to": "24/06/2024",
+      "agency": "BENJELLOUN ASSURANCES",
+      "driver_last_name": "IDRISSI",
+      "driver_first_name": "Samira",
+      "driver_address": "Al Massira Rabat",
+      "license_no": "05/87908",
+      "license_category": "B",
+      "license_issued": "08/12/2009",
+      "license_prefecture": "Rabat",
+      "license_valid_until": "08/12/2026",
+      "damage": "Pare choc arriere, coffre",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Fiat",
+      "model": "Punto",
+      "plate": "67335-H-76",
+      "coming_from": "Rue Tarfaya",
+      "going_to": "Av. Mohammed V",
+      "insured_last_name": "BELHAJ",
+      "insured_first_name": "Abdelilah",
+      "insured_address": "Agdd Meknes",
+      "insurer": "ATLANTASANAD",
+      "attestation_no": "99B 862310508",
+      "policy_no": "458772933772",
+      "valid_from": "16/02/2023",
+      "valid_to": "15/02/2024",
+      "agency": "FASI ASSURANCES",
+      "driver_last_name": "KABBADJ",
+      "driver_first_name": "Imane",
+      "driver_address": "Lot Al Wifag Meknes",
+      "license_no": "58/312619",
+      "license_category": "B",
+      "license_issued": "02/12/2015",
+      "license_prefecture": "Meknes",
+      "license_valid_until": "02/12/2025",
+      "damage": "Pare choc arriere, coffre",
+      "circumstances": [
+        10
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "rear"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "time",
+      "before": "12h00",
+      "after": "12h10"
+    },
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0767124855",
+      "after": "076712485"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.make",
+      "before": "FORD",
+      "after": "Ford"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "78081-A-55",
+      "after": "78081-A-59"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.going_to",
+      "before": "Av Hassan II",
+      "after": "Av. Hassan II"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_last_name",
+      "before": "HADDI",
+      "after": "HAMIDI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_first_name",
+      "before": "Mertem",
+      "after": "Meriem"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insurer",
+      "before": "SANY MAROC",
+      "after": "SANLAM MAROC"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "78B 6430958",
+      "after": "78B 60030958"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "548866684",
+      "after": "54886768641"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "24/06/2023",
+      "after": "26/05/2023"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.driver_last_name",
+      "before": "DERSSI",
+      "after": "IDRISSI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "587908",
+      "after": "05/87908"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.going_to",
+      "before": "Av Maboummad V",
+      "after": "Av. Mohammed V"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insured_first_name",
+      "before": "Abdellah",
+      "after": "Abdelilah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.agency",
+      "before": "FASSI ASSURANCES",
+      "after": "FASI ASSURANCES"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.driver_last_name",
+      "before": "KABBAD",
+      "after": "KABBADJ"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "581312619",
+      "after": "58/312619"
+    }
+  ]
+}

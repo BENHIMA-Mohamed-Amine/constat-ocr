@@ -1,0 +1,114 @@
+{
+  "record": {
+    "date": "25/08/2022",
+    "time": "07h10",
+    "place": "Av. des FAR Marrakech",
+    "phone_a": "0631598315",
+    "phone_b": "0760534673",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Toyota",
+      "model": "Yaris",
+      "plate": "65758-T-2",
+      "coming_from": "Bd. Zerktauni",
+      "going_to": "Av. Mohammed V",
+      "insured_last_name": "FASSI",
+      "insured_first_name": "Hajar",
+      "insured_address": "Hay Mohammadi Fes",
+      "insurer": "SANLAM MAROC",
+      "attestation_no": "99A 580139756",
+      "policy_no": "530932953570",
+      "valid_from": "30/12/2021",
+      "valid_to": "29/12/2022",
+      "agency": "B.ENALL ASSURANCES",
+      "driver_last_name": "EL AMRAOUI",
+      "driver_first_name": "Mehdi",
+      "driver_address": "Hay Mohammadi Fes",
+      "license_no": "42/967826",
+      "license_category": "A1",
+      "license_issued": "10/12/1998",
+      "license_prefecture": "Fes",
+      "license_valid_until": "10/12/2023",
+      "damage": "Phare avant gauche pare choc",
+      "circumstances": [
+        15
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front_left"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Kia",
+      "model": "Picanto",
+      "plate": "20235-D-88",
+      "coming_from": "Av. Al Qods",
+      "going_to": "Av. Mohammed VI",
+      "insured_last_name": "SKALLI",
+      "insured_first_name": "Amin",
+      "insured_address": "Hay Mohammadi Kenitra",
+      "insurer": "RMA",
+      "attestation_no": "37B 900236666",
+      "policy_no": "568672392834422",
+      "valid_from": "20/06/2022",
+      "valid_to": "19/06/2023",
+      "agency": "SKALLI ASSURANCES",
+      "driver_last_name": "MERNISSI",
+      "driver_first_name": "Madi",
+      "driver_address": "Lot Al Wifaq Kenitra",
+      "license_no": "95/355899",
+      "license_category": "B",
+      "license_issued": "18/05/1997",
+      "license_prefecture": "Kenitra",
+      "license_valid_until": "18/05/2027",
+      "damage": "Pare choc avant, phare droit",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Bd. Zerktouni",
+      "after": "Bd. Zerktauni"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "99A 580131456",
+      "after": "99A 580139756"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "30/01/2021",
+      "after": "30/12/2021"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.agency",
+      "before": "BENALL ASSURANCES",
+      "after": "B.ENALL ASSURANCES"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.driver_last_name",
+      "before": "EL AMRANI",
+      "after": "EL AMRAOUI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insured_first_name",
+      "before": "Amis",
+      "after": "Amin"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "37B 190236666",
+      "after": "37B 900236666"
+    }
+  ]
+}

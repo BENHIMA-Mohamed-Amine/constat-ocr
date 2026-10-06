@@ -782,3 +782,70 @@ STRAIGHTENER=opencv OCR_ENGINE=none STRUCTURER=vision STRUCTURING_PROMPT=vlm REP
   REFINE_FIELDS=plate,attestation_no,policy_no,license_no,valid_from,valid_to \
   uv run python -m pipeline.run --run-id v4b --dev 0 --test 20 --workers 8 --reuse
 ```
+
+## v4c: crop the remaining fields (the last iteration of v4)
+
+- **What:** the same crop step as v4b, now over 22 fields instead of 6: the six digit fields, make, model, the two streets, the insured and driver last names,
+  the insured first name, insurer, agency, licence issue and expiry dates, the damage text, and the header (date, time and both phones). The refiner got a `header`
+  group next to `vehicle_a` and `vehicle_b`, and `marks/layout.py` got the header and damage boxes. Same Qwen server, same saved v4a records (`--reuse`), same 20 test
+  forms. Run `v4c`; dev runs `v4c-dev5` and `v4c-dev5b`.
+- **Fields chosen on the 5 dev forms only.** First run: every vehicle field. Five fields were worse from crops than from the page and were dropped:
+  `insured_address`, `driver_address`, `driver_first_name` (first run), then `place` and `license_prefecture` (second run). Free text with long strings and
+  prefectures did not gain from crops. 22 fields stay.
+- **No bigger model and no fine-tuning:** this is the last iteration of v4.
+
+### v4c results (20 test forms)
+
+| Metric | v3e | v4a | v4b | v4c |
+|---|---|---|---|---|
+| Critical fields right | 194 of 380 (51.1%) | 222 (58.4%) | 299 (78.7%) | **315 of 380 (82.9%)** |
+| Minor fields right | 381 of 600 (63.5%) | 482 (80.3%) | 482 (80.3%) | **501 of 600 (83.5%)** |
+| Text fields right | | 704 of 980 | 781 | **816 of 980 (83.3%)** |
+| Forms with no critical error | 0 of 20 | 0 | 2 | **4 of 20** |
+| Character error rate | 16.1% | 5.3% | 3.7% | **2.5%** |
+| Ticks, categories | 100% | 100% | 100% | 100% |
+
+- **Dev check (5 forms):** 83 of 95 critical (v4b: 80), 134 of 150 minor (121), character error rate 1.7% (3.8%).
+- **Of the 270 fields the step changed, 156 became right and 37 that were right became wrong** (the five new groups: header and text fields). Net +119 against v4a.
+- **Per field (of 40, phones, date and time of 20), v4b to v4c:** make 37 to 40, licence expiry 33 to 38, plate 23 to 26, attestation 30 to 33, driver last name 27 to 30,
+  coming from 31 to 34, phone B 14 to 18, time 17 to 20. A few text fields moved down by one or two (agency 35 to 33, insurer 34 to 33).
+- **Not helped by crops:** damage (27), insured address (28) and driver address (33) stay at the page read, which is why the two address fields and the first name
+  were left out.
+
+### A failed first pass, and what changed
+The first test run looked worse than v4b (285 against 299 critical) and was **not a valid measurement**. 8 of the 20 forms had their crop call fail (a DNS error and 502 and 503
+answers from Modal while the 27B container was restarting) and fell back to the page read, and the step saved them as if they were refined, so `--reuse` skipped them.
+Three changes, all in the refiner and the graph:
+- the call is tried 3 times, waiting 5 s then 10 s;
+- a form whose calls all fail is not saved as refined (`RefineResult.failed`), so a later `--reuse` run reads it again;
+- the 8 forms were rerun when the server answered `200` on `/health`. The figures above are from that complete run: 20 of 20 forms refined, 0 failures.
+
+The cause was operational: the server scales to zero after 2 minutes and a cold start, which reloads 51 GB, took up to about 10 minutes. v4b had no failures.
+
+### Cost and speed
+- **The crop step is cheap:** the 8 forms of the rerun (4 at a time, warm server) took about 49 s, so roughly 6 s of GPU per form; the v4b step took about 13 s per form. That is
+  **about $0.007 to $0.014 per form** (H100, $0.001097 per second), so **v4c is about $0.04 per form** in total (the v4a page read, $0.029, plus the crops), against about $0.019 for v3e.
+  The crop calls do not appear in `summary.json`, and these are rough wall-clock figures from one run each.
+- **The cold start is the real cost of a small batch:** each time the container has been idle for 2 minutes the next call waits up to about 10 minutes and pays for the load.
+
+### What is left
+164 text fields are still wrong (of 980), and 16 of the 20 forms have at least one wrong critical field.
+- **The weakest fields (of 40):** damage 27, plate 26, licence number 27, insured address 28, driver last name 30. Plate and licence number are the sloppiest handwriting; damage is free text.
+- **Next steps outside v4:** voting or thinking mode on the crops, a larger crop for the plate, a bigger model as the upper bound, and fine-tuning on synthetic forms.
+
+### What this does and does not show
+- **The boxes come from the generator,** as in v4b. On real photos the handwriting sits at other places on the line, so this is a baseline for the template position.
+- **One run on 20 forms,** with the field list fixed on the 5 dev forms. A gap of one or two fields is noise (the licence number moved between 6 and 9 of 10 on the dev forms when the
+  other crops in the request changed).
+- **Format lines follow the generator,** as in v4a.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend
+mkdir -p ../runs/v4c && cp -r ../runs/v4a/{straightened,structured} ../runs/v4c/
+STRAIGHTENER=opencv OCR_ENGINE=none STRUCTURER=vision STRUCTURING_PROMPT=vlm REPAIRS=all READ_MARKS=true \
+  REFINE_FIELDS=model,make,plate,coming_from,going_to,insured_last_name,insured_first_name,insurer,attestation_no,policy_no,valid_from,valid_to,agency,driver_last_name,license_no,license_issued,license_valid_until,date,time,phone_a,phone_b,damage \
+  uv run python -m pipeline.run --run-id v4c --dev 0 --test 20 --workers 4 --reuse
+```
+Check `/health` of the Qwen server returns 200 first: after 2 minutes idle the container has to reload the model.

@@ -1,0 +1,158 @@
+{
+  "record": {
+    "date": "22/09/2025",
+    "time": "16h15",
+    "place": "Av. Mohammed V Tanger",
+    "phone_a": "0763268223",
+    "phone_b": "0616595767",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Kia",
+      "model": "Rio",
+      "plate": "25266-T-16",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Bd Moulay Youssef",
+      "insured_last_name": "CHRAIBI",
+      "insured_first_name": "Nabil",
+      "insured_address": "Lot Al Wifaq Tetouan",
+      "insurer": "ALLIANZ MAROC",
+      "attestation_no": "90A 969454471",
+      "policy_no": "865692596804141",
+      "valid_from": "29/04/2025",
+      "valid_to": "28/04/2026",
+      "agency": "AGENCE TETOUAN CENTRE",
+      "driver_last_name": "ALAQUI",
+      "driver_first_name": "Karim",
+      "driver_address": "Hay Riad Tetouan",
+      "license_no": "721764464",
+      "license_category": "B",
+      "license_issued": "03/11/1998",
+      "license_prefecture": "Tetouan",
+      "license_valid_until": "03/11/2028",
+      "damage": "Retroviseur gauche, aile avant",
+      "circumstances": [
+        7
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Volkswagen",
+      "model": "Polo",
+      "plate": "11463-H-70",
+      "coming_from": "Av. des FAR",
+      "going_to": "Rue Ibn Sina",
+      "insured_last_name": "FASSI",
+      "insured_first_name": "Khadija",
+      "insured_address": "Ain Sebaa Agadir",
+      "insurer": "WATA ASSURANCE",
+      "attestation_no": "91A 366711613",
+      "policy_no": "450551598311185",
+      "valid_from": "13/07/2025",
+      "valid_to": "12/07/2026",
+      "agency": "KABBAN ASSURANCES",
+      "driver_last_name": "FASSI",
+      "driver_first_name": "Khadija",
+      "driver_address": "Hay Riad Agadir",
+      "license_no": "651821713",
+      "license_category": "B",
+      "license_issued": "13/05/2021",
+      "license_prefecture": "Agadir",
+      "license_valid_until": "13/05/2031",
+      "damage": "Pare choc avant, phare droit",
+      "circumstances": [
+        6
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Bd. Zerktouni",
+      "after": "Bd Zerktouni"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.going_to",
+      "before": "Bd. Moulay Youssef",
+      "after": "Bd Moulay Youssef"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "90A 969959971",
+      "after": "90A 969454471"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "29/12/2025",
+      "after": "29/04/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.driver_last_name",
+      "before": "LAQUI",
+      "after": "ALAQUI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "721764964",
+      "after": "721764464"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "4463-H-70",
+      "after": "11463-H-70"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.going_to",
+      "before": "Rue Ibn Sha",
+      "after": "Rue Ibn Sina"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insurer",
+      "before": "Wafa ASSURANCE",
+      "after": "WATA ASSURANCE"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "9A 36671468",
+      "after": "91A 366711613"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "450554598311885",
+      "after": "450551598311185"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "28/02/2025",
+      "after": "13/07/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.agency",
+      "before": "KABBAL ASSURANCES",
+      "after": "KABBAN ASSURANCES"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "621824743",
+      "after": "651821713"
+    }
+  ]
+}

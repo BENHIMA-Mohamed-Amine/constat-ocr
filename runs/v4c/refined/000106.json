@@ -1,0 +1,118 @@
+{
+  "record": {
+    "date": "16/04/2025",
+    "time": "21h00",
+    "place": "Av. des FAR Meknes",
+    "phone_a": "0603587858",
+    "phone_b": "0739061815",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Toyota",
+      "model": "Yaris",
+      "plate": "64303-T-45",
+      "coming_from": "Rue Al Wal Ben Abde Vah",
+      "going_to": "Rue Ibn Sina",
+      "insured_last_name": "CHRAIBI",
+      "insured_first_name": "Zakaria",
+      "insured_address": "Maarif Rabat",
+      "insurer": "ALLIANZ MAROC",
+      "attestation_no": "19B 316525998",
+      "policy_no": "035100969990663",
+      "valid_from": "18/01/2025",
+      "valid_to": "17/01/2026",
+      "agency": "AGENCE RABAT CENTRE",
+      "driver_last_name": "CHRAIBI",
+      "driver_first_name": "Zakaria",
+      "driver_address": "Bourgogne Rabat",
+      "license_no": "88/379811",
+      "license_category": null,
+      "license_issued": "29/08/2018",
+      "license_prefecture": "Rabat",
+      "license_valid_until": "29/08/2028",
+      "damage": "Pare choc avant, phare droit.",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Dacia",
+      "model": "Sander o",
+      "plate": "73582-W-54",
+      "coming_from": "Rue Ibn Sina",
+      "going_to": "A. des FAR",
+      "insured_last_name": "BERRADA",
+      "insured_first_name": "Rachid",
+      "insured_address": "Agdal Sale",
+      "insurer": "ZURICH MAROC",
+      "attestation_no": "92B 055441137",
+      "policy_no": "219901286595",
+      "valid_from": "19/06/2024",
+      "valid_to": "18/06/2025",
+      "agency": "AGENCE SALE CENTRE",
+      "driver_last_name": "IDRISSI",
+      "driver_first_name": "Hassan",
+      "driver_address": "Hay Riad Sale",
+      "license_no": "45/139294",
+      "license_category": null,
+      "license_issued": "08/04/1996",
+      "license_prefecture": "Sale",
+      "license_valid_until": "08/04/2026",
+      "damage": "Portiere avant droite",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "64303-T-95",
+      "after": "64303-T-45"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Rue A Mal Ben Abde Wah",
+      "after": "Rue Al Wal Ben Abde Vah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Pare choc avant, phare droit",
+      "after": "Pare choc avant, phare droit."
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.make",
+      "before": "Daci",
+      "after": "Dacia"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "73582-IV-54",
+      "after": "73582-W-54"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.going_to",
+      "before": "Av. des FAR",
+      "after": "A. des FAR"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "18/06/2025",
+      "after": "19/06/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "17/06/2026",
+      "after": "18/06/2025"
+    }
+  ]
+}

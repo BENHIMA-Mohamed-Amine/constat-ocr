@@ -1,0 +1,154 @@
+{
+  "record": {
+    "date": "14/06/2026",
+    "time": "23h50",
+    "place": "Bd Al Massira Sale",
+    "phone_a": "0626848099",
+    "phone_b": "0791463675",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Iveco",
+      "model": "Daily",
+      "plate": "29322-A-7",
+      "coming_from": "Bd Al Massira",
+      "going_to": "Av. Al Qods",
+      "insured_last_name": "SADI",
+      "insured_first_name": "Omar",
+      "insured_address": "Ain Sebaa Casablanca",
+      "insurer": "ZURICH MAROC",
+      "attestation_no": "38A 75599095",
+      "policy_no": "589270667731337",
+      "valid_from": "29/03/2026",
+      "valid_to": "28/03/2027",
+      "agency": "AGENCE CASABLANCA CENTRE",
+      "driver_last_name": "BENALI",
+      "driver_first_name": "Rachid",
+      "driver_address": "Hay Salam Casablanca",
+      "license_no": "70/434484",
+      "license_category": null,
+      "license_issued": "14/11/1996",
+      "license_prefecture": "Casablanca",
+      "license_valid_until": "14/11/2026",
+      "damage": "Calandre, capot",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Dacia",
+      "model": "Sandro",
+      "plate": "3487-T-58",
+      "coming_from": "Bd Moulay Youssef",
+      "going_to": "Av. Al Qods",
+      "insured_last_name": "BELHAJ",
+      "insured_first_name": "Karim",
+      "insured_address": "A Masin Meknes",
+      "insurer": "ALLIANZ MAROC",
+      "attestation_no": "64A 558022989",
+      "policy_no": "546849190801",
+      "valid_from": "22/01/2026",
+      "valid_to": "21/01/2027",
+      "agency": "BENALI ASSURANCES",
+      "driver_last_name": "LAMRANI",
+      "driver_first_name": "Mohamed",
+      "driver_address": "Hay Riad Meknes",
+      "license_no": "16/230595",
+      "license_category": null,
+      "license_issued": "02/01/2019",
+      "license_prefecture": "Meknes",
+      "license_valid_until": "07/01/2029",
+      "damage": "Pare choc avant, phare droit",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "date",
+      "before": "11/06/2026",
+      "after": "14/06/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0626848091",
+      "after": "0626848099"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "28322-A-7",
+      "after": "29322-A-7"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_last_name",
+      "before": "SAIDI",
+      "after": "SADI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "38A 7559995",
+      "after": "38A 75599095"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "582006734337",
+      "after": "589270667731337"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "28/03/2026",
+      "after": "29/03/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "70434484",
+      "after": "70/434484"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Cabine, capot",
+      "after": "Calandre, capot"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.model",
+      "before": "Sandero",
+      "after": "Sandro"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "34872-T-58",
+      "after": "3487-T-58"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "596849190801",
+      "after": "546849190801"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "161230595",
+      "after": "16/230595"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_valid_until",
+      "before": "07/02/2029",
+      "after": "07/01/2029"
+    }
+  ]
+}

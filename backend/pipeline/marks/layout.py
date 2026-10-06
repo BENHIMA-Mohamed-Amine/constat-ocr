@@ -38,6 +38,9 @@ class Layout:
     text_fields: dict[
         str, tuple[Box, Box]
     ]  # where each vehicle field is written, for vehicle A and vehicle B
+    header_fields: dict[
+        str, Box
+    ]  # where the date, time, place and the two phones are written
 
 
 def _px(rect: tuple[float, ...], grow: float = 0) -> Box:
@@ -69,5 +72,12 @@ def load_layout(template_pdf: Path) -> Layout:
             answer: [_px(c) for c in cells]
             for answer, cells in fields.OTHER_DAMAGE.items()
         },
-        text_fields={name: (_px(a), _px(b)) for name, (a, b) in fields.VEHICLE.items()},
+        text_fields={
+            name: (_px(a), _px(b))
+            for name, (a, b) in {**fields.VEHICLE, "damage": fields.DAMAGE}.items()
+        },
+        header_fields={
+            name: _px(box)
+            for name, box in {**fields.HEADER, "phone_b": fields.PHONE_B}.items()
+        },
     )

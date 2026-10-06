@@ -1,0 +1,160 @@
+{
+  "record": {
+    "date": "03/08/2026",
+    "time": "12h05",
+    "place": "Rue Ibn Sina Casablanca",
+    "phone_a": "0751000672",
+    "phone_b": "063574230",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Yamaha",
+      "model": "NMAX",
+      "plate": "93462-B-53",
+      "coming_from": "Bd Moulay Youssef",
+      "going_to": "Bd Moulay Youssef",
+      "insured_last_name": "EL AMRANI",
+      "insured_first_name": "Zakaria",
+      "insured_address": "Hay Mohammadi Tanger",
+      "insurer": "SAHAM ASSURANCE",
+      "attestation_no": "74A 839185206",
+      "policy_no": "863626921062",
+      "valid_from": "17/10/2025",
+      "valid_to": "16/10/2026",
+      "agency": "AGENCE TANGER CENTRE",
+      "driver_last_name": "BIAI",
+      "driver_first_name": "Youssef",
+      "driver_address": "Al Massira Tanger",
+      "license_no": "67121639",
+      "license_category": null,
+      "license_issued": "30/09/2009",
+      "license_prefecture": "Tanger",
+      "license_valid_until": "30/09/2029",
+      "damage": "Portiere arriere droite, aile.",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Fiat",
+      "model": "Punto",
+      "plate": "86313-J-97",
+      "coming_from": "Rue Allal Ben Abdellah",
+      "going_to": "Bd Al Massira",
+      "insured_last_name": "CHRAIBI",
+      "insured_first_name": "Sara",
+      "insured_address": "Bourgogne Rabat",
+      "insurer": "SAHAM ASSURANCE",
+      "attestation_no": "40B 935194994",
+      "policy_no": "901050867087101",
+      "valid_from": "25/03/2026",
+      "valid_to": "24/03/2027",
+      "agency": "AGENCE RABAT CENTRE",
+      "driver_last_name": "NACIRI",
+      "driver_first_name": "Mohd",
+      "driver_address": "Agdal Rabat",
+      "license_no": "03/942720",
+      "license_category": null,
+      "license_issued": "09/07/2012",
+      "license_prefecture": "Rabat",
+      "license_valid_until": "09/07/2027",
+      "damage": "Phare avant gauche, pare choc.",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0751000572",
+      "after": "0751000672"
+    },
+    {
+      "rule": "crop",
+      "path": "phone_b",
+      "before": "0635274230",
+      "after": "063574230"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "93446-B-53",
+      "after": "93462-B-53"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "74A 83985206",
+      "after": "74A 839185206"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "863826921062",
+      "after": "863626921062"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "12/12/2025",
+      "after": "17/10/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "11/12/2026",
+      "after": "16/10/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.driver_last_name",
+      "before": "EL AMRANI",
+      "after": "BIAI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Portiere arriere droite, aile",
+      "after": "Portiere arriere droite, aile."
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "40B 925194294",
+      "after": "40B 935194994"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "901050262082701",
+      "after": "901050867087101"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "24/03/2022",
+      "after": "25/03/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "23/03/2026",
+      "after": "24/03/2027"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "03/962220",
+      "after": "03/942720"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.damage",
+      "before": "Phare avant gauche, pare-choc",
+      "after": "Phare avant gauche, pare choc."
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "record": {
+    "date": "11/02/2026",
+    "time": "18h05",
+    "place": "Bd Al Massira Sale",
+    "phone_a": "0617751783",
+    "phone_b": "0701605093",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Dacia",
+      "model": "Duster",
+      "plate": "92175-H-88",
+      "coming_from": "Rue Ibn Sima",
+      "going_to": "Av. des FAR",
+      "insured_last_name": "ELAMRANI",
+      "insured_first_name": "Yousef",
+      "insured_address": "Al Massira Rabat",
+      "insurer": "MAMDA",
+      "attestation_no": "77B 167556786",
+      "policy_no": "233143742206953",
+      "valid_from": "09/09/2025",
+      "valid_to": "08/09/2026",
+      "agency": "AGENCE RABAT CENTRE",
+      "driver_last_name": "CHRAIBI",
+      "driver_first_name": "Kbadija",
+      "driver_address": "Bougogne Rabat",
+      "license_no": "74/469788",
+      "license_category": "C",
+      "license_issued": "14/02/2004",
+      "license_prefecture": "Rabat",
+      "license_valid_until": "14/02/2029",
+      "damage": "Portiere arriere droite, aile.",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "right"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Ford",
+      "model": "Focus",
+      "plate": "83826-B-13",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Rue Alal Ben Abdellah",
+      "insured_last_name": "EL AMRANI",
+      "insured_first_name": "Rachid",
+      "insured_address": "Agd l Sale",
+      "insurer": "ATLANTASANAD",
+      "attestation_no": "52A 671552715",
+      "policy_no": "657954944049294",
+      "valid_from": "19/01/2026",
+      "valid_to": "18/01/2027",
+      "agency": "AGENCE SALE CENTRE",
+      "driver_last_name": "EL AMRANI",
+      "driver_first_name": "Rachid",
+      "driver_address": "Hay Salam Sale",
+      "license_no": "93/064126",
+      "license_category": "B",
+      "license_issued": "22/03/2013",
+      "license_prefecture": "Sale",
+      "license_valid_until": "22/03/2028",
+      "damage": "Phare avant gauche, pare choc",
+      "circumstances": [
+        14
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front_left"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "phone_a",
+      "before": "0617750783",
+      "after": "0617751783"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "92125-H-88",
+      "after": "92175-H-88"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.coming_from",
+      "before": "Rue Ibn Sina",
+      "after": "Rue Ibn Sima"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_last_name",
+      "before": "EL AMRANI",
+      "after": "ELAMRANI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insured_first_name",
+      "before": "Youssef",
+      "after": "Yousef"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "04/04/2025",
+      "after": "09/09/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "04/04/2026",
+      "after": "08/09/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "74/469288",
+      "after": "74/469788"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_issued",
+      "before": "19/02/2004",
+      "after": "14/02/2004"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_valid_until",
+      "before": "19/02/2029",
+      "after": "14/02/2029"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Portiere arriere droite, aile",
+      "after": "Portiere arriere droite, aile."
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.going_to",
+      "before": "Rue Allal Ben Abdellah",
+      "after": "Rue Alal Ben Abdellah"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "18/01/2027",
+      "after": "19/01/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "19/01/2026",
+      "after": "18/01/2027"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "93/069126",
+      "after": "93/064126"
+    }
+  ]
+}

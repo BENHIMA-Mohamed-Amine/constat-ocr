@@ -1,0 +1,156 @@
+{
+  "record": {
+    "date": "03/06/2024",
+    "time": "15h15",
+    "place": "Av. Hassan II Casablanca",
+    "phone_a": "0760357813",
+    "phone_b": "0697932412",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Fiat",
+      "model": "Punto",
+      "plate": "21046-A-81",
+      "coming_from": "Bd Al Massira",
+      "going_to": "Bd Aouf",
+      "insured_last_name": "SAIDI",
+      "insured_first_name": "Imane",
+      "insured_address": "Al Massira Temara",
+      "insurer": "SA HAM ASSURANCE",
+      "attestation_no": "69B 273842493",
+      "policy_no": "219356309362243",
+      "valid_from": "11/03/2024",
+      "valid_to": "10/03/2025",
+      "agency": "AGENCE TEMARA CENTRE",
+      "driver_last_name": "SAIDI",
+      "driver_first_name": "Imane",
+      "driver_address": "Sidi Maorouf Temara",
+      "license_no": "05/026143",
+      "license_category": "B",
+      "license_issued": "27/01/2007",
+      "license_prefecture": "Temara",
+      "license_valid_until": "27/01/2027",
+      "damage": "Cd andre, capot",
+      "circumstances": [
+        21
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Hyundai",
+      "model": "Accent",
+      "plate": "19645-T-70",
+      "coming_from": "Bd Zerhouni",
+      "going_to": "Bd Al Massira",
+      "insured_last_name": "MERISSI",
+      "insured_first_name": "Ahmed",
+      "insured_address": "Hay Riad Marrakech",
+      "insurer": "SAHAM MAROC",
+      "attestation_no": "32B 492960274",
+      "policy_no": "265757136937217",
+      "valid_from": "19/05/2024",
+      "valid_to": "18/05/2025",
+      "agency": "AGENCE MARRAKECH CENTRE",
+      "driver_last_name": "MERISSI",
+      "driver_first_name": "Ahmed",
+      "driver_address": "Lot Al Wifaq Marrakech",
+      "license_no": "31/139130",
+      "license_category": "B",
+      "license_issued": "24/11/2006",
+      "license_prefecture": "Marrakech",
+      "license_valid_until": "24/11/2026",
+      "damage": "Calandre, capot",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "phone_b",
+      "before": "0699824422",
+      "after": "0697932412"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.going_to",
+      "before": "Bd Aoua",
+      "after": "Bd Aouf"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.insurer",
+      "before": "SAHAM ASSURANCE",
+      "after": "SA HAM ASSURANCE"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "69B 273842993",
+      "after": "69B 273842493"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "219358309362243",
+      "after": "219356309362243"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "14/03/2024",
+      "after": "11/03/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "14/03/2025",
+      "after": "10/03/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.damage",
+      "before": "Calandre, capot",
+      "after": "Cd andre, capot"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.coming_from",
+      "before": "Bd Zerktouni",
+      "after": "Bd Zerhouni"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.insured_last_name",
+      "before": "MEROUSSI",
+      "after": "MERISSI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "265757136937247",
+      "after": "265757136937217"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "18/05/2024",
+      "after": "19/05/2024"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.driver_last_name",
+      "before": "MEROUSSI",
+      "after": "MERISSI"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "34/139430",
+      "after": "31/139130"
+    }
+  ]
+}
