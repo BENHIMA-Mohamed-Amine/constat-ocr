@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+<rect width="980" height="500" rx="14" fill="#0B1220"/>
+<text x="40" y="46" fill="#E6EDF7" font-size="24" font-weight="800">Constat OCR: ten measured versions, one benchmark</text>
+<text x="40" y="68" fill="#8A9BB5" font-size="13">Same 20 test forms for every version. Exact-match scoring, no LLM judge.</text>
+<text x="40" y="92" fill="#E6EDF7" font-size="19" font-weight="700">Critical fields right (of 380)</text>
+<text x="40" y="114" fill="#8A9BB5" font-size="13">0.8% to 82.9%  |  higher is better</text>
+<rect x="44.0" y="397.8" width="34.0" height="2.2" rx="3" fill="#3B82F6" opacity="1"/>
+<text x="61.0" y="391.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">3</text>
+<text x="61.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v1</text>
+<rect x="86.0" y="358.8" width="34.0" height="41.2" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="103.0" y="352.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">56</text>
+<text x="103.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v2</text>
+<rect x="128.0" y="360.3" width="34.0" height="39.7" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="145.0" y="354.3" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">54</text>
+<text x="145.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3a</text>
+<rect x="170.0" y="359.6" width="34.0" height="40.4" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="187.0" y="353.6" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">55</text>
+<text x="187.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3b</text>
+<rect x="212.0" y="276.5" width="34.0" height="123.5" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="229.0" y="270.5" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">168</text>
+<text x="229.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3c</text>
+<rect x="254.0" y="257.4" width="34.0" height="142.6" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="271.0" y="251.4" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">194</text>
+<text x="271.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3d</text>
+<rect x="296.0" y="257.4" width="34.0" height="142.6" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="313.0" y="251.4" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">194</text>
+<text x="313.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3e</text>
+<rect x="338.0" y="236.8" width="34.0" height="163.2" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="355.0" y="230.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">222</text>
+<text x="355.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v4a</text>
+<rect x="380.0" y="180.1" width="34.0" height="219.9" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="397.0" y="174.1" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">299</text>
+<text x="397.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v4b</text>
+<rect x="422.0" y="168.4" width="34.0" height="231.6" rx="3" fill="#22D3A5" opacity="1"/>
+<text x="439.0" y="162.4" fill="#22D3A5" font-size="14" font-weight="700" text-anchor="middle">315</text>
+<text x="439.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v4c</text>
+<line x1="40" y1="400" x2="460" y2="400" stroke="#8A9BB5" stroke-opacity=".4"/>
+<text x="520" y="92" fill="#E6EDF7" font-size="19" font-weight="700">Character error rate</text>
+<text x="520" y="114" fill="#8A9BB5" font-size="13">89% to 2.5%, about 36 times lower  |  lower is better</text>
+<rect x="524.0" y="177.3" width="34.0" height="222.7" rx="3" fill="#3B82F6" opacity="1"/>
+<text x="541.0" y="171.3" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">89%</text>
+<text x="541.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v1</text>
+<rect x="566.0" y="224.8" width="34.0" height="175.2" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="583.0" y="218.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">70%</text>
+<text x="583.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v2</text>
+<rect x="608.0" y="233.0" width="34.0" height="167.0" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="625.0" y="227.0" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">67%</text>
+<text x="625.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3a</text>
+<rect x="650.0" y="267.0" width="34.0" height="133.0" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="667.0" y="261.0" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">53%</text>
+<text x="667.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3b</text>
+<rect x="692.0" y="358.0" width="34.0" height="42.0" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="709.0" y="352.0" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">17%</text>
+<text x="709.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3c</text>
+<rect x="734.0" y="359.8" width="34.0" height="40.2" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="751.0" y="353.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">16%</text>
+<text x="751.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3d</text>
+<rect x="776.0" y="359.8" width="34.0" height="40.2" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="793.0" y="353.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">16%</text>
+<text x="793.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v3e</text>
+<rect x="818.0" y="386.8" width="34.0" height="13.2" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="835.0" y="380.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">5.3%</text>
+<text x="835.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v4a</text>
+<rect x="860.0" y="390.8" width="34.0" height="9.3" rx="3" fill="#3B82F6" opacity="0.8"/>
+<text x="877.0" y="384.8" fill="#E6EDF7" font-size="12" font-weight="400" text-anchor="middle">3.7%</text>
+<text x="877.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v4b</text>
+<rect x="902.0" y="393.8" width="34.0" height="6.2" rx="3" fill="#22D3A5" opacity="1"/>
+<text x="919.0" y="387.8" fill="#22D3A5" font-size="14" font-weight="700" text-anchor="middle">2.5%</text>
+<text x="919.0" y="418" fill="#8A9BB5" font-size="12" text-anchor="middle">v4c</text>
+<line x1="520" y1="400" x2="940" y2="400" stroke="#8A9BB5" stroke-opacity=".4"/>
+<text x="40" y="462" fill="#8A9BB5" font-size="12">v1 Tesseract + LLM | v2 CPU OCR | v3a straighten | v3b zones | v3c vision OCR | v3d repair rules</text>
+<text x="40" y="482" fill="#8A9BB5" font-size="12">v3e template marks | v4a one open VLM | v4b crops (6 fields) | v4c crops (22 fields)</text>
+</svg>

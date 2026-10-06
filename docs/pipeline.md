@@ -1,12 +1,15 @@
 # The pipeline
 
 Read a phone photo of a filled constat amiable, turn it into a record, and score it against the answer key.
-It is deliberately basic: plain OCR, then an LLM that only sees the OCR text. v1 used Tesseract; v2 swapped in a stronger CPU
-engine (PP-OCRv6), v3a added straightening, and v3b sorts the OCR text by zone of the form, and v3c replaces the OCR engine with Chandra-OCR-2 served on a GPU ([serving.md](serving.md)). Each changed one thing.
+v1 was deliberately basic: plain OCR, then an LLM that only sees the OCR text. v1 used Tesseract; v2 swapped in a stronger CPU
+engine (PP-OCRv6), v3a added straightening, v3b sorts the OCR text by zone of the form, v3c replaces the OCR engine with Chandra-OCR-2 served on a GPU
+([serving.md](serving.md)), v3d repairs the record with rules and v3e reads the marks from the template. **v4a drops the OCR step and the text LLM:** one open
+vision model reads the page and fills the record, and v4b and v4c re-read chosen fields from enlarged crops. Each changed one thing.
 
 ```
-photo ──► straighten ──► ocr ──► structure ──► marks ──► repair ──► evaluate (only when an answer key is given) ──► result
-          (optional)     OCR engine  LLM, JSON mode  (optional) (optional)      field-by-field score
+photo ──► straighten ──► ocr ──► structure ──► refine ──► marks ──► repair ──► evaluate (only when an answer key is given) ──► result
+          (optional)     OCR engine  text LLM, or    (optional) (optional) (optional)   field-by-field score
+                         (none in v4) a vision model
 ```
 
 It is one LangGraph graph (`backend/pipeline/flow/graph.py`). Without an answer key the graph stops after `structure`, which
@@ -18,7 +21,8 @@ is how it would run in production.
 |---|---|---|
 | **straighten** (optional) | `STRAIGHTENER=opencv` finds the page against the desk and warps it flat. Off by default, so v1 and v2 stay reproducible | `straightened/<id>.jpg` |
 | **ocr** | The engine named by `OCR_ENGINE` reads the image (the straightened one when that step ran) into text (default `rapidocr-v6`, PP-OCRv6 on CPU; `tesseract` is the v1 baseline; `rapidocr-v6-columns` returns the text as four zone blocks, and `chandra-ocr-2` reads the page with an OCR vision model on a server, see below). No contrast fixes | `ocr/<id>.txt`, `ocr_usage/<id>.json` |
-| **structure** | An LLM (Groq `openai/gpt-oss-120b`, temperature 0) fills the `Record` from the text only. It never sees the image | `structured/<id>.json` (record and token counts) |
+| **structure** | `STRUCTURER=text` (default): an LLM (Groq `openai/gpt-oss-120b`, temperature 0) fills the `Record` from the OCR text only. `STRUCTURER=vision` (v4a): a vision model on a vLLM server reads the straightened image itself and returns the record as schema-guided JSON, with `OCR_ENGINE=none` | `structured/<id>.json` (record and token counts) |
+| **refine** (optional) | `REFINE_FIELDS=a,b,...` (v4b, v4c) cuts those fields from the page at their template positions, enlarges them, and re-reads them with the same vision server; see below | `refined/<id>.json` (record and changes) |
 | **marks** (optional) | `READ_MARKS=true` reads the ticks, vehicle-type tile, circled licence letter, impact patch and OUI/NON cells from fixed positions on the blank template, with plain image processing, and puts them in the record. Needs the straightened page. Off by default | `marks/<id>.json` |
 | **repair** (optional) | `REPAIRS=all` (or rule names, comma-separated) applies small deterministic rules to the record: validity dates in order, phone and policy numbers without separators, attestation number format. Off by default | `repaired/<id>.json` (the record and the list of changes) |
 | **evaluate** | Compares the record with the answer key, field by field | `evaluation/<id>.json` |
@@ -37,6 +41,19 @@ one block per layout region with its position (`data-bbox`, 0 to 1000). Each blo
 same per-form cuts, so the grouping code is shared with `rapidocr-v6-columns`. Checkboxes become `[x]` and `[ ]`, a circled letter `(x)`, and a
 picture's description `[image: ...]`. An answer that ends in a repeated pattern is regenerated at a higher temperature (up to 6 times).
 `STRUCTURING_PROMPT=chandra` selects the prompt that describes these marks.
+
+### Vision structurer (v4a)
+`structuring/vision.py` (`VisionStructurer`, `STRUCTURER=vision`) sends the straightened page and the prompt (`STRUCTURING_PROMPT=vlm`) to the Qwen3.8-27B server
+(`QWEN3_8_27B_SERVER_URL`, with the Modal proxy token). The request asks vLLM for JSON that follows `Record` (guided decoding, thinking off, temperature 0), so the
+keys and types are always right; the prompt says how each value is written and tells the model to leave the tick fields to the marks reader and to answer `null`
+rather than guess. `OCR_ENGINE=none` (`ocr/none.py`) reads nothing, so the graph is unchanged.
+
+### Field crops (v4b, v4c)
+`refine/` (`FieldRefiner`) re-reads chosen fields from crops. The page is aligned on the template (the marks reader's alignment), each field box from the template
+(`marks/layout.py`) plus a margin is cut out and enlarged 3 times, and all crops of a form go in one request to the vision server, which answers with JSON per group
+(`header`, `vehicle_a`, `vehicle_b`). A value that is read replaces the page value; `null` keeps it. A call that fails is tried 3 times and, if it still fails, the record
+is returned unchanged and **not saved as refined**, so a later `--reuse` run reads that form again. Why it works: on a whole page a handwritten digit is about half a vision
+token, on a crop it gets several. Fields are chosen on the dev forms only (a field worse from crops than from the page is left out).
 
 ### Template marks (v3e)
 `marks/` (`MarksReader`) reads what a driver marked, with no model. The straightened page is aligned on the blank template (`align.py`, an ECC
@@ -141,9 +158,12 @@ math replayed against v1's saved output) run on every push, no key needed. Integ
 (`tests/integration/`: the real pipeline on 2 forms) needs `GROQ_API_KEY` and self-skips without
 it. Full breakdown, file by file: [docs/testing.md](testing.md).
 
-## Known limits (v1 to v3e)
+## Known limits (v1 to v4c)
 
-- The LLM sees text only. Up to v3b that made ticks, circled letters, the highlighted vehicle type and the impact zone invisible; from v3c Chandra's text carries ticks and picture descriptions, but the category answers are still poor.
+- **v4:** the vision model reads the whole page, so ticks and categories no longer depend on a text-only LLM (and the template reader reads them exactly on the synthetic forms). The remaining errors are misread handwriting: 164 of 980 text fields in v4c, mostly plates, licence numbers and the damage text.
+- **The crop positions come from the generator's template.** On real photos the handwriting sits at other places on the line, so the margin would need to grow or a field detector would be needed.
+- **Cold start:** the vision server scales to zero after 2 minutes and a cold start takes up to about 10 minutes, during which calls fail with 502 or 503. Check `/health` returns 200 before a run.
+- **Up to v3e, the LLM saw text only.** That made ticks, circled letters, the highlighted vehicle type and the impact zone invisible until Chandra (v3c) and the template reader (v3e).
 - The OCR engines run with default settings on tilted phone photos; the only image step is straightening, and the zone split only regroups the boxes the engine found.
 - The evaluation set is small (5 dev forms and 20 test forms) because of the free plan's rate limits, so percentages are an early signal, not a precise score.
 - **Volume:** the provider's free plan (8,000 tokens a minute, 200,000 a day) makes a 20-form run take about 8 minutes, and a large

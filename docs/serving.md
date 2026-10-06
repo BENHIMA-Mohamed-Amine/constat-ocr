@@ -1,4 +1,4 @@
-# Serving the OCR vision models
+# Serving the vision models
 
 The GPU-served readers (v3c onward) run on [Modal](https://modal.com) with [vLLM](https://docs.vllm.ai), behind an OpenAI-style chat API.
 The pipeline reaches them through one URL per model. Code: `backend/serving/`.
@@ -14,7 +14,7 @@ backend/serving/
 | Model | App name | Served name | Result |
 |---|---|---|---|
 | Chandra-OCR-2 (Datalab, 5.3B) | `constat-chandra-ocr-2` | `chandra-ocr-2` | **Used by v3c.** H100 |
-| Qwen3.8-27B (Alibaba, general vision model) | `constat-qwen3-8-27b` | `qwen3-8-27b` | **Used by v4a.** H100, reads the page and returns the record as JSON |
+| Qwen3.8-27B (Alibaba, general vision model) | `constat-qwen3-8-27b` | `qwen3-8-27b` | **Used by v4a, v4b and v4c.** H100, reads the page (and field crops) and returns the record as JSON |
 | PaddleOCR-VL-1.6 (0.9B) | `constat-paddleocr-vl` | `paddleocr-vl` | Looped on the whole handwritten page. Dropped |
 | DeepSeek-OCR-2 (3.4B) | `constat-deepseek-ocr-2` | `deepseek-ocr-2` | Hallucinated after the header, even with its repetition guard. Dropped |
 
@@ -44,6 +44,7 @@ Each model has its own variable in `backend/.env` (git ignores it), named `<MODE
 
 ```
 CHANDRA_OCR_2_SERVER_URL=https://...modal.direct
+QWEN3_8_27B_SERVER_URL=https://...modal.direct
 PADDLEOCR_VL_SERVER_URL=
 DEEPSEEK_OCR_2_SERVER_URL=
 ```
@@ -76,7 +77,8 @@ uv run modal app stop constat-chandra-ocr-2
 | `--max-num-seqs` and `target_concurrency` | How many requests vLLM batches, and when Modal adds a container. Both come from one constant per file |
 | `--max-num-batched-tokens` | Must cover the largest image (Chandra: about 6,100 tokens) |
 | `--no-enable-prefix-caching`, `--mm-processor-cache-gb 0` | For PaddleOCR-VL and DeepSeek-OCR: every page is different, so reuse never hits. Chandra turns prefix caching **on**, since every request starts with the same long prompt |
-| `--mm-processor-kwargs` (Chandra) | Keeps a page up to 6.3 megapixels, so handwriting is not shrunk |
+| `--mm-processor-kwargs` (Chandra, Qwen) | Keeps a page up to 6.3 megapixels, so handwriting is not shrunk |
+| `CONCURRENCY = 8` (Qwen3.8-27B) | The 27B weights take 51 GB of the H100's 80 GB, so fewer requests fit in the KV cache than for Chandra (30). `max-model-len` is 16,384: a page is about 6,000 image tokens plus about 3,000 of JSON, and a crop request is a few thousand more |
 | `TRITON_ALLOW_NON_CONSTEXPR_GLOBALS=1` (DeepSeek-OCR-2) | vLLM 0.30.0's image encoder kernel for this model reads a plain Python constant that the Triton version it installs rejects. The variable is Triton's own workaround |
 
 ## What was learned
@@ -88,10 +90,12 @@ uv run modal app stop constat-chandra-ocr-2
 - **Output is not reproducible across GPUs.** The same page, prompt and temperature 0 finished on an L4 and looped on an H100. One run proves little.
 - **Loops are a known failure of these readers.** Chandra's client regenerates an answer that ends in a repeated pattern at a higher
   temperature, and `ChandraOcrEngine` does the same. DeepSeek-OCR ships its own repetition guard (an n-gram logits processor).
-- **Cold starts:** 190 to 470 s on first use, from container start, weight download, `torch.compile` and CUDA graph capture.
+- **Cold starts:** 190 to 470 s on first use, from container start, weight download, `torch.compile` and CUDA graph capture. For Qwen3.8-27B (51 GB) a start after the container scaled to zero took about 4 to 10 minutes.
+- **A cold start looks like an outage.** While the container loads, the endpoint answers 503 ("no upstreams available") or 502, and a client that fires at once gets errors. In v4c this made 8 of 20 crop calls fail and fall back to the page read. The pipeline now retries a crop call 3 times and never saves a failed one, and a run should start only once `/health` returns 200.
+- **A general open vision model needs no OCR engine.** Qwen3.8-27B (Apache 2.0) reads the page and returns the record in one call, so the OCR server and the text LLM are not part of v4.
 
 ## Not done yet
 - **Throughput test:** send 1, 4, 8, 16 and 32 pages at once and choose `--max-num-seqs` and `target_concurrency` where pages per minute stops
   rising.
-- **Cost per page** (GPU seconds).
-- **Self-hosting the structuring LLM** (`gpt-oss-120b` needs a card with about 80 GB), which would keep the OCR text off a third-party API.
+- **Cost per page** (GPU seconds): only rough wall-clock estimates exist (about $0.029 per form for the v4a page read and about $0.007 to $0.014 for the crop step, at $0.001097 per second for an H100); Modal's bill has not been checked.
+- **Keeping the container warm for a batch:** a longer `scaledown_window` or a warm-up call would avoid the 4 to 10 minute cold start, at the price of idle GPU time.

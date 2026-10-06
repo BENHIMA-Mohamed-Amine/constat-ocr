@@ -109,7 +109,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 │   ├── tests/         # unit/, regression/, integration/ (see docs/testing.md)
 │   └── assets/        # blank constat template and handwriting fonts
 ├── data/synthetic/    # the frozen 500-form dataset (manifest and dataset.json tracked, images git-ignored)
-├── docs/              # synthetic-data, metrics, pipeline, serving, testing, results-log
+├── docs/              # synthetic-data, metrics, pipeline, serving, testing, results-log, progress.svg (the chart of the README)
 ├── runs/              # run.json and summary.json of each scored run
 ├── frontend/          # empty for now
 ├── _local/            # private: original filled form, story, sample renders (never published)

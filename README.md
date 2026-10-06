@@ -3,6 +3,38 @@
 Extract structured data from photos of the Moroccan **constat amiable** (the handwritten car-accident report), and measure
 how well it works. Built as a series of versions: each one exists because the previous one measurably failed.
 
+## TL;DR
+
+**Character error rate 89% to 2.5% (about 36 times lower). Critical fields right 0.8% to 82.9%.** Ten controlled versions, one frozen benchmark,
+one open 27B vision model, no fine-tuning.
+
+- **Result (20 test forms, exact-match scoring):** 315 of 380 critical fields right (v1: 3), 501 of 600 minor fields (v1: 12), ticks and
+  categories exact, 4 of 20 forms with every critical field right (v1: 0).
+- **Stack:** Qwen3.8-27B (Apache 2.0) on a Modal H100 with vLLM behind a proxy token. No OCR engine, no text LLM, no third-party LLM API.
+- **What worked:** diagnose first (92% of v1's errors were values the OCR never read), read ticks with no model (the form is a fixed template),
+  and when prompt tuning stalled, change the pixels (crop and enlarge each field at its known place: critical fields 58% to 83%).
+- **Limits:** synthetic forms, 20 test forms for the pipeline headline, a person is still needed on 16 of 20 forms, about $0.04 of GPU per form.
+
+![Critical fields right and character error rate for each version](docs/progress.svg)
+
+| Version | The one change | Critical fields right (of 380) | Character error rate |
+|---|---|---|---|
+| v1 | Tesseract + LLM (baseline) | 3 (0.8%) | 89% |
+| v2 | PP-OCRv6 on CPU | 56 (14.7%) | 70.1% |
+| v3a | Straighten the photo | 54 (14.2%) | 66.8% |
+| v3b | Sort the text by zone | 55 (14.5%) | 53.2% |
+| v3c | Chandra-OCR-2 vision OCR on a GPU | 168 (44.2%) | 16.8% |
+| v3d | Deterministic repair rules | 194 (51.1%) | 16.1% |
+| v3e | Ticks and tiles read from the template, no model | 194 (51.1%), marks exact | 16.1% |
+| v4a | One open vision model reads the page | 222 (58.4%) | 5.3% |
+| v4b | Re-read 6 digit fields from enlarged crops | 299 (78.7%) | 3.7% |
+| v4c | Crop 22 fields | **315 (82.9%)** | **2.5%** |
+
+**Why the character error rate:** field accuracy says whether a value is exactly right; the character error rate also says how far off the
+wrong ones are, so it shows progress field accuracy hides (in v3b the critical fields barely moved while it fell 13 points).
+
+## Version by version
+
 **v4c crops the other fields too** (22 in all, with the header), the last iteration of v4: **315 of 380 critical fields right, 501 of 600 minor, character error rate 2.5%, 4 of 20 forms
 with no critical error** (v4b: 299, 482, 3.7%, 2). About $0.04 per form of GPU time. Details in [docs/results-log.md](docs/results-log.md#v4c-crop-the-remaining-fields-the-last-iteration-of-v4).
 
@@ -184,9 +216,48 @@ template. A step after the LLM aligns the page on the blank template and reads t
 
 Details: [docs/results-log.md](docs/results-log.md).
 
+## v4a results (same 20 test forms)
+
+One open vision model (Qwen3.8-27B) reads the straightened page and returns the record as schema-guided JSON: no OCR engine, no text LLM. The
+marks reader and the repair rules still run after it.
+
+| | v3e | v4a |
+|---|---|---|
+| Critical fields right | 194 of 380 (51.1%) | **222 of 380 (58.4%)** |
+| Minor fields right | 381 of 600 (63.5%) | **482 of 600 (80.3%)** |
+| Character error rate | 16.1% | **5.3%** |
+| Wrong text fields | 405 | **282** |
+| LLM API cost | $0.0012 per form | **none** |
+| GPU cost per form (estimated) | about $0.019 (Chandra + LLM) | about $0.029 |
+
+Three rounds of prompt tuning on the dev forms were within noise. 73% of the wrong fields are one or two characters off, mostly digit strings.
+
+## v4b results (same 20 test forms, same v4a records)
+
+Six digit fields are cut from the page at their template positions, enlarged 3 times, and re-read by the same server.
+
+| | v4a | v4b |
+|---|---|---|
+| Critical fields right | 222 (58.4%) | **299 (78.7%)** |
+| Character error rate | 5.3% | **3.7%** |
+| Forms with no critical error | 0 of 20 | **2 of 20** |
+| Licence number / attestation / policy / validity start (of 40) | 12 / 16 / 18 / 16 | **27 / 30 / 31 / 34** |
+
+## v4c results (same 20 test forms, same v4a records)
+
+The same step over 22 fields, header included. Five fields that were worse from crops on the dev forms were dropped. A first test pass was thrown out
+because 8 forms had their crop call fail on network errors and were saved as if refined; the step now retries and never saves a failed refinement.
+
+| | v3e | v4a | v4b | v4c |
+|---|---|---|---|---|
+| Critical fields right | 194 | 222 | 299 | **315 of 380 (82.9%)** |
+| Minor fields right | 381 | 482 | 482 | **501 of 600 (83.5%)** |
+| Forms with no critical error | 0 | 0 | 2 | **4 of 20** |
+| Character error rate | 16.1% | 5.3% | 3.7% | **2.5%** |
+
 ## Design
 Clean code, open for extension and closed for modification, from day one.
-- One **LangGraph** graph (`ocr`, `structure`, `evaluate`) whose nodes only call injected parts.
+- One **LangGraph** graph (`straighten`, `ocr`, `structure`, `refine`, `marks`, `repair`, `evaluate`, the middle ones optional) whose nodes only call injected parts.
 - Small interfaces (`OcrEngine`, `Structurer`, `Metric`, `ArtifactStore`): a new OCR engine, model, metric or step is a new
   class or node, not a change to working code.
 - One definition of the record (`Record`), used by the LLM's output, the scoring and the tests.
@@ -196,14 +267,14 @@ How it works and how to extend it: [docs/pipeline.md](docs/pipeline.md). How it'
 regression, and a capped 2-form integration run in CI): [docs/testing.md](docs/testing.md).
 
 ## Limitations
-- **Reading is still the main weakness:** 377 of 980 values (38%) are not in Chandra's output, mostly long digit strings. v1 to v3b used text-only readers and could not see ticks or pictures at all.
+- **Reading is still the weakness:** 164 of 980 text fields are wrong in v4c and 16 of 20 forms have at least one wrong critical field, so a person is still needed. The weakest fields are the plate, the licence number and the damage text (about 26 to 27 of 40).
+- **Synthetic forms:** the marks are clean and the crop positions come from the generator's template. On real photos the handwriting sits at other places, so this is a baseline, not a claim about real forms.
 - **Small evaluation set:** 20 test forms (about 40 vehicles), so the percentages are an early signal, not a precise score.
-- **Hosted provider, free tier:** Groq's free plan allows 8,000 tokens a minute and 200,000 a day. 20 forms took about 8 minutes
-  because the client had to wait, and volume would be a problem. This is common to most hosted providers.
-- **Data governance and residency:** calling a hosted API sends the data to a third party, so you lose control of where it is
-  processed and stored. That is fine here because every form is synthetic. For real claims (personal data, insurance secrecy,
-  data-protection rules such as Morocco's Law 09-08) it would not be acceptable. The model is open-weight, so it could be
-  self-hosted, which is a candidate for a later version.
+- **v1 to v3 used a hosted LLM** (Groq free plan: 8,000 tokens a minute, so 20 forms took about 8 minutes) and sent each form's OCR text to a
+  third party. **v4 does not:** the open model runs on my own Modal deployment, so no document text goes to a third-party LLM API. The GPU is still
+  rented cloud time, and real claims (personal data, Morocco's Law 09-08) would need a review of where that runs.
+- **Cost and cold starts:** about $0.04 of GPU per form for v4c against about $0.019 for v3e, and a container idle for 2 minutes reloads 51 GB
+  on the next call (up to about 10 minutes). Both figures are rough, from one run each.
 
 ## Run it
 Needs Python 3.13 with [uv](https://docs.astral.sh/uv/), Tesseract with the French pack (only for the v1 baseline and the CI tests), a Modal account and a proxy token for the GPU-served readers (v3c, see [docs/serving.md](docs/serving.md)), and a `backend/.env` with

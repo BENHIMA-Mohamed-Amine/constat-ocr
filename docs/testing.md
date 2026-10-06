@@ -4,7 +4,7 @@ How this project is tested, and why it's split the way it is. Applies to every v
 v1: later versions add their own tests to the same folders, following the same categories.
 Design decisions are in [plans/done/testing-ci.md](../plans/done/testing-ci.md).
 
-## 14 tests in total
+## 16 tests in total
 
 One pytest item per file, one file per capability being verified — not one item per file per seed
 or per case. Where a capability needs several checks (e.g. 8 generator-consistency rules, or 8
@@ -28,8 +28,10 @@ tests/unit/test_ocr_engines.py .
 tests/unit/test_repair.py .
 tests/unit/test_reproducibility.py .
 tests/unit/test_schema.py .
+tests/unit/test_refine.py .
 tests/unit/test_straightening.py .
-13 passed, 1 skipped
+tests/unit/test_vision.py .
+15 passed, 1 skipped
 ```
 
 `addopts = "-ra"` (`pyproject.toml`) makes the skip reason print by default — no extra flag needed:
@@ -86,6 +88,8 @@ Fakes and pure functions only; no I/O beyond a temp directory, no real model or 
 | `test_chandra.py` | 4 | The repeat check flags a loop and not ordinary HTML; Chandra's HTML becomes the four zone blocks with `[x]`, `(x)` and picture descriptions, and a block cut off by the token cap is dropped; the engine sends the model, the image and Datalab's prompt, and regenerates a looping answer warmer; the `chandra` prompt is the `columns` prompt with the tick sentences replaced |
 | `test_columns.py` | 3 | The zone cuts sit on the outer edges of two green strips drawn on a page (and the header ends where the strips start, not at the short header bar); boxes at known positions land in the right block, sorted top to bottom, with the four blocks always printed; the `columns` prompt is the `flat` prompt with only the column bullet replaced |
 | `test_straightening.py` | 3 | A tilted page the test draws comes back upright and cropped; the registry builds the named straightener (none when unset) and rejects an unknown name; the graph feeds OCR the straightened file and does not redo the step on `--reuse` |
+| `test_vision.py` | 3 | The vision structurer sends the image, the proxy token, the `Record` schema and the format rules, and turns the JSON answer into a `Record`; text that is not JSON, a wrong type and an empty record each raise `StructuringError`; a network failure raises it with the form id (HTTP faked, no model) |
+| `test_refine.py` | 4 | Each crop is the template's field box plus the margin, enlarged, for both vehicles; a read value replaces the page value while `null` keeps it and fields not asked for are untouched; header fields merge at the top level and damage is a vehicle field; a failed call returns the record unchanged and flagged failed, and an unknown field name is refused (HTTP faked, the blank template as the page) |
 | `test_repair.py` | 4 | Each repair rule fixes its own case and leaves the rest alone (dates swap only when start is after end); the changes are reported with rule, field, before and after, and a record with nothing to fix gives an empty list; the registry builds named rules and fails on an unknown one; the graph scores the repaired record and saves the repair |
 | `test_reproducibility.py` | 1 | `describe_run()`'s metadata is complete: model, temperature, OCR engine + languages + the real installed Tesseract version, every dependency's installed version, the dataset fingerprint, the exact command |
 
