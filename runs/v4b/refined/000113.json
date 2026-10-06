@@ -1,0 +1,90 @@
+{
+  "record": {
+    "date": "10/04/2023",
+    "time": "14h20",
+    "place": "Av. Al Qods Oujda",
+    "phone_a": "0710086407",
+    "phone_b": "0772080130",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Volkswagen",
+      "model": "Polo",
+      "plate": "85848-B-29",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Av. Hassan II",
+      "insured_last_name": "BOUZID",
+      "insured_first_name": "Khalid",
+      "insured_address": "Hay Salam Tetouan",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "39A 785952427",
+      "policy_no": "378595885751223",
+      "valid_from": "22/09/2022",
+      "valid_to": "21/09/2023",
+      "agency": "BENNAJI ASSURANCES",
+      "driver_last_name": "BOUZID",
+      "driver_first_name": "Khalid",
+      "driver_address": "Agdal Tetouan",
+      "license_no": "93/478460",
+      "license_category": "B",
+      "license_issued": "24/06/2006",
+      "license_prefecture": "Tetouan",
+      "license_valid_until": "24/06/2026",
+      "damage": "Phare avant gauche, pare choc",
+      "circumstances": [
+        20
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Ford",
+      "model": "Focus",
+      "plate": "32554-T-14",
+      "coming_from": "Bd Al Massira",
+      "going_to": "Av. Mohammed V",
+      "insured_last_name": "TAZI",
+      "insured_first_name": "Khadija",
+      "insured_address": "Al Massira Temara",
+      "insurer": "ZURICH MAROC",
+      "attestation_no": "84A 742063945",
+      "policy_no": "975975895830",
+      "valid_from": "27/06/2022",
+      "valid_to": "26/06/2023",
+      "agency": "MERNISSI ASSURANCES",
+      "driver_last_name": "RIEAI",
+      "driver_first_name": "Salma",
+      "driver_address": "Hay Mohammadi Temara",
+      "license_no": "31/623805",
+      "license_category": "B",
+      "license_issued": "15/10/1999",
+      "license_prefecture": "Temara",
+      "license_valid_until": "15/10/2024",
+      "damage": "Retroviseur gauche, aile avant",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "37895885751223",
+      "after": "378595885751223"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "21/09/2022",
+      "after": "22/09/2022"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "32559-T-19",
+      "after": "32554-T-14"
+    }
+  ]
+}

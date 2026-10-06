@@ -18,6 +18,7 @@ from .flow.graph import build_graph
 from .flow.runner import PipelineRunner, describe_run, write_run_files
 from .marks import MarksReader
 from .ocr import build_ocr_engine
+from .refine import build_refiner
 from .repair import build_repairer
 from .straightening import build_straightener
 from .structuring import build_structurer
@@ -80,6 +81,7 @@ def main() -> None:
         reuse=args.reuse,
         straightener=build_straightener(settings),
         repairer=build_repairer(settings),
+        refiner=build_refiner(settings),
         marks_reader=MarksReader(BACKEND_DIR / "assets" / "constat-template.pdf")
         if settings.read_marks
         else None,

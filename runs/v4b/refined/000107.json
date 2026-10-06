@@ -1,0 +1,126 @@
+{
+  "record": {
+    "date": "26/05/2024",
+    "time": "14h00",
+    "place": "Rue Targa la Temara",
+    "phone_a": "0707048506",
+    "phone_b": "0799929611",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Kia",
+      "model": "Rio",
+      "plate": "5145J25",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Bd Mohammed V",
+      "insured_last_name": "DRISSI",
+      "insured_first_name": "Hicham",
+      "insured_address": "Ain Sebaa Agadir",
+      "insurer": "ATTANASAD",
+      "attestation_no": "18A 39651929",
+      "policy_no": "36338753654800",
+      "valid_from": "04/08/2023",
+      "valid_to": "05/08/2024",
+      "agency": "AGENCE AGADIR CENTRE",
+      "driver_last_name": "DRISSI",
+      "driver_first_name": "Hicham",
+      "driver_address": "Lot Al Wifag Agadir",
+      "license_no": "18/506749",
+      "license_category": "B",
+      "license_issued": "09/03/2001",
+      "license_prefecture": "Agadir",
+      "license_valid_until": "09/03/2026",
+      "damage": "Coté cadre, capot",
+      "circumstances": [],
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Peugeot",
+      "model": "308",
+      "plate": "2427A82",
+      "coming_from": "Bd Anfa",
+      "going_to": "Av. Mohammed V",
+      "insured_last_name": "OUAZZANI",
+      "insured_first_name": "Khalid",
+      "insured_address": "Lot Al Wifag Fes",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "37B 126743402",
+      "policy_no": "587850603678910",
+      "valid_from": "19/07/2023",
+      "valid_to": "19/07/2024",
+      "agency": "LMRD ASSURANCES",
+      "driver_last_name": "OUAZZANI",
+      "driver_first_name": "Khalid",
+      "driver_address": "Bourogre Fes",
+      "license_no": "82/801349",
+      "license_category": "B",
+      "license_issued": "22/02/2009",
+      "license_prefecture": "Fes",
+      "license_valid_until": "22/02/2025",
+      "damage": "A l'arrière gauche",
+      "circumstances": [
+        17
+      ],
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "545322-C",
+      "after": "5145J25"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "363887564800",
+      "after": "36338753654800"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "182506749",
+      "after": "18/506749"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "04/05/2023",
+      "after": "04/08/2023"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "24272-A-82",
+      "after": "2427A82"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "37B 12643402",
+      "after": "37B 126743402"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "58285060328910",
+      "after": "587850603678910"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "821805349",
+      "after": "82/801349"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "18/07/2024",
+      "after": "19/07/2024"
+    }
+  ]
+}

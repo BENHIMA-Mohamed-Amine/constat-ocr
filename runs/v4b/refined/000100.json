@@ -1,0 +1,106 @@
+{
+  "record": {
+    "date": "08/02/2025",
+    "time": "20h20",
+    "place": "Rue Ibn Sina Casablanca",
+    "phone_a": "0772942435",
+    "phone_b": "0794947794",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Ford",
+      "model": "Fiesta",
+      "plate": "6766-A-78",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Av Mohammed V",
+      "insured_last_name": "SKALLI",
+      "insured_first_name": "Mehdi",
+      "insured_address": "Mqant Meknes",
+      "insurer": "Wafa ASSURANCE",
+      "attestation_no": "99B 922263192",
+      "policy_no": "723029509923",
+      "valid_from": "26/01/2025",
+      "valid_to": "25/01/2026",
+      "agency": "AGENCE MEKNES CENTRE",
+      "driver_last_name": "SKALLI",
+      "driver_first_name": "Mehdi",
+      "driver_address": "Agdal Meknes",
+      "license_no": "80/894965",
+      "license_category": null,
+      "license_issued": "18/12/2005",
+      "license_prefecture": "Meknes",
+      "license_valid_until": "18/12/2025",
+      "damage": "Portiere avant droite",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Toyota",
+      "model": "Corolla",
+      "plate": "98645-J-19",
+      "coming_from": "Bd Anfa",
+      "going_to": "Bd Zerktouni",
+      "insured_last_name": "ALAOUI",
+      "insured_first_name": "Omar",
+      "insured_address": "Bourgogne Agadir",
+      "insurer": "RMA",
+      "attestation_no": "59A 150196573",
+      "policy_no": "038048096734",
+      "valid_from": "17/07/2025",
+      "valid_to": "16/07/2026",
+      "agency": "SKALLI ASSURANCES",
+      "driver_last_name": "ALAOUI",
+      "driver_first_name": "Omar",
+      "driver_address": "Hay Riad Agadir",
+      "license_no": "44/149142",
+      "license_category": null,
+      "license_issued": "29/09/2017",
+      "license_prefecture": "Agadir",
+      "license_valid_until": "29/09/2027",
+      "damage": "Portiere arriere droite, aile",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "67660-J-8",
+      "after": "6766-A-78"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "9B 922263192",
+      "after": "99B 922263192"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "98615-J-19",
+      "after": "98645-J-19"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "0380948096739",
+      "after": "038048096734"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "44/149192",
+      "after": "44/149142"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "12/07/2025",
+      "after": "17/07/2025"
+    }
+  ]
+}

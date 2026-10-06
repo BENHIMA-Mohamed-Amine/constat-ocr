@@ -1,0 +1,88 @@
+{
+  "record": {
+    "date": "19/03/2022",
+    "time": "09h50",
+    "place": "Av. Mohammed VI Temara",
+    "phone_a": "0613848833",
+    "phone_b": "0284692175",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Ford",
+      "model": "Focus",
+      "plate": "35130-B-88",
+      "coming_from": "Bd Zerhouni",
+      "going_to": "Bd Al Massira",
+      "insured_last_name": "BOUZID",
+      "insured_first_name": "Mehdi",
+      "insured_address": "Lot Al Wifaq Fes",
+      "insurer": "SANLAM MAROC",
+      "attestation_no": "96A 615201640",
+      "policy_no": "841662779679",
+      "valid_from": "23/05/2021",
+      "valid_to": "22/05/2022",
+      "agency": "HAMIDIA ASSURANCES",
+      "driver_last_name": "KABBADJ",
+      "driver_first_name": "Zakaria",
+      "driver_address": "Agdal Fes",
+      "license_no": "26/093697",
+      "license_category": null,
+      "license_issued": "18/09/2001",
+      "license_prefecture": "Fes",
+      "license_valid_until": "18/09/2026",
+      "damage": "Porte avant droite",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Eiat",
+      "model": "Tigo",
+      "plate": "10690-D-25",
+      "coming_from": "Av. Al Qods",
+      "going_to": "Bd Zerhouni",
+      "insured_last_name": "BOUZID",
+      "insured_first_name": "Hicham",
+      "insured_address": "Hay Salam Tetouan",
+      "insurer": "ATLANTASANAD",
+      "attestation_no": "37B 824147881",
+      "policy_no": "742348856578175",
+      "valid_from": "18/07/2021",
+      "valid_to": "17/07/2022",
+      "agency": "AGENCE TETOUAN CENTRE",
+      "driver_last_name": "BOUZID",
+      "driver_first_name": "Hicham",
+      "driver_address": "Al Massira Tetouan",
+      "license_no": "24/135858",
+      "license_category": null,
+      "license_issued": "30/10/2008",
+      "license_prefecture": "Tetouan",
+      "license_valid_until": "30/10/2023",
+      "damage": "Phare avant gauche, pare choc",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "261093697",
+      "after": "26/093697"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "37B 826147881",
+      "after": "37B 824147881"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "24135858",
+      "after": "24/135858"
+    }
+  ]
+}

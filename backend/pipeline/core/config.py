@@ -54,6 +54,10 @@ class Settings(BaseSettings):
         None  # the vLLM server of the vision structurer (backend/serving/)
     )
     structurer: str = "text"  # "vision" reads the image with a vision model instead of the OCR text (see structuring/factory.py)
+    refine_fields: str | None = (
+        None  # comma-separated vehicle fields to re-read from crops (see pipeline/refine/); None is off
+    )
+    refine_scale: int = 3  # how many times each crop is enlarged
     read_marks: bool = False  # read ticks, tiles and circles from the template positions (needs the straightened page)
     repairs: str | None = (
         None  # comma-separated repair rules, or "all"; see pipeline/repair/factory.py

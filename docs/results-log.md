@@ -705,3 +705,80 @@ STRAIGHTENER=opencv OCR_ENGINE=none STRUCTURER=vision STRUCTURING_PROMPT=vlm REP
 ```
 Needs the Modal app of `serving/deploy/qwen3_8_27b.py` deployed, and `QWEN3_8_27B_SERVER_URL`, `MODAL_PROXY_TOKEN_ID` and `MODAL_PROXY_TOKEN_SECRET`
 in `backend/.env`. The first request after a deploy takes about 5 to 10 minutes while 55 GB of weights load.
+
+## v4b: re-read the hard digit fields from crops
+
+- **What:** one optional step after the structurer, `refine` (`pipeline/refine/`). For each vehicle it cuts six fields out of the straightened page
+  at their known place on the template (plate, attestation number, policy number, licence number, validity start and end dates), enlarges each
+  crop 3 times, and sends the 12 crops in one request to the same Qwen3.8-27B server, which answers with schema-guided JSON. A read value
+  replaces the page value; `null` or a failed call keeps it. Then the marks reader and the repair rules run as before. Same 20 test forms. The
+  saved v4a records were reused (`--reuse`), so the crop step is the only difference. Run `v4b`, dev run `v4b-dev5`.
+- **Why:** after v4a, 73% of the wrong text fields were one or two characters off, mostly long digit strings. The model sees a whole page at about
+  one vision token per 32 by 32 pixels, so a handwritten digit is about half a token; a 3 times enlarged crop gives each digit several. A second
+  model did not help (Chandra and Qwen agree on only 87 of the 240 digit fields, and 71 of those are right), so the lever is better pixels.
+- **Geometry:** the field boxes are where the generator writes the values (`generator/fields.py`, through `pipeline/marks/layout.py`), with a margin of
+  10 px across and 7 px down; the page is aligned on the template with the marks reader's alignment. Crops were checked by eye on a dev form.
+- **No tuning:** the six fields were chosen from v4a's weakest, and the dev run improved all six, so none was dropped. The prompt is the v4a format lines
+  plus "copy exactly, null if unreadable".
+
+### v4b results (20 test forms)
+
+| Metric | v3e | v4a | v4b |
+|---|---|---|---|
+| Critical fields right | 194 of 380 (51.1%) | 222 (58.4%) | **299 of 380 (78.7%)** |
+| Minor fields right | 381 of 600 (63.5%) | 482 (80.3%) | 482 of 600 (80.3%) |
+| Forms with no critical error | 0 of 20 | 0 | **2 of 20** |
+| Character error rate | 16.1% | 5.3% | **3.7%** |
+| Wrong text fields | 405 | 282 | **205** |
+| Ticks, categories | 100% | 100% | 100% |
+
+| Field (of 40) | v3e | v4a | v4b |
+|---|---|---|---|
+| licence number | 10 | 12 | **27** |
+| attestation number | 11 | 16 | **30** |
+| policy number | 18 | 18 | **31** |
+| plate | 15 | 18 | **23** |
+| validity start date | 17 | 16 | **34** |
+| validity end date | 27 | 28 | **40** |
+
+- **The dev run agrees:** on the 5 dev forms, 80 of 95 critical fields right (v4a: 50), character error rate 3.8% (5.8%), licence numbers 9 of 10 (1 of 10).
+- **Of the 127 fields the step changed, 83 became right and 6 that were right became wrong.** Minor fields did not move: the six fields are all critical.
+- **The first forms with no critical error:** 2 of 20 (0 before).
+- **No call failed.** All 20 crop requests returned valid JSON.
+- **The thin slash was a resolution problem, not a prompt one.** The v4a prompt could not stop `/` being read as `1` (licence numbers 12 of 40); on a crop the
+  licence number is 27 of 40.
+
+### Where the errors are now
+205 wrong text fields: 111 are 1 edit off, 38 are 2, 56 are 3 or more, and none was left empty.
+
+- **Plate (23 of 40) and the licence number (27 of 40) are still the weakest.** The handwriting is sloppy: on the dev crops a plate such as `14472-T-1` is written
+  `1.447Z -J-1`, which is ambiguous to a person too.
+- **The other text fields are untouched,** so the 205 remaining errors are mostly names, addresses and damage text (minor fields stay at 80.3%), and the plate and
+  digit fields that crops did not fix.
+
+### Cost and speed
+- **The crop step cost about 256 s of GPU for the 20 forms** (wall-clock from the run log), so about **$0.014 per form** (H100, $0.001097 per second). v4b is
+  therefore about **$0.043 per form** (v4a $0.029 plus the crops), against about $0.019 for v3e. The crop calls do not show in `summary.json`, which only
+  counts the page request.
+- **The crops are small calls:** 12 images of a few dozen tokens each in one request, so the step is cheap next to reading the whole page.
+
+### What this does and does not show
+- **The boxes come from the generator.** On a real photo the handwriting sits at other places on the line, so the margin would need to grow or a field detector
+  would be needed. This is a baseline for what the template position gives, as for the marks reader in v3e.
+- **One run on 20 forms, one model,** with the six fields fixed before the test run. The dev run gave the same direction on all six fields.
+- **Format lines follow the generator** (as in v4a).
+
+### What this says about the next version
+- **Pixels were the lever:** crops raised critical fields from 58% to 79% with no prompt change and no second model.
+- **Next candidates:** crop the remaining text fields (names, addresses, damage) and the header, which would move the minor fields; a larger enlargement for the
+  plate; voting between several samples on the crops; thinking mode on the crops only; and raising the server's concurrency to cut GPU seconds per page.
+
+### Reproduce
+
+```bash
+cd ~/projects/constat-ocr/backend
+mkdir -p ../runs/v4b && cp -r ../runs/v4a/{straightened,structured} ../runs/v4b/
+STRAIGHTENER=opencv OCR_ENGINE=none STRUCTURER=vision STRUCTURING_PROMPT=vlm REPAIRS=all READ_MARKS=true \
+  REFINE_FIELDS=plate,attestation_no,policy_no,license_no,valid_from,valid_to \
+  uv run python -m pipeline.run --run-id v4b --dev 0 --test 20 --workers 8 --reuse
+```

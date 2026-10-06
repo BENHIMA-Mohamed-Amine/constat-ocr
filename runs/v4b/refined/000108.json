@@ -1,0 +1,112 @@
+{
+  "record": {
+    "date": "16/02/2026",
+    "time": "19h45",
+    "place": "Av. des FAR Sale",
+    "phone_a": "0612206547",
+    "phone_b": "0716796858",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Volkswagen",
+      "model": "Polo",
+      "plate": "20795-B-64",
+      "coming_from": "Bd Zerktouni",
+      "going_to": "Bd Moulay Youssef",
+      "insured_last_name": "LAHLOU",
+      "insured_first_name": "Samira",
+      "insured_address": "Hay Salam Agadir",
+      "insurer": "ATLANTIS ANAD",
+      "attestation_no": "47A 412738221",
+      "policy_no": "288310861482",
+      "valid_from": "18/12/2025",
+      "valid_to": "17/12/2026",
+      "agency": "HAMIDI ASSURANCES",
+      "driver_last_name": "LAHLOU",
+      "driver_first_name": "Samira",
+      "driver_address": "Ain Sebaa Agadir",
+      "license_no": "49/43283",
+      "license_category": null,
+      "license_issued": "15/05/2018",
+      "license_prefecture": "Agadir",
+      "license_valid_until": "15/05/2028",
+      "damage": "Phare avant gauche, pare choc",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Kia",
+      "model": "Picanto",
+      "plate": "92393-W-330",
+      "coming_from": "Av. Mohammed V",
+      "going_to": "Rue Allal Ben Abdellah",
+      "insured_last_name": "RIFAI",
+      "insured_first_name": "Mehdi",
+      "insured_address": "Ain Sebaa Casablanca",
+      "insurer": "RMA",
+      "attestation_no": "20A 802266610",
+      "policy_no": "397985958045899",
+      "valid_from": "18/03/2025",
+      "valid_to": "17/03/2026",
+      "agency": "EL AMRANI ASSURANCES",
+      "driver_last_name": "RIFAI",
+      "driver_first_name": "Mehdi",
+      "driver_address": "Sidi Maarouf Casablanca",
+      "license_no": "11269797",
+      "license_category": null,
+      "license_issued": "02/11/2018",
+      "license_prefecture": "Casablanca",
+      "license_valid_until": "02/11/2028",
+      "damage": "Aile avant gauche",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "47A 442738221",
+      "after": "47A 412738221"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "28831088482",
+      "after": "288310861482"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "49/183283",
+      "after": "49/43283"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "14/12/2025",
+      "after": "18/12/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "13/12/2026",
+      "after": "17/12/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "92393-J-33",
+      "after": "92393-W-330"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "11/269797",
+      "after": "11269797"
+    }
+  ]
+}

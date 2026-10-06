@@ -1,0 +1,144 @@
+{
+  "record": {
+    "date": "02/08/2026",
+    "time": "19h35",
+    "place": "Av. Mohammed VI Agadir",
+    "phone_a": "0784357326",
+    "phone_b": "0612062365",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Peugeot",
+      "model": "301",
+      "plate": "58486-Z-13",
+      "coming_from": "Av. Hassan II",
+      "going_to": "Av. des FAR",
+      "insured_last_name": "KABBAD",
+      "insured_first_name": "Karim",
+      "insured_address": "Lot Al Wifag Casablanca",
+      "insurer": "Wafa ASSURANCE",
+      "attestation_no": "66B 281477534",
+      "policy_no": "034077370112798",
+      "valid_from": "08/09/2025",
+      "valid_to": "07/09/2026",
+      "agency": "AGENCE CASABLANCA CENTRE",
+      "driver_last_name": "KABBAD",
+      "driver_first_name": "Karim",
+      "driver_address": "Hay Riad Casablanca",
+      "license_no": "53/257219",
+      "license_category": "B",
+      "license_issued": "09/03/2009",
+      "license_prefecture": "Casablanca",
+      "license_valid_until": "09/03/2029",
+      "damage": "Calandre, capot",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    },
+    "vehicle_b": {
+      "vehicle_type": "bus",
+      "make": "Iveco",
+      "model": "Iveco",
+      "plate": "72282-D-89",
+      "coming_from": "Av. Mohammed V",
+      "going_to": "Bd Zerktouni",
+      "insured_last_name": "KABBAD",
+      "insured_first_name": "Imane",
+      "insured_address": "Sdi Maaro of Tangier",
+      "insurer": "RMA",
+      "attestation_no": "40A 597884871",
+      "policy_no": "185169878783",
+      "valid_from": "27/11/2025",
+      "valid_to": "26/11/2026",
+      "agency": "AGENCE TANGER CENTRE",
+      "driver_last_name": "KABBAD",
+      "driver_first_name": "Imane",
+      "driver_address": "Bourgogne Tanger",
+      "license_no": "71/24645",
+      "license_category": "B",
+      "license_issued": "28/09/2019",
+      "license_prefecture": "Tanger",
+      "license_valid_until": "28/09/2029",
+      "damage": "R et voiture gauche, aile avant",
+      "circumstances": [
+        1
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "58486-L-13",
+      "after": "58486-Z-13"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "66B 281427534",
+      "after": "66B 281477534"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "03407370112798",
+      "after": "034077370112798"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "531252219",
+      "after": "53/257219"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "03/04/2025",
+      "after": "08/09/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "02/04/2026",
+      "after": "07/09/2026"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "22282-D-89",
+      "after": "72282-D-89"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "40A 372884821",
+      "after": "40A 597884871"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "185169878288",
+      "after": "185169878783"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "21124445",
+      "after": "71/24645"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "26/12/2024",
+      "after": "27/11/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "25/12/2025",
+      "after": "26/11/2026"
+    }
+  ]
+}

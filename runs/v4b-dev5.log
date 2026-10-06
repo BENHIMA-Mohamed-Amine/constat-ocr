@@ -1,0 +1,229 @@
+19:48:49 INFO LangSmith tracing: on
+19:48:49 INFO [1/5] form 000000 (dev)
+19:48:49 INFO [2/5] form 000001 (dev)
+19:48:49 INFO [3/5] form 000002 (dev)
+19:48:49 INFO [4/5] form 000003 (dev)
+19:48:49 INFO [5/5] form 000004 (dev)
+{
+  "forms": 5,
+  "forms_with_output": 5,
+  "field_accuracy": {
+    "critical": {
+      "correct": 80,
+      "total": 95,
+      "accuracy": 0.8421052631578947
+    },
+    "minor": {
+      "correct": 121,
+      "total": 150,
+      "accuracy": 0.8066666666666666
+    },
+    "per_field": {
+      "agency": {
+        "correct": 6,
+        "total": 10,
+        "accuracy": 0.6
+      },
+      "attestation_no": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      },
+      "coming_from": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "damage": {
+        "correct": 6,
+        "total": 10,
+        "accuracy": 0.6
+      },
+      "date": {
+        "correct": 3,
+        "total": 5,
+        "accuracy": 0.6
+      },
+      "driver_address": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "driver_first_name": {
+        "correct": 10,
+        "total": 10,
+        "accuracy": 1.0
+      },
+      "driver_last_name": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      },
+      "going_to": {
+        "correct": 6,
+        "total": 10,
+        "accuracy": 0.6
+      },
+      "insured_address": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "insured_first_name": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "insured_last_name": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "insurer": {
+        "correct": 7,
+        "total": 10,
+        "accuracy": 0.7
+      },
+      "license_issued": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "license_no": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "license_prefecture": {
+        "correct": 10,
+        "total": 10,
+        "accuracy": 1.0
+      },
+      "license_valid_until": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "make": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      },
+      "model": {
+        "correct": 8,
+        "total": 10,
+        "accuracy": 0.8
+      },
+      "phone_a": {
+        "correct": 3,
+        "total": 5,
+        "accuracy": 0.6
+      },
+      "phone_b": {
+        "correct": 3,
+        "total": 5,
+        "accuracy": 0.6
+      },
+      "place": {
+        "correct": 4,
+        "total": 5,
+        "accuracy": 0.8
+      },
+      "plate": {
+        "correct": 7,
+        "total": 10,
+        "accuracy": 0.7
+      },
+      "policy_no": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "time": {
+        "correct": 4,
+        "total": 5,
+        "accuracy": 0.8
+      },
+      "valid_from": {
+        "correct": 9,
+        "total": 10,
+        "accuracy": 0.9
+      },
+      "valid_to": {
+        "correct": 10,
+        "total": 10,
+        "accuracy": 1.0
+      }
+    }
+  },
+  "forms_without_critical_error": {
+    "forms": 5,
+    "without_critical_error": 1,
+    "share": 0.2
+  },
+  "character_error_rate": {
+    "overall": {
+      "edits": 104,
+      "characters": 2717,
+      "rate": 0.03827751196172249
+    },
+    "critical": {
+      "edits": 27,
+      "characters": 1000,
+      "rate": 0.027
+    },
+    "minor": {
+      "edits": 77,
+      "characters": 1717,
+      "rate": 0.0448456610366919
+    }
+  },
+  "checkbox_score": {
+    "ticks_found": 6,
+    "ticks_missed": 0,
+    "ticks_extra": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "tick_count_correct": 10,
+    "tick_count_total": 10
+  },
+  "category_accuracy": {
+    "impact_zone": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "most_common_answer": "left",
+      "guess_most_common_accuracy": 0.4
+    },
+    "license_category": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "most_common_answer": "b",
+      "guess_most_common_accuracy": 1.0
+    },
+    "other_damage": {
+      "correct": 5,
+      "total": 5,
+      "accuracy": 1.0,
+      "most_common_answer": "false",
+      "guess_most_common_accuracy": 0.8
+    },
+    "vehicle_type": {
+      "correct": 10,
+      "total": 10,
+      "accuracy": 1.0,
+      "most_common_answer": "car",
+      "guess_most_common_accuracy": 1.0
+    }
+  },
+  "cost_and_time": {
+    "forms_measured": 5,
+    "input_tokens": 28041,
+    "output_tokens": 4244,
+    "dollars_total": 0.0067525499999999995,
+    "dollars_per_form": 0.0013505099999999999,
+    "seconds_mean": 141.4696232726,
+    "seconds_p95": 152.60948525899994
+  }
+}

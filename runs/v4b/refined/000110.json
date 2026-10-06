@@ -1,0 +1,90 @@
+{
+  "record": {
+    "date": "14/04/2024",
+    "time": "17h55",
+    "place": "Av. Hassan II Agadir",
+    "phone_a": "0728727318",
+    "phone_b": "0724887063",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Renault",
+      "model": "Clio",
+      "plate": "167-17-T-22",
+      "coming_from": "Av. Mohammed V",
+      "going_to": "Av. Al Qods",
+      "insured_last_name": "HAMIDI",
+      "insured_first_name": "Nadia",
+      "insured_address": "Maarif Marrakech",
+      "insurer": "WAFA ASSURANCE",
+      "attestation_no": "82A 951805466",
+      "policy_no": "577467058627",
+      "valid_from": "22/08/2023",
+      "valid_to": "20/08/2024",
+      "agency": "AGENCE MARRAKECH CENTRE",
+      "driver_last_name": "HAMIDI",
+      "driver_first_name": "Nadia",
+      "driver_address": "Hay Mohammadi Marrakech",
+      "license_no": "37/954034",
+      "license_category": "B",
+      "license_issued": "07/06/2017",
+      "license_prefecture": "Marrakech",
+      "license_valid_until": "07/06/2027",
+      "damage": "Phare avant gauche, pare choc",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Ford",
+      "model": "Fiesta",
+      "plate": "59207-B-47",
+      "coming_from": "Rue Ibn Sina",
+      "going_to": "Av. Hassan II",
+      "insured_last_name": "LAMRANI",
+      "insured_first_name": "Rachid",
+      "insured_address": "Agadir Tama",
+      "insurer": "AXA ASSURANCE MAROC",
+      "attestation_no": "64A 354985471",
+      "policy_no": "430001265237",
+      "valid_from": "01/10/2023",
+      "valid_to": "29/09/2024",
+      "agency": "NACIRI ASSURANCES",
+      "driver_last_name": "LAMRANI",
+      "driver_first_name": "Rachid",
+      "driver_address": "Hay Mohammadi Tama",
+      "license_no": "67/625134",
+      "license_category": "B",
+      "license_issued": "11/02/1997",
+      "license_prefecture": "Tama",
+      "license_valid_until": "11/02/2027",
+      "damage": "Retroviseur gauche, aile avant",
+      "circumstances": [
+        22
+      ],
+      "circumstance_count": 1,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "16717-T-22",
+      "after": "167-17-T-22"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "43000265232",
+      "after": "430001265237"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "01/01/2023",
+      "after": "01/10/2023"
+    }
+  ]
+}

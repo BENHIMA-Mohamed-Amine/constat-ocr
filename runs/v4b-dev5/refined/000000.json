@@ -1,0 +1,120 @@
+{
+  "record": {
+    "date": "29/06/2022",
+    "time": "20h35",
+    "place": "Rue Tarfaya Meknes",
+    "phone_a": "0718529521",
+    "phone_b": "0709147381",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": "car",
+      "make": "Kia",
+      "model": "Picanto",
+      "plate": "52033-D-39",
+      "coming_from": "Av. Hassan II",
+      "going_to": "Av. Mohammed VI",
+      "insured_last_name": "FASSI",
+      "insured_first_name": "Fatima",
+      "insured_address": "Hay Mohammadi Meknes",
+      "insurer": "MAMDA",
+      "attestation_no": "46B 3489948B",
+      "policy_no": "194044401142894",
+      "valid_from": "04/09/2021",
+      "valid_to": "03/09/2022",
+      "agency": "BOUZID ASSURANCES",
+      "driver_last_name": "FASSI",
+      "driver_first_name": "Fatima",
+      "driver_address": "Al Massira Meknes",
+      "license_no": "63/068647",
+      "license_category": "B",
+      "license_issued": "30/06/2014",
+      "license_prefecture": "Meknes",
+      "license_valid_until": "30/06/2024",
+      "damage": "Pare choc arriere, coffre",
+      "circumstances": [
+        10
+      ],
+      "circumstance_count": 1,
+      "impact_zone": "rear"
+    },
+    "vehicle_b": {
+      "vehicle_type": "car",
+      "make": "Volkswagen",
+      "model": "Polo",
+      "plate": "14472-F-1",
+      "coming_from": "Bd Al Massira",
+      "going_to": "Av. Mohammed VI",
+      "insured_last_name": "LAMRANI",
+      "insured_first_name": "Meryem",
+      "insured_address": "Al Massira Temara",
+      "insurer": "ATLANTASSURANCE",
+      "attestation_no": "54A 07224202",
+      "policy_no": "729171160852",
+      "valid_from": "12/09/2021",
+      "valid_to": "11/09/2022",
+      "agency": "CENTRE ASSURANCES",
+      "driver_last_name": "LAMRANI",
+      "driver_first_name": "Meryem",
+      "driver_address": "Bourgogne Temara",
+      "license_no": "91/285902",
+      "license_category": "B",
+      "license_issued": "21/03/1993",
+      "license_prefecture": "Temara",
+      "license_valid_until": "21/03/2023",
+      "damage": "Aile arriere gauche",
+      "circumstances": [],
+      "circumstance_count": 0,
+      "impact_zone": "front"
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "46B 348994313",
+      "after": "46B 3489948B"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.policy_no",
+      "before": "194046401142894",
+      "after": "194044401142894"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "631063647",
+      "after": "63/068647"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "04/04/2021",
+      "after": "04/09/2021"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "03/04/2022",
+      "after": "03/09/2022"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "14472-J-11",
+      "after": "14472-F-1"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "72917160882",
+      "after": "729171160852"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "91286902",
+      "after": "91/285902"
+    }
+  ]
+}

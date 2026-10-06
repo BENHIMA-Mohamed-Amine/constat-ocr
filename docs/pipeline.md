@@ -103,6 +103,7 @@ Free plan: 5,000 traces a month, 180-day retention. Every form is synthetic, so 
 | `core/errors.py` | `PipelineError` and one subclass per step |
 | `core/observability.py` | Turns on LangSmith tracing |
 | `marks/` | `MarksReader`, `Marks`: ticks, tiles, circles and patch read from template positions; `layout.py` (geometry), `align.py` (page on template) |
+| `refine/` | `FieldRefiner` (v4b, `REFINE_FIELDS`): crops the chosen vehicle fields from the page aligned on the template, enlarges them, and re-reads them with the vision server in one request; a null or failed read keeps the page value |
 | `repair/` | `Repairer`, `RepairRule` (Protocol), the rules and a registry (`factory.py`) |
 | `straightening/` | `Straightener` (Protocol), a registry (`factory.py`) and `OpenCvStraightener` |
 | `ocr/` | `OcrEngine` (Protocol), a registry (`factory.py`) and six engines: `tesseract`, `rapidocr` (PP-OCRv5), `rapidocr-v6` (PP-OCRv6, the default), `rapidocr-v6-columns` (v6 with zone blocks, `columns.py`), `chandra-ocr-2` (`chandra.py`, a vision model on a server), `doctr` |

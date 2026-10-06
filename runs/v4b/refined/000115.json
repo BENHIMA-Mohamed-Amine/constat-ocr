@@ -1,0 +1,100 @@
+{
+  "record": {
+    "date": "25/01/2026",
+    "time": "21h40",
+    "place": "Bd Maulay Youssef Rabat",
+    "phone_a": "0701866291",
+    "phone_b": "0663079791",
+    "other_damage": false,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Mercedes",
+      "model": "Actros",
+      "plate": "94554-H-81",
+      "coming_from": "Bd Al Massira",
+      "going_to": "Rue Ibn Sina",
+      "insured_last_name": "BELHAJ",
+      "insured_first_name": "Khaled",
+      "insured_address": "Ain Sebaa Marrakech",
+      "insurer": "RMA",
+      "attestation_no": "97A 686251658",
+      "policy_no": "072020063296",
+      "valid_from": "11/06/2025",
+      "valid_to": "26/06/2026",
+      "agency": "AGENCE MARRAKECH CENTRE",
+      "driver_last_name": "BELHAJ",
+      "driver_first_name": "Khaled",
+      "driver_address": "Al Massira Marrakech",
+      "license_no": "98/08012",
+      "license_category": null,
+      "license_issued": "20/07/2004",
+      "license_prefecture": "Marrakech",
+      "license_valid_until": "20/07/2029",
+      "damage": "Portiere arriere droite abime",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Fiat",
+      "model": "Punto",
+      "plate": "12812-D-80",
+      "coming_from": "Av. Mohammed V",
+      "going_to": "Rue Tadjaya",
+      "insured_last_name": "MERNISSI",
+      "insured_first_name": "Salma",
+      "insured_address": "Al Massira Kenitra",
+      "insurer": "SAHAM ASSURANCE",
+      "attestation_no": "23B 002179680",
+      "policy_no": "468146726023",
+      "valid_from": "17/03/2025",
+      "valid_to": "16/03/2026",
+      "agency": "CHRAIBI ASSURANCES",
+      "driver_last_name": "MERNISSI",
+      "driver_first_name": "Salma",
+      "driver_address": "Maarif Kenitra",
+      "license_no": "35/1760339",
+      "license_category": null,
+      "license_issued": "05/10/2009",
+      "license_prefecture": "Kenitra",
+      "license_valid_until": "05/10/2029",
+      "damage": "Phare avant gauche pare choc",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "94564-B-58",
+      "after": "94554-H-81"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.attestation_no",
+      "before": "97A 686751658",
+      "after": "97A 686251658"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "98108012",
+      "after": "98/08012"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "22/06/2025",
+      "after": "11/06/2025"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.policy_no",
+      "before": "968196726023",
+      "after": "468146726023"
+    }
+  ]
+}

@@ -35,6 +35,9 @@ class Layout:
     damage: dict[
         bool, list[Box]
     ]  # the OUI (True) and NON (False) cells, French and Arabic side
+    text_fields: dict[
+        str, tuple[Box, Box]
+    ]  # where each vehicle field is written, for vehicle A and vehicle B
 
 
 def _px(rect: tuple[float, ...], grow: float = 0) -> Box:
@@ -66,4 +69,5 @@ def load_layout(template_pdf: Path) -> Layout:
             answer: [_px(c) for c in cells]
             for answer, cells in fields.OTHER_DAMAGE.items()
         },
+        text_fields={name: (_px(a), _px(b)) for name, (a, b) in fields.VEHICLE.items()},
     )

@@ -1,0 +1,124 @@
+{
+  "record": {
+    "date": "11/01/2023",
+    "time": "06h45",
+    "place": "Av. des FAR Sale",
+    "phone_a": "0756762242",
+    "phone_b": "0676669192",
+    "other_damage": true,
+    "vehicle_a": {
+      "vehicle_type": null,
+      "make": "Peugeot",
+      "model": "208",
+      "plate": "69756-B-23",
+      "coming_from": "Rue Tarfaya",
+      "going_to": "Bd. AL Massira",
+      "insured_last_name": "MANSOURI",
+      "insured_first_name": "Ahmed",
+      "insured_address": "Hay Salam Temara",
+      "insurer": "SANLAM MAROC",
+      "attestation_no": "88A 363072344",
+      "policy_no": "346788665178696",
+      "valid_from": "13/05/2022",
+      "valid_to": "12/05/2023",
+      "agency": "AGENCE TEMARA CENTRE",
+      "driver_last_name": "MANSOURI",
+      "driver_first_name": "Ahmed",
+      "driver_address": "Sidi Maarouf Temara",
+      "license_no": "96/636804",
+      "license_category": null,
+      "license_issued": "21/09/2018",
+      "license_prefecture": "Temara",
+      "license_valid_until": "21/09/2028",
+      "damage": "Retroviseur gauche, aile avant",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    },
+    "vehicle_b": {
+      "vehicle_type": null,
+      "make": "Renault",
+      "model": "Clio",
+      "plate": "90607-W-83",
+      "coming_from": "Bd Moulay Youssef",
+      "going_to": "Rue Ibsidia",
+      "insured_last_name": "LAHLOU",
+      "insured_first_name": "Hicham",
+      "insured_address": "Ain sebaa casablanca",
+      "insurer": "SANLAM MAROC",
+      "attestation_no": "78A 017976560",
+      "policy_no": "008799269296",
+      "valid_from": "25/10/2022",
+      "valid_to": "24/10/2023",
+      "agency": "AGENCE CASABLANCA CENTRE",
+      "driver_last_name": "LAHLOU",
+      "driver_first_name": "Hicham",
+      "driver_address": "Hay Sabm casablanca",
+      "license_no": "16/365714",
+      "license_category": null,
+      "license_issued": "03/07/1996",
+      "license_prefecture": "Casablanca",
+      "license_valid_until": "03/07/2026",
+      "damage": "Pare choc avant, phare droit",
+      "circumstances": null,
+      "circumstance_count": null,
+      "impact_zone": null
+    }
+  },
+  "changes": [
+    {
+      "rule": "crop",
+      "path": "vehicle_a.plate",
+      "before": "69256-B-23",
+      "after": "69756-B-23"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.license_no",
+      "before": "961636804",
+      "after": "96/636804"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_from",
+      "before": "13/01/2022",
+      "after": "13/05/2022"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_a.valid_to",
+      "before": "12/01/2023",
+      "after": "12/05/2023"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.plate",
+      "before": "96027-L-83",
+      "after": "90607-W-83"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.attestation_no",
+      "before": "78A 04796560",
+      "after": "78A 017976560"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.license_no",
+      "before": "16/365744",
+      "after": "16/365714"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_from",
+      "before": "24/10/2023",
+      "after": "25/10/2022"
+    },
+    {
+      "rule": "crop",
+      "path": "vehicle_b.valid_to",
+      "before": "23/10/2024",
+      "after": "24/10/2023"
+    }
+  ]
+}

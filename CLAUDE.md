@@ -97,6 +97,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 │   │   ├── core/      # shared foundations: config, errors, schema (Record), observability
 │   │   ├── data/      # dataset.py (reads the frozen dataset), storage.py (saves each step's output)
 │   │   ├── flow/      # graph.py (LangGraph wiring), runner.py (runs the forms)
+│   │   ├── refine/     # optional step after the structurer (v4b): FieldRefiner re-reads the hard digit fields from enlarged crops at their template positions
 │   │   ├── marks/      # optional step after the LLM: MarksReader reads ticks, tiles, circles and patch from template positions (no model)
 │   │   ├── repair/     # optional step after the LLM: Repairer, rules (dates in order, ID and phone formats), registry
 │   │   ├── straightening/  # optional step 0: Straightener, registry, OpenCvStraightener (flattens the photo)

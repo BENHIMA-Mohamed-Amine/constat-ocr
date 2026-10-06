@@ -19,6 +19,7 @@ from ..data.storage import ArtifactStore
 from ..evaluation import FormResult, FormScorer, Usage
 from ..marks import MarksReader
 from ..ocr import OcrEngine
+from ..refine import FieldRefiner
 from ..repair import Repairer
 from ..straightening import Straightener
 from ..structuring import Structurer, StructuringInput
@@ -53,6 +54,7 @@ def build_graph(
     straightener: Straightener | None = None,
     repairer: Repairer | None = None,
     marks_reader: MarksReader | None = None,
+    refiner: FieldRefiner | None = None,
 ) -> CompiledStateGraph:
     """Assemble the graph.
 
@@ -64,6 +66,7 @@ def build_graph(
         reuse: If True, a step whose output is already saved is not run again (its saved output is loaded).
         straightener: If given, flattens the photo before OCR reads it.
         repairer: If given, repairs the record after the LLM, before it is scored.
+        refiner: If given, re-reads some fields from crops of the straightened page after the structurer, before the marks.
         marks_reader: If given, reads the ticks, tiles and circles from the template positions of the straightened page and
             puts them in the record, after the LLM and before the repair step.
     """
@@ -125,6 +128,27 @@ def build_graph(
             "output_tokens": result.output_tokens,
         }
 
+    def refine_node(state: PipelineState) -> dict[str, Any]:
+        form_id = state["form_id"]
+        if reuse and store.exists("refined", form_id):
+            return {
+                "record": Record.model_validate(
+                    store.read_json("refined", form_id)["record"]
+                )
+            }
+        result = refiner.refine(
+            Path(state.get("straightened_path", state["image_path"])), state["record"]
+        )
+        store.write_json(
+            "refined",
+            form_id,
+            {
+                "record": result.record.model_dump(mode="json"),
+                "changes": [asdict(change) for change in result.changes],
+            },
+        )
+        return {"record": result.record}
+
     def marks_node(state: PipelineState) -> dict[str, Any]:
         marks = marks_reader.read(
             Path(state.get("straightened_path", state["image_path"]))
@@ -177,6 +201,7 @@ def build_graph(
     graph.add_edge("ocr", "structure")
     last = "structure"
     for name, node, step in (
+        ("refine", refine_node, refiner),
         ("marks", marks_node, marks_reader),
         ("repair", repair_node, repairer),
     ):
